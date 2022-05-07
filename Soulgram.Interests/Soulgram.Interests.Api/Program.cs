@@ -1,5 +1,6 @@
 using MongoDB.Driver;
 using Soulgram.Interests.Application;
+using Soulgram.Interests.Infrastracture;
 using Soulgram.Interests.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +9,7 @@ var configuration = builder.Configuration;
 // Add services to the container.
 builder.Services.AddApplication();
 builder.Services.AddPersistence(configuration);
+builder.Services.AddInfrastructure(configuration);
 builder.Services.AddControllers();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,4 +32,3 @@ var mongoService = app.Services.GetService(typeof(IMongoClient)) as IMongoClient
 mongoService.SetUpDb(configuration);
 
 app.Run();
-

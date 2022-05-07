@@ -45,6 +45,7 @@ public static class ServiceInjector
                 .SetSerializer(new StringSerializer(BsonType.ObjectId));
 
             cm.MapMember(genre => genre.Name).SetIsRequired(true);
+            cm.MapMember(genre => genre.UsersIds).SetIsRequired(true);
 
             cm.SetIgnoreExtraElements(true);
         });

@@ -15,10 +15,11 @@ public class GenresController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet]
-    public async Task<ICollection<GenreResponse>> GetAllGenres(CancellationToken cancellationToken)
+    [HttpGet("{userId}")]
+
+    public async Task<ICollection<GenreResponse>> GetMyGenres(string userId, CancellationToken cancellationToken)
     {
-        var getAllGenresQuery = new GetAllGenresQuery();
+        var getAllGenresQuery = new GetMyGenresQuery(userId);
 
         var result = await _mediator.Send(getAllGenresQuery, cancellationToken);
 
