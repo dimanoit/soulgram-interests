@@ -16,8 +16,11 @@ public class MongoRepository<TDocument> : IMongoRepository<TDocument> where TDoc
         var interestsDbSettings = settings ?? throw new ArgumentNullException(nameof(settings));
         var dbClient = mongoClient ?? throw new ArgumentNullException(nameof(mongoClient));
 
-        var database = dbClient.GetDatabase(interestsDbSettings.Value.DatabaseName);
-        _collection = database.GetCollection<TDocument>(nameof(TDocument));
+        var database = dbClient.GetDatabase(interestsDbSettings.Value.DatabaseName)
+                       ?? throw new ArgumentNullException(nameof(IMongoDatabase));
+
+        var collectionName = typeof(TDocument).Name;
+        _collection = database.GetCollection<TDocument>(collectionName);
     }
 
     public async Task<ICollection<TDocument>> FilterByAsync(

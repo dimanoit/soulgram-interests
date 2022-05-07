@@ -2,6 +2,7 @@
 
 public class Genre
 {
+    public string? Id { get; set; }
     public string Name { get; set; } = null!;
-    public ICollection<string>? UsersIds { get; set; }
+    public string[]? UsersIds { get; set; }
 }

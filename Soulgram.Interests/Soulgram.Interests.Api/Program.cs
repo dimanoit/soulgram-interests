@@ -1,3 +1,4 @@
+using MongoDB.Driver;
 using Soulgram.Interests.Application;
 using Soulgram.Interests.Persistence;
 
@@ -24,4 +25,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.MapControllers();
+
+var mongoService = app.Services.GetService(typeof(IMongoClient)) as IMongoClient;
+mongoService.SetUpDb(configuration);
+
 app.Run();
+

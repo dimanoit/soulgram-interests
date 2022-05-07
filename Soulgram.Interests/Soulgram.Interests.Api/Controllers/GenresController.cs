@@ -24,4 +24,12 @@ public class GenresController : ControllerBase
 
         return result;
     }
+
+    [HttpPost]
+    public async Task CreateGenre(CancellationToken cancellationToken)
+    {
+        var getAllGenresQuery = new CreateGenreCommand("actions");
+
+        var result = await _mediator.Send(getAllGenresQuery, cancellationToken);
+    }
 }
