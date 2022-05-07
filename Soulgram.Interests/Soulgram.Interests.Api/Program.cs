@@ -1,9 +1,11 @@
+using Soulgram.Interests.Application;
 using Soulgram.Interests.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
 // Add services to the container.
+builder.Services.AddApplication();
 builder.Services.AddPersistence(configuration);
 builder.Services.AddControllers();
 

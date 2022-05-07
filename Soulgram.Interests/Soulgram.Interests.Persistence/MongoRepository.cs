@@ -11,20 +11,13 @@ public class MongoRepository<TDocument> : IMongoRepository<TDocument> where TDoc
 
     public MongoRepository(
         IMongoClient mongoClient,
-        IOptions<InterestsDbSettings> settings,
-        string collectionName
-    )
+        IOptions<InterestsDbSettings> settings)
     {
         var interestsDbSettings = settings ?? throw new ArgumentNullException(nameof(settings));
         var dbClient = mongoClient ?? throw new ArgumentNullException(nameof(mongoClient));
 
         var database = dbClient.GetDatabase(interestsDbSettings.Value.DatabaseName);
-        _collection = database.GetCollection<TDocument>(collectionName);
-    }
-
-    public IQueryable<TDocument> AsQueryable()
-    {
-        return _collection.AsQueryable();
+        _collection = database.GetCollection<TDocument>(nameof(TDocument));
     }
 
     public async Task<ICollection<TDocument>> FilterByAsync(

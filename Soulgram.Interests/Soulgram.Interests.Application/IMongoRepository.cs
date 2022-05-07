@@ -4,8 +4,6 @@ namespace Soulgram.Interests.Application;
 
 public interface IMongoRepository<TDocument> where TDocument : class
 {
-    IQueryable<TDocument> AsQueryable();
-
     Task<ICollection<TDocument>> FilterByAsync(Expression<Func<TDocument, bool>> filterExpression);
 
     Task<ICollection<TProjected>> FilterByAsync<TProjected>(

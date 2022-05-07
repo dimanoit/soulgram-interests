@@ -4,6 +4,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using Soulgram.Interests.Application;
 using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Persistence;
@@ -23,6 +24,8 @@ public static class ServiceInjector
 
         services.AddSingleton<IMongoClient, MongoClient>(sp
             => new MongoClient(interestsDbSettings.ConnectionString));
+
+        services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
     }
 
     private static void ConfigureMongoModels()
