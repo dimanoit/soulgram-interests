@@ -1,0 +1,40 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Api", "Soulgram.Interests.Api\Soulgram.Interests.Api.csproj", "{CC997D8C-75A4-4A31-9A86-34A75B37CF6B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Application", "Soulgram.Interests.Application\Soulgram.Interests.Application.csproj", "{A2870D7F-B627-4D3C-B818-692010593852}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Domain", "Soulgram.Interests.Domain\Soulgram.Interests.Domain.csproj", "{39F05F3E-6201-4D82-AD1B-1F846BDF391F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Infrastracture", "Soulgram.Interests.Infrastracture\Soulgram.Interests.Infrastracture.csproj", "{E1FCA7F3-3E76-4DEC-9982-AD9D4DE499A8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Persistence", "Soulgram.Interests.Persistence\Soulgram.Interests.Persistence.csproj", "{FDA5AC2C-F00C-4076-9863-C126F99D4A05}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CC997D8C-75A4-4A31-9A86-34A75B37CF6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC997D8C-75A4-4A31-9A86-34A75B37CF6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC997D8C-75A4-4A31-9A86-34A75B37CF6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC997D8C-75A4-4A31-9A86-34A75B37CF6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2870D7F-B627-4D3C-B818-692010593852}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2870D7F-B627-4D3C-B818-692010593852}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2870D7F-B627-4D3C-B818-692010593852}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2870D7F-B627-4D3C-B818-692010593852}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39F05F3E-6201-4D82-AD1B-1F846BDF391F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39F05F3E-6201-4D82-AD1B-1F846BDF391F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39F05F3E-6201-4D82-AD1B-1F846BDF391F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39F05F3E-6201-4D82-AD1B-1F846BDF391F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1FCA7F3-3E76-4DEC-9982-AD9D4DE499A8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1FCA7F3-3E76-4DEC-9982-AD9D4DE499A8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1FCA7F3-3E76-4DEC-9982-AD9D4DE499A8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1FCA7F3-3E76-4DEC-9982-AD9D4DE499A8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDA5AC2C-F00C-4076-9863-C126F99D4A05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDA5AC2C-F00C-4076-9863-C126F99D4A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDA5AC2C-F00C-4076-9863-C126F99D4A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDA5AC2C-F00C-4076-9863-C126F99D4A05}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
