@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Soulgram.Interests.Infrastracture\Soulgram.Interests.Infrastracture.csproj" />
-      <ProjectReference Include="..\Soulgram.Interests.Persistence\Soulgram.Interests.Persistence.csproj" />
+        <ProjectReference Include="..\Soulgram.Interests.Infrastracture\Soulgram.Interests.Infrastracture.csproj"/>
+        <ProjectReference Include="..\Soulgram.Interests.Persistence\Soulgram.Interests.Persistence.csproj"/>
     </ItemGroup>
 
 </Project>
