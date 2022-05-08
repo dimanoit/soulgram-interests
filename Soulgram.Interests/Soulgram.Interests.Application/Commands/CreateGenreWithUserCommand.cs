@@ -28,7 +28,7 @@ internal class CreateGenreWithUserCommandHandler : IRequestHandler<CreateGenreWi
     {
         var genre = command.Request.ToGenre();
         await _genreRepository.InsertOneAsync(genre, cancellationToken);
-
+        
         return Unit.Value;
     }
 }

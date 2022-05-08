@@ -54,6 +54,19 @@ public static class ServiceInjector
 
             cm.SetIgnoreExtraElements(true);
         });
+        
+        BsonClassMap.RegisterClassMap<UserInterests>(cm =>
+        {
+            cm.AutoMap();
+            cm.MapIdMember(ui => ui.Id)
+                .SetIdGenerator(new StringObjectIdGenerator())
+                .SetSerializer(new StringSerializer(BsonType.ObjectId));
+
+            cm.MapMember(ui => ui.UserId).SetIsRequired(true);
+            cm.MapMember(ui => ui.Interests).SetIsRequired(true);
+
+            cm.SetIgnoreExtraElements(true);
+        });
     }
 
     public static void SetUpDb(this IMongoClient mongoClient, IConfiguration configuration)
@@ -62,15 +75,25 @@ public static class ServiceInjector
 
         var db = mongoClient.GetDatabase(dbSettings.DatabaseName);
         var genreCollection = db.GetCollection<Genre>(nameof(Genre));
+        var userInterestsCollection = db.GetCollection<UserInterests>(nameof(UserInterests));
 
-        var indexKeysDefinition = Builders<Genre>.IndexKeys.Text(genre => genre.Name);
+        var genreUniqueNameKey = Builders<Genre>.IndexKeys.Text(genre => genre.Name);
+        var userInterestsUserIdKey = Builders<UserInterests>.IndexKeys.Text(ui => ui.UserId);
 
-        var indexModel = new CreateIndexModel<Genre>(indexKeysDefinition,
+        var createGenreKeyModel = new CreateIndexModel<Genre>(genreUniqueNameKey,
             new CreateIndexOptions
             {
-                Unique = true
+                Unique = true,
+                
+            });
+        
+        var userInterestsUserIdKeyModel = new CreateIndexModel<UserInterests>(userInterestsUserIdKey,
+            new CreateIndexOptions
+            {
+                Unique = true,
             });
 
-        genreCollection.Indexes.CreateOneAsync(indexModel).GetAwaiter().GetResult();
+        genreCollection.Indexes.CreateOneAsync(createGenreKeyModel).GetAwaiter().GetResult();
+        userInterestsCollection.Indexes.CreateOneAsync(userInterestsUserIdKeyModel).GetAwaiter().GetResult();
     }
 }

@@ -27,7 +27,7 @@ internal class AddUserToGenresCommandHandler : IRequestHandler<AddUserToGenresCo
         var tasks = command.Request
             .GenresNames
             .Distinct()
-            .Select(async n => await AddUserToGenreCommandTask(command.Request.UserId, n));
+            .Select(n => AddUserToGenreCommandTask(command.Request.UserId, n));
 
         await Task.WhenAll(tasks);
 
