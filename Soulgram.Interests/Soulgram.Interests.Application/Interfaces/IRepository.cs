@@ -10,8 +10,16 @@ public interface IMongoRepository<TDocument> where TDocument : class
         Expression<Func<TDocument, bool>> filterExpression,
         Expression<Func<TDocument, TProjected>> projectionExpression);
 
-    Task<TDocument> FindOneAsync(Expression<Func<TDocument, bool>> filterExpression);
-    Task InsertOneAsync(TDocument document);
+    Task<TDocument> FindOneAsync(
+        Expression<Func<TDocument, bool>> filterExpression,
+        CancellationToken cancellationToken);
+
+    Task<TProjected> FindOneAsync<TProjected>(
+        Expression<Func<TDocument, bool>> filterExpression,
+        Expression<Func<TDocument, TProjected>> projectionExpression,
+        CancellationToken cancellationToken);
+
+    Task InsertOneAsync(TDocument document, CancellationToken cancellationToken);
     Task InsertManyAsync(ICollection<TDocument> documents);
     Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression);
     Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);

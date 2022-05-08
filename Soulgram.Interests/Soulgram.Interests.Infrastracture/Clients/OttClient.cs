@@ -1,5 +1,5 @@
 using Microsoft.Extensions.Options;
-using Soulgram.Interests.Application;
+using Soulgram.Interests.Application.Interfaces;
 
 namespace Soulgram.Interests.Infrastracture;
 

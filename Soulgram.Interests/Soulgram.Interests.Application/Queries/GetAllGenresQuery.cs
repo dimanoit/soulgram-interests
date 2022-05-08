@@ -2,11 +2,11 @@ using MediatR;
 
 namespace Soulgram.Interests.Application;
 
-public class GetGenresForSearchQuery : IRequest<IEnumerable<string>>
+public class GetAllGenresQuery : IRequest<IEnumerable<string>>
 {
 }
 
-internal class GetGenresForSearchQueryHandler : IRequestHandler<GetGenresForSearchQuery, IEnumerable<string>>
+internal class GetGenresForSearchQueryHandler : IRequestHandler<GetAllGenresQuery, IEnumerable<string>>
 {
     private readonly IMovieService _movieService;
 
@@ -15,7 +15,7 @@ internal class GetGenresForSearchQueryHandler : IRequestHandler<GetGenresForSear
         _movieService = movieService;
     }
 
-    public async Task<IEnumerable<string>> Handle(GetGenresForSearchQuery request, CancellationToken cancellationToken)
+    public async Task<IEnumerable<string>> Handle(GetAllGenresQuery request, CancellationToken cancellationToken)
     {
         var genres = await _movieService.GetGenresAsync(cancellationToken);
 

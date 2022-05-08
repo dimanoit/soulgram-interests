@@ -1,5 +1,4 @@
 using MediatR;
-using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application;
 
@@ -15,9 +14,9 @@ public class GetMyGenresQuery : IRequest<ICollection<GenreResponse>>
 
 internal class GetAllGenresQueryHandler : IRequestHandler<GetMyGenresQuery, ICollection<GenreResponse>>
 {
-    private readonly IMongoRepository<Genre> _genreRepository;
+    private readonly IGenreRepository _genreRepository;
 
-    public GetAllGenresQueryHandler(IMongoRepository<Genre> genreRepository)
+    public GetAllGenresQueryHandler(IGenreRepository genreRepository)
     {
         _genreRepository = genreRepository;
     }
