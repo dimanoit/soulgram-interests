@@ -3,7 +3,7 @@ using Soulgram.Interests.Application.Models.Request;
 
 namespace Soulgram.Interests.Application.Commands;
 
-public class AddUserToGenresCommand: IRequest
+public class AddUserToGenresCommand : IRequest
 {
     public AddUserToGenresCommand(GenresWithUserRequest request)
     {
@@ -12,7 +12,6 @@ public class AddUserToGenresCommand: IRequest
 
     public GenresWithUserRequest Request { get; }
 }
-
 
 internal class AddUserToGenresCommandHandler : IRequestHandler<AddUserToGenresCommand>
 {
@@ -23,12 +22,26 @@ internal class AddUserToGenresCommandHandler : IRequestHandler<AddUserToGenresCo
         _mediator = mediator;
     }
 
-    public Task<Unit> Handle(AddUserToGenresCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(AddUserToGenresCommand command, CancellationToken cancellationToken)
     {
-        foreach (var genre in command.Request.GenresNames)
+        var tasks = command.Request
+            .GenresNames
+            .Distinct()
+            .Select(async n => await AddUserToGenreCommandTask(command.Request.UserId, n));
+
+        await Task.WhenAll(tasks);
+
+        return Unit.Value;
+    }
+
+    private Task<Unit> AddUserToGenreCommandTask(string userId, string genreName)
+    {
+        var request = new GenreWithUserRequest
         {
-            var request = new GenreWithUserRequest();
-            var command = new AddUserToGenreCommand()
-        }
+            GenreName = genreName,
+            UserId = userId
+        };
+
+        return _mediator.Send(new AddUserToGenreCommand(request));
     }
 }

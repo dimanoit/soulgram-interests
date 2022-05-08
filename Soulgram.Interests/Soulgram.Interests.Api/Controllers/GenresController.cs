@@ -40,13 +40,13 @@ public class GenresController : ControllerBase
         var addUserToGenreCommand = new AddUserToGenreCommand(request);
         await _mediator.Send(addUserToGenreCommand, cancellationToken);
     }
-    
+
     [HttpPost("collection")]
     public async Task AddGenresWithUser(
-        [FromBody] GenreWithUserRequest request,
+        [FromBody] GenresWithUserRequest request,
         CancellationToken cancellationToken)
     {
-        var addUserToGenreCommand = new AddUserToGenreCommand(request);
+        var addUserToGenreCommand = new AddUserToGenresCommand(request);
         await _mediator.Send(addUserToGenreCommand, cancellationToken);
     }
 }
