@@ -1,4 +1,4 @@
-namespace Soulgram.Interests.Application;
+namespace Soulgram.Interests.Application.Interfaces;
 
 public interface IMovieService
 {

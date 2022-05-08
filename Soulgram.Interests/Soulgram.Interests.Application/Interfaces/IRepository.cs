@@ -1,26 +1,26 @@
 using System.Linq.Expressions;
 
-namespace Soulgram.Interests.Application;
+namespace Soulgram.Interests.Application.Interfaces;
 
-public interface IMongoRepository<TDocument> where TDocument : class
+public interface IRepository<TEntity> where TEntity : class
 {
-    Task<ICollection<TDocument>> FilterByAsync(Expression<Func<TDocument, bool>> filterExpression);
+    Task<ICollection<TEntity>> FilterByAsync(Expression<Func<TEntity, bool>> filterExpression);
 
     Task<ICollection<TProjected>> FilterByAsync<TProjected>(
-        Expression<Func<TDocument, bool>> filterExpression,
-        Expression<Func<TDocument, TProjected>> projectionExpression);
+        Expression<Func<TEntity, bool>> filterExpression,
+        Expression<Func<TEntity, TProjected>> projectionExpression);
 
-    Task<TDocument> FindOneAsync(
-        Expression<Func<TDocument, bool>> filterExpression,
+    Task<TEntity> FindOneAsync(
+        Expression<Func<TEntity, bool>> filterExpression,
         CancellationToken cancellationToken);
 
     Task<TProjected> FindOneAsync<TProjected>(
-        Expression<Func<TDocument, bool>> filterExpression,
-        Expression<Func<TDocument, TProjected>> projectionExpression,
+        Expression<Func<TEntity, bool>> filterExpression,
+        Expression<Func<TEntity, TProjected>> projectionExpression,
         CancellationToken cancellationToken);
 
-    Task InsertOneAsync(TDocument document, CancellationToken cancellationToken);
-    Task InsertManyAsync(ICollection<TDocument> documents);
-    Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression);
-    Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression);
+    Task InsertOneAsync(TEntity document, CancellationToken cancellationToken);
+    Task InsertManyAsync(ICollection<TEntity> documents);
+    Task DeleteOneAsync(Expression<Func<TEntity, bool>> filterExpression);
+    Task DeleteManyAsync(Expression<Func<TEntity, bool>> filterExpression);
 }

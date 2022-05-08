@@ -1,8 +1,9 @@
 using MongoDB.Driver;
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Domain;
+using Soulgram.Interests.Persistence.Interfaces;
 
-namespace Soulgram.Interests.Persistence;
+namespace Soulgram.Interests.Persistence.DataAccessors;
 
 public class GenreRepository : MongoRepository<Genre>, IGenreRepository
 {

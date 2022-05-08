@@ -1,8 +1,9 @@
 using System.Linq.Expressions;
 using MongoDB.Driver;
 using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Persistence.Interfaces;
 
-namespace Soulgram.Interests.Persistence;
+namespace Soulgram.Interests.Persistence.DataAccessors;
 
 public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument : class
 {

@@ -5,8 +5,11 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
-using Soulgram.Interests.Application;
+using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Domain;
+using Soulgram.Interests.Persistence.DataAccessors;
+using Soulgram.Interests.Persistence.Interfaces;
+using Soulgram.Interests.Persistence.Models;
 
 namespace Soulgram.Interests.Persistence;
 
@@ -24,14 +27,16 @@ public static class ServiceInjector
         services.AddSingleton<IMongoClient, MongoClient>(sp
             => new MongoClient(interestsDbSettings.ConnectionString));
 
-        services.AddScoped(typeof(IMongoRepository<>), typeof(MongoRepository<>));
+        services.AddScoped(typeof(IMongoCollectionProvider<>), typeof(MongoCollectionProvider<>));
+        services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
+        services.AddScoped<IGenreRepository, GenreRepository>();
     }
 
     private static InterestsDbSettings GetInterestsDbSettings(IConfiguration configuration)
     {
         var interestsDbSettings = configuration
-            .GetSection("InterestsDb")
-            .Get<InterestsDbSettings>();
+                                  .GetSection("InterestsDb")
+                                  .Get<InterestsDbSettings>();
         return interestsDbSettings;
     }
 
@@ -41,8 +46,8 @@ public static class ServiceInjector
         {
             cm.AutoMap();
             cm.MapIdMember(genre => genre.Id)
-                .SetIdGenerator(new StringObjectIdGenerator())
-                .SetSerializer(new StringSerializer(BsonType.ObjectId));
+              .SetIdGenerator(new StringObjectIdGenerator())
+              .SetSerializer(new StringSerializer(BsonType.ObjectId));
 
             cm.MapMember(genre => genre.Name).SetIsRequired(true);
             cm.MapMember(genre => genre.UsersIds).SetIsRequired(true);

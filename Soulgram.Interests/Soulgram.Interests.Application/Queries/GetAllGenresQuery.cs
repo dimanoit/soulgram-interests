@@ -1,6 +1,7 @@
 using MediatR;
+using Soulgram.Interests.Application.Interfaces;
 
-namespace Soulgram.Interests.Application;
+namespace Soulgram.Interests.Application.Queries;
 
 public class GetAllGenresQuery : IRequest<IEnumerable<string>>
 {

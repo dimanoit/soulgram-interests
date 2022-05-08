@@ -1,4 +1,4 @@
-namespace Soulgram.Interests.Persistence;
+namespace Soulgram.Interests.Persistence.Models;
 
 public class InterestsDbSettings
 {

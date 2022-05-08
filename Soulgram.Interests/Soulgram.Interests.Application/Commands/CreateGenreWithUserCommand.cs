@@ -1,18 +1,18 @@
 using MediatR;
-using Soulgram.Interests.Domain;
+using Soulgram.Interests.Application.Converters;
+using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Models.Request;
 
-namespace Soulgram.Interests.Application;
+namespace Soulgram.Interests.Application.Commands;
 
 public class CreateGenreWithUserCommand : IRequest
 {
-    public CreateGenreWithUserCommand(string userId, string genreName)
+    public CreateGenreWithUserCommand(GenreWithUserRequest request)
     {
-        UserId = userId;
-        GenreName = genreName;
+        Request = request;
     }
 
-    public string UserId { get; }
-    public string GenreName { get; }
+    public GenreWithUserRequest Request { get; }
 }
 
 internal class CreateGenreWithUserCommandHandler : IRequestHandler<CreateGenreWithUserCommand>
@@ -24,14 +24,9 @@ internal class CreateGenreWithUserCommandHandler : IRequestHandler<CreateGenreWi
         _genreRepository = genreRepository;
     }
 
-    public async Task<Unit> Handle(CreateGenreWithUserCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateGenreWithUserCommand command, CancellationToken cancellationToken)
     {
-        var genre = new Genre
-        {
-            Name = request.GenreName,
-            UsersIds = new[] {request.UserId}
-        };
-
+        var genre = command.Request.ToGenre();
         await _genreRepository.InsertOneAsync(genre, cancellationToken);
 
         return Unit.Value;

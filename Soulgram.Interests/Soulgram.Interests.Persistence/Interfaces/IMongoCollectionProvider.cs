@@ -1,6 +1,6 @@
 using MongoDB.Driver;
 
-namespace Soulgram.Interests.Persistence;
+namespace Soulgram.Interests.Persistence.Interfaces;
 
 public interface IMongoCollectionProvider<TDocument>
 {

@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Soulgram.Interests.Application;
+using Soulgram.Interests.Application.Interfaces;
 
 namespace Soulgram.Interests.Infrastracture;
 

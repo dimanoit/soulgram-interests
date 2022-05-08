@@ -1,8 +1,8 @@
 using Soulgram.Interests.Domain;
 
-namespace Soulgram.Interests.Application;
+namespace Soulgram.Interests.Application.Interfaces;
 
-public interface IGenreRepository : IMongoRepository<Genre>
+public interface IGenreRepository : IRepository<Genre>
 {
     Task AddUserIdToGenre(string genreId, string userId);
 }

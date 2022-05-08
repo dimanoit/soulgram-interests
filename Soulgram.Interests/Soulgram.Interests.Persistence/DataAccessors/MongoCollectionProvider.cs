@@ -1,7 +1,9 @@
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
+using Soulgram.Interests.Persistence.Interfaces;
+using Soulgram.Interests.Persistence.Models;
 
-namespace Soulgram.Interests.Persistence;
+namespace Soulgram.Interests.Persistence.DataAccessors;
 
 public class MongoCollectionProvider<TDocument> : IMongoCollectionProvider<TDocument>
 {

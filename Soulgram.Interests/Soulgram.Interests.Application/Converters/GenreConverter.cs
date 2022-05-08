@@ -3,7 +3,7 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Converters;
 
-public static class GenreConvertor
+public static class GenreConverter
 {
     public static Genre ToGenre(this GenreWithUserRequest genreWithUserRequest)
     {
