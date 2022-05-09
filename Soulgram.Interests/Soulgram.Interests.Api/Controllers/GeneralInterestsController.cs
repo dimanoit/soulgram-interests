@@ -31,4 +31,11 @@ public class GeneralInterestsController : ControllerBase
         var getGeneralInterestsQuery = new GetGeneralInterestsQuery(userId);
         return await _mediator.Send(getGeneralInterestsQuery, cancellationToken);
     }
+
+    [HttpGet]
+    public async Task<IEnumerable<InterestType>> GetAllInterests(CancellationToken cancellationToken)
+    {
+        var getGeneralInterestsQuery = new GetAllGeneralInterestsQuery();
+        return await _mediator.Send(getGeneralInterestsQuery, cancellationToken);
+    }
 }
