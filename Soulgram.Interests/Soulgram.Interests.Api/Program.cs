@@ -1,13 +1,18 @@
 using MongoDB.Driver;
+using Serilog;
 using Soulgram.Interests.Application;
 using Soulgram.Interests.Infrastracture;
 using Soulgram.Interests.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Host
+    .ConfigureLogging((_, logging) => logging.ClearProviders())
+    .UseSerilog();
+
 var configuration = builder.Configuration;
 
 // Add services to the container.
-builder.Services.AddApplication();
+builder.Services.AddApplication(configuration);
 builder.Services.AddPersistence(configuration);
 builder.Services.AddInfrastructure(configuration);
 builder.Services.AddControllers();
