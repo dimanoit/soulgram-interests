@@ -30,6 +30,7 @@ public static class ServiceInjector
         services.AddScoped(typeof(IMongoCollectionProvider<>), typeof(MongoCollectionProvider<>));
         services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
         services.AddScoped<IGenreRepository, GenreRepository>();
+        services.AddScoped<IUserInterestsRepository, UserInterestsRepository>();
     }
 
     private static InterestsDbSettings GetInterestsDbSettings(IConfiguration configuration)

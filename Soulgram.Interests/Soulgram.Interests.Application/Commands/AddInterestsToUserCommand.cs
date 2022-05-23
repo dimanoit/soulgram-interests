@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Request;
-using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Commands;
 
@@ -26,14 +25,7 @@ internal class AddInterestsToUserCommandHandler : IRequestHandler<AddInterestsTo
 
     public async Task<Unit> Handle(AddInterestsToUserCommand command, CancellationToken cancellationToken)
     {
-        var userInterest = new UserInterests
-        {
-            Interests = command.Request.Interests,
-            UserId = command.Request.UserId
-        };
-
-        await _repository.InsertOneAsync(userInterest, cancellationToken);
-
+        await _repository.AddInterestToUserInterests(command.Request.UserId, command.Request.Interests);
         return Unit.Value;
     }
 }
