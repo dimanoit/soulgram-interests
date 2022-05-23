@@ -19,9 +19,17 @@ public class GeneralInterestsController : ControllerBase
     }
 
     [HttpPost]
+    public async Task CreateGeneralInterests([FromBody] UserInterestsRequest request,
+        CancellationToken cancellationToken)
+    {
+        var addUserInterestsCommand = new CreateUserInterestsCommand(request);
+        await _mediator.Send(addUserInterestsCommand, cancellationToken);
+    }
+
+    [HttpPatch]
     public async Task AddGeneralInterests([FromBody] UserInterestsRequest request, CancellationToken cancellationToken)
     {
-        var addUserInterestsCommand = new AddUserInterestsCommand(request);
+        var addUserInterestsCommand = new CreateUserInterestsCommand(request);
         await _mediator.Send(addUserInterestsCommand, cancellationToken);
     }
 

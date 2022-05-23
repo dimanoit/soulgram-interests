@@ -5,9 +5,9 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Commands;
 
-public class AddUserInterestsCommand : IRequest
+public class CreateUserInterestsCommand : IRequest
 {
-    public AddUserInterestsCommand(UserInterestsRequest request)
+    public CreateUserInterestsCommand(UserInterestsRequest request)
     {
         Request = request;
     }
@@ -15,16 +15,16 @@ public class AddUserInterestsCommand : IRequest
     public UserInterestsRequest Request { get; }
 }
 
-internal class AddUserInterestsCommandHandler : IRequestHandler<AddUserInterestsCommand>
+internal class CreateUserInterestsCommandHandler : IRequestHandler<CreateUserInterestsCommand>
 {
     private readonly IRepository<UserInterests> _repository;
 
-    public AddUserInterestsCommandHandler(IRepository<UserInterests> repository)
+    public CreateUserInterestsCommandHandler(IRepository<UserInterests> repository)
     {
         _repository = repository;
     }
 
-    public async Task<Unit> Handle(AddUserInterestsCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateUserInterestsCommand command, CancellationToken cancellationToken)
     {
         var userInterest = new UserInterests
         {
