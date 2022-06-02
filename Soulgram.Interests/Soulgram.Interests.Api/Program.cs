@@ -1,7 +1,7 @@
 using MongoDB.Driver;
 using Serilog;
 using Soulgram.Interests.Application;
-using Soulgram.Interests.Infrastracture;
+using Soulgram.Interests.Infrastructure;
 using Soulgram.Interests.Persistence;
 using Soulgram.Interests.Persistence.Migration;
 

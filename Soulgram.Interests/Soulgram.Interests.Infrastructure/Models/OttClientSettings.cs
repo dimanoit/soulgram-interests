@@ -1,4 +1,4 @@
-namespace Soulgram.Interests.Infrastracture;
+namespace Soulgram.Interests.Infrastructure;
 
 public record OttClientSettings
 {

@@ -6,7 +6,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Applicat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Domain", "Soulgram.Interests.Domain\Soulgram.Interests.Domain.csproj", "{39F05F3E-6201-4D82-AD1B-1F846BDF391F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Infrastracture", "Soulgram.Interests.Infrastracture\Soulgram.Interests.Infrastracture.csproj", "{E1FCA7F3-3E76-4DEC-9982-AD9D4DE499A8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Infrastructure", "Soulgram.Interests.Infrastructure\Soulgram.Interests.Infrastructure.csproj", "{E1FCA7F3-3E76-4DEC-9982-AD9D4DE499A8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Soulgram.Interests.Persistence", "Soulgram.Interests.Persistence\Soulgram.Interests.Persistence.csproj", "{FDA5AC2C-F00C-4076-9863-C126F99D4A05}"
 EndProject

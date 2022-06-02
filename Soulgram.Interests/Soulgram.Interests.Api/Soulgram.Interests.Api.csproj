@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Soulgram.Interests.Infrastracture\Soulgram.Interests.Infrastracture.csproj" />
+        <ProjectReference Include="..\Soulgram.Interests.Infrastructure\Soulgram.Interests.Infrastructure.csproj" />
         <ProjectReference Include="..\Soulgram.Interests.Persistence\Soulgram.Interests.Persistence.csproj" />
     </ItemGroup>
 
