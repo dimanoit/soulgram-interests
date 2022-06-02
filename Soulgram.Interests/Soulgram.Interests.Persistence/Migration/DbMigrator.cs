@@ -1,10 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using System.Linq.Expressions;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
 using Soulgram.Interests.Domain;
 using Soulgram.Interests.Persistence.Models;
 
 namespace Soulgram.Interests.Persistence.Migration;
 
+// TODO make it not static
 public static class DbMigrator
 {
     // TODO refactor method
@@ -15,25 +17,19 @@ public static class DbMigrator
             .Get<InterestsDbSettings>();
 
         var db = mongoClient.GetDatabase(dbSettings.DatabaseName);
-        var genreCollection = db.GetCollection<Genre>(nameof(Genre));
-        var userInterestsCollection = db.GetCollection<UserInterests>(nameof(UserInterests));
 
-        var genreUniqueNameKey = Builders<Genre>.IndexKeys.Text(genre => genre.Name);
-        var userInterestsUserIdKey = Builders<UserInterests>.IndexKeys.Text(ui => ui.UserId);
+        CreateUniqueIndex<Genre>(db, genre => genre.Name);
+        CreateUniqueIndex<UserInterests>(db, ui => ui.UserId);
+    }
 
-        var createGenreKeyModel = new CreateIndexModel<Genre>(genreUniqueNameKey,
-            new CreateIndexOptions
-            {
-                Unique = true
-            });
+    private static void CreateUniqueIndex<T>(IMongoDatabase db, Expression<Func<T, object>> field)
+    {
+        var collection = db.GetCollection<T>(nameof(T));
+        var uniqueKeyName = Builders<T>.IndexKeys.Text(field);
+        var indexModel = new CreateIndexModel<T>(uniqueKeyName, new CreateIndexOptions {Unique = true});
 
-        var userInterestsUserIdKeyModel = new CreateIndexModel<UserInterests>(userInterestsUserIdKey,
-            new CreateIndexOptions
-            {
-                Unique = true
-            });
-
-        genreCollection.Indexes.CreateOneAsync(createGenreKeyModel).GetAwaiter().GetResult();
-        userInterestsCollection.Indexes.CreateOneAsync(userInterestsUserIdKeyModel).GetAwaiter().GetResult();
+        collection.Indexes.CreateOneAsync(indexModel)
+            .GetAwaiter()
+            .GetResult();
     }
 }
