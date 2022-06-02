@@ -3,6 +3,7 @@ using Serilog;
 using Soulgram.Interests.Application;
 using Soulgram.Interests.Infrastracture;
 using Soulgram.Interests.Persistence;
+using Soulgram.Interests.Persistence.Migration;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Host
@@ -34,6 +35,6 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 var mongoService = app.Services.GetService(typeof(IMongoClient)) as IMongoClient;
-mongoService.SetUpDb(configuration);
+(mongoService ?? throw new InvalidOperationException()).SetUpDb(configuration);
 
 app.Run();
