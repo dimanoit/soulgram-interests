@@ -18,15 +18,22 @@ public static class DbMigrator
 
         var db = mongoClient.GetDatabase(dbSettings.DatabaseName);
 
-        CreateUniqueIndex<Genre>(db, genre => genre.Name);
-        CreateUniqueIndex<UserInterests>(db, ui => ui.UserId);
+        CreateUniqueIndex<Genre>(db, nameof(Genre), genre => genre.Name);
+        CreateUniqueIndex<UserInterests>(db, nameof(UserInterests), ui => ui.Interest);
     }
 
-    private static void CreateUniqueIndex<T>(IMongoDatabase db, Expression<Func<T, object>> field)
+    private static void CreateUniqueIndex<T>(
+        IMongoDatabase db,
+        string collectionName,
+        Expression<Func<T, object>> field)
     {
-        var collection = db.GetCollection<T>(nameof(T));
-        var uniqueKeyName = Builders<T>.IndexKeys.Text(field);
-        var indexModel = new CreateIndexModel<T>(uniqueKeyName, new CreateIndexOptions {Unique = true});
+        var collection = db.GetCollection<T>(collectionName);
+        var uniqueKeyName = Builders<T>.IndexKeys.Ascending(field);
+        var indexModel = new CreateIndexModel<T>(uniqueKeyName, new CreateIndexOptions
+        {
+            
+            Unique = true
+        });
 
         collection.Indexes.CreateOneAsync(indexModel)
             .GetAwaiter()

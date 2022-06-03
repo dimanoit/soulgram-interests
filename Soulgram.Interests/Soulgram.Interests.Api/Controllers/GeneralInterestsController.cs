@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Soulgram.Interests.Application.Commands;
 using Soulgram.Interests.Application.Models.Request;
+using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries;
-using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Api.Controllers;
 
@@ -19,11 +19,19 @@ public class GeneralInterestsController : ControllerBase
     }
 
     [HttpPost]
-    public async Task CreateGeneralInterests([FromBody] UserInterestsRequest request,
+    public async Task CreateGeneralInterests([FromBody] CreateUserInterestsRequest request,
         CancellationToken cancellationToken)
     {
         var addUserInterestsCommand = new CreateUserInterestsCommand(request);
         await _mediator.Send(addUserInterestsCommand, cancellationToken);
+    }
+
+    [HttpPost("bulk")]
+    public async Task CreateGeneralInterestsBulk([FromBody] CreateUserInterestsRequest[] request,
+        CancellationToken cancellationToken)
+    {
+        var commands = request.Select(r => new CreateUserInterestsCommand(r));
+        foreach (var c in commands) await _mediator.Send(c, cancellationToken);
     }
 
     [HttpPatch]
@@ -31,19 +39,12 @@ public class GeneralInterestsController : ControllerBase
         [FromBody] UserInterestsRequest request,
         CancellationToken cancellationToken)
     {
-        var addUserInterestsCommand = new AddInterestsToUserCommand(request);
+        var addUserInterestsCommand = new AddUserToInterestCommand(request);
         await _mediator.Send(addUserInterestsCommand, cancellationToken);
     }
 
-    [HttpGet("{userId}")]
-    public async Task<UserInterests?> GetInterests(string userId, CancellationToken cancellationToken)
-    {
-        var getGeneralInterestsQuery = new GetGeneralInterestsQuery(userId);
-        return await _mediator.Send(getGeneralInterestsQuery, cancellationToken);
-    }
-
     [HttpGet]
-    public async Task<IEnumerable<InterestType>> GetAllInterests(CancellationToken cancellationToken)
+    public async Task<IEnumerable<GeneralInterestsResponse>> GetAllInterests(CancellationToken cancellationToken)
     {
         var getGeneralInterestsQuery = new GetAllGeneralInterestsQuery();
         return await _mediator.Send(getGeneralInterestsQuery, cancellationToken);

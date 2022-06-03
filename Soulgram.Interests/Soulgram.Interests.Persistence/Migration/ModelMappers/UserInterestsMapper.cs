@@ -17,8 +17,7 @@ public class UserInterestsMapper : IModelMapper
                 .SetIdGenerator(new StringObjectIdGenerator())
                 .SetSerializer(new StringSerializer(BsonType.ObjectId));
 
-            cm.MapMember(ui => ui.UserId).SetIsRequired(true);
-            cm.MapMember(ui => ui.Interests).SetIsRequired(true);
+            cm.MapMember(ui => ui.Id).SetIsRequired(true);
 
             cm.SetIgnoreExtraElements(true);
         });

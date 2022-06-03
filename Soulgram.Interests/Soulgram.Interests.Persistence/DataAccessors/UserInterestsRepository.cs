@@ -8,17 +8,18 @@ namespace Soulgram.Interests.Persistence.DataAccessors;
 public class UserInterestsRepository : MongoRepository<UserInterests>, IUserInterestsRepository
 {
     public UserInterestsRepository(IMongoCollectionProvider<UserInterests> collectionProvider)
-        : base(collectionProvider) { }
-
-    public async Task AddInterestToUserInterests(
-        string userId,
-        InterestType[] interest)
+        : base(collectionProvider)
     {
-        var update = Builders<UserInterests>.Update.PushEach(userInterests => userInterests.Interests, interest);
+    }
+
+    public async Task AddUserToInterest(
+        string userId,
+        string interestId)
+    {
+        var update = Builders<UserInterests>.Update.Push(userInterests => userInterests.UsersIds, userId);
 
         await Collection
-            .FindOneAndUpdateAsync(
-                userInterests => userInterests.UserId == userId,
+            .FindOneAndUpdateAsync(userInterests => userInterests.Id == interestId,
                 update);
     }
 }

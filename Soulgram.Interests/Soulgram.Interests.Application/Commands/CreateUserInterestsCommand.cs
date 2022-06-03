@@ -7,12 +7,12 @@ namespace Soulgram.Interests.Application.Commands;
 
 public class CreateUserInterestsCommand : IRequest
 {
-    public CreateUserInterestsCommand(UserInterestsRequest request)
+    public CreateUserInterestsCommand(CreateUserInterestsRequest interest)
     {
-        Request = request;
+        Interest = interest;
     }
 
-    public UserInterestsRequest Request { get; }
+    public CreateUserInterestsRequest Interest { get; }
 }
 
 internal class CreateUserInterestsCommandHandler : IRequestHandler<CreateUserInterestsCommand>
@@ -28,8 +28,7 @@ internal class CreateUserInterestsCommandHandler : IRequestHandler<CreateUserInt
     {
         var userInterest = new UserInterests
         {
-            Interests = command.Request.Interests,
-            UserId = command.Request.UserId
+            Interest = command.Interest.InterestName
         };
 
         await _repository.InsertOneAsync(userInterest, cancellationToken);
