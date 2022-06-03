@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using MediatR;
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Response;
@@ -5,12 +6,18 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries;
 
-public class GetAllGeneralInterestsQuery : IRequest<IEnumerable<GeneralInterestsResponse>>
+public class GetGeneralInterestsQuery : IRequest<IEnumerable<GeneralInterestsResponse>>
 {
+    public GetGeneralInterestsQuery(string? userId)
+    {
+        UserId = userId;
+    }
+
+    public string? UserId { get; }
 }
 
 internal class GetAllGeneralInterestsQueryHandler
-    : IRequestHandler<GetAllGeneralInterestsQuery, IEnumerable<GeneralInterestsResponse>>
+    : IRequestHandler<GetGeneralInterestsQuery, IEnumerable<GeneralInterestsResponse>>
 {
     private readonly IRepository<UserInterests> _repository;
 
@@ -20,11 +27,16 @@ internal class GetAllGeneralInterestsQueryHandler
     }
 
     public async Task<IEnumerable<GeneralInterestsResponse>> Handle(
-        GetAllGeneralInterestsQuery request,
+        GetGeneralInterestsQuery request,
         CancellationToken cancellationToken)
     {
-        return await _repository.FilterByAsync(
-            f => f.Id != null,
+        Expression<Func<UserInterests, bool>> expression;
+        if (string.IsNullOrEmpty(request.UserId))
+            expression = f => f.Id != null;
+        else
+            expression = f => f.UsersIds.Contains(request.UserId);
+
+        return await _repository.FilterByAsync(expression,
             f => new GeneralInterestsResponse
             {
                 Id = f.Id!,

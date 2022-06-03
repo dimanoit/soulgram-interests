@@ -28,7 +28,8 @@ internal class CreateUserInterestsCommandHandler : IRequestHandler<CreateUserInt
     {
         var userInterest = new UserInterests
         {
-            Interest = command.Interest.InterestName
+            Interest = command.Interest.InterestName,
+            UsersIds = Array.Empty<string>()
         };
 
         await _repository.InsertOneAsync(userInterest, cancellationToken);

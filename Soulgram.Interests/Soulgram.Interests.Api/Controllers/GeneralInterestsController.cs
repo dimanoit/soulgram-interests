@@ -30,8 +30,8 @@ public class GeneralInterestsController : ControllerBase
     public async Task CreateGeneralInterestsBulk([FromBody] CreateUserInterestsRequest[] request,
         CancellationToken cancellationToken)
     {
-        var commands = request.Select(r => new CreateUserInterestsCommand(r));
-        foreach (var c in commands) await _mediator.Send(c, cancellationToken);
+        var command = new CreateGeneralInterestsBulkCommand(request);
+        await _mediator.Send(command, cancellationToken);
     }
 
     [HttpPatch]
@@ -43,10 +43,28 @@ public class GeneralInterestsController : ControllerBase
         await _mediator.Send(addUserInterestsCommand, cancellationToken);
     }
 
-    [HttpGet]
-    public async Task<IEnumerable<GeneralInterestsResponse>> GetAllInterests(CancellationToken cancellationToken)
+    [HttpPatch("bulk")]
+    public async Task AddGeneralInterestsBulk(
+        [FromBody] UserInterestsRequestBulk request,
+        CancellationToken cancellationToken)
     {
-        var getGeneralInterestsQuery = new GetAllGeneralInterestsQuery();
+        var addUserInterestsCommand = new AddUserToInterestBulkCommand(request);
+        await _mediator.Send(addUserInterestsCommand, cancellationToken);
+    }
+
+    [HttpPatch("users/{userId}")]
+    public async Task AddGeneralInterestsToOneUser(string userId, [FromBody] string[] interestsIds,
+        CancellationToken cancellationToken)
+    {
+        var addUserInterestsCommand = new AddGeneralInterestsToOneUserCommand(userId, interestsIds);
+        await _mediator.Send(addUserInterestsCommand, cancellationToken);
+    }
+
+    [HttpGet]
+    public async Task<IEnumerable<GeneralInterestsResponse>> GetAllInterests(string? userId,
+        CancellationToken cancellationToken)
+    {
+        var getGeneralInterestsQuery = new GetGeneralInterestsQuery(userId);
         return await _mediator.Send(getGeneralInterestsQuery, cancellationToken);
     }
 }

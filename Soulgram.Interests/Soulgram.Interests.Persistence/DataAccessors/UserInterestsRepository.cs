@@ -16,8 +16,24 @@ public class UserInterestsRepository : MongoRepository<UserInterests>, IUserInte
         string userId,
         string interestId)
     {
-        var update = Builders<UserInterests>.Update.Push(userInterests => userInterests.UsersIds, userId);
+        var updateDefinition = Builders<UserInterests>.Update.Push(ui => ui.UsersIds, userId);
+        await UpdateDocument(interestId, updateDefinition);
+    }
 
+    public async Task AddUserToInterestBulk(string[] userId, string interestId)
+    {
+        var updateDefinition = Builders<UserInterests>.Update.PushEach(userInterests => userInterests.UsersIds, userId);
+        await UpdateDocument(interestId, updateDefinition);
+    }
+
+    public async Task AddInterestsToOneUser(string userId, string[] interestsIds)
+    {
+        var tasks = interestsIds.Select(id => AddUserToInterest(userId, id));
+        await Task.WhenAll(tasks);
+    }
+
+    private async Task UpdateDocument(string interestId, UpdateDefinition<UserInterests> update)
+    {
         await Collection
             .FindOneAndUpdateAsync(userInterests => userInterests.Id == interestId,
                 update);
