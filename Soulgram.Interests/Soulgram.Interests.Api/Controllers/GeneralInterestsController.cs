@@ -44,7 +44,7 @@ public class GeneralInterestsController : ControllerBase
     }
 
     [HttpPatch("bulk")]
-    public async Task AddGeneralInterestsBulk(
+    public async Task AddUserToInterestBulk(
         [FromBody] UserInterestsRequestBulk request,
         CancellationToken cancellationToken)
     {
@@ -58,6 +58,15 @@ public class GeneralInterestsController : ControllerBase
     {
         var addUserInterestsCommand = new AddGeneralInterestsToOneUserCommand(userId, interestsIds);
         await _mediator.Send(addUserInterestsCommand, cancellationToken);
+    }
+
+    [HttpGet("{interestId}")]
+    public async Task<GeneralInterestsResponse> GetInterest(
+        string interestId,
+        CancellationToken cancellationToken)
+    {
+        var getGeneralInterestsQuery = new GetGeneralInterestQuery(interestId);
+        return await _mediator.Send(getGeneralInterestsQuery, cancellationToken);
     }
 
     [HttpGet]

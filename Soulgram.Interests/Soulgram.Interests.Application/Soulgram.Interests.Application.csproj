@@ -18,4 +18,10 @@
         <PackageReference Include="Soulgram.Logging" Version="1.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Models\Request\GeneralInterestRequest.cs" />
+      <Compile Remove="Interfaces\IGeneralInterestRepository.cs" />
+      <Compile Remove="Commands\CreateGeneralInterestCommand.cs" />
+    </ItemGroup>
+
 </Project>
