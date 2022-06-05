@@ -40,13 +40,9 @@ internal class GetAllGenresQueryHandler : IRequestHandler<GetGenresQuery, IColle
         Expression<Func<Genre, bool>> filterExpression;
         var isPassedUserId = !string.IsNullOrEmpty(request.UserId);
         if (isPassedUserId)
-        {
             filterExpression = g => g.UsersIds.Contains(request.UserId);
-        }
         else
-        {
             filterExpression = g => g.Id != null;
-        }
 
         var result = await _genreRepository.FilterByAsync(
             filterExpression,
@@ -55,7 +51,7 @@ internal class GetAllGenresQueryHandler : IRequestHandler<GetGenresQuery, IColle
         if (result.Count == 0 && !isPassedUserId)
         {
             var genres = await _movieService.GetGenresAsync(cancellationToken);
-            if (result.Count > 0)
+            if (genres.Count > 0)
             {
                 var createGenresBulkRequest = new CreateGenresBulkRequest
                 {

@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace Soulgram.Interests.Infrastructure.Extensions;
 
-public static class HttpResponseParser
+public static class HttpResponseExtension
 {
     public static async Task<T?> DeserializeStringAsync<T>(
         this HttpResponseMessage response,
