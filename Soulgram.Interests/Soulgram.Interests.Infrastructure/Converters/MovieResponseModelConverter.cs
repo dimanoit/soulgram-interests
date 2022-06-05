@@ -1,6 +1,7 @@
 ﻿using Soulgram.Interests.Application;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Infrastructure.Models;
+using Soulgram.Interests.Infrastructure.Models.MainClientResponses;
 
 namespace Soulgram.Interests.Infrastructure.Converters;
 
@@ -23,6 +24,11 @@ public static class MovieResponseModelConverter
         };
 
         return searchResponse;
+    }
+
+    public static MovieSearchResponse ToMovieSearchResponse(this SearchMovieResult response)
+    {
+        throw new NotImplementedException();
     }
 
     private static GenreResponse ToGenreResponse(this string genreName)

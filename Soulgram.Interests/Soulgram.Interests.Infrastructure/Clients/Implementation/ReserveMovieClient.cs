@@ -7,11 +7,11 @@ using Soulgram.Interests.Infrastructure.Models.HttpClientParams;
 
 namespace Soulgram.Interests.Infrastructure.Clients.Implementation;
 
-public class OttClient : IOttClient
+public class ReserveMovieClient : IReserveMovieClient
 {
     private readonly HttpClient _httpClient;
 
-    public OttClient(
+    public ReserveMovieClient(
         IOptions<OttClientSettings> settings,
         HttpClient httpClient)
     {
@@ -31,7 +31,7 @@ public class OttClient : IOttClient
         CancellationToken cancellationToken)
     {
         var url = $"search?title={name}&page=1";
-        var response = await _httpClient.GetHttpResult<MovieWithPageResponseModel?>(url, cancellationToken);
+        var response = await _httpClient.GetHttpResult<OttMoviesResponseModel?>(url, cancellationToken);
 
         if (response?.Results == null) return Enumerable.Empty<MovieSearchResponse>();
 

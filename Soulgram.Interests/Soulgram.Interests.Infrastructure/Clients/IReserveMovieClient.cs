@@ -2,7 +2,7 @@
 
 namespace Soulgram.Interests.Infrastructure.Clients;
 
-public interface IOttClient
+public interface IReserveMovieClient
 {
     Task<ICollection<string>> GetGenresAsync(CancellationToken cancellationToken);
 

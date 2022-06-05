@@ -2,7 +2,7 @@
 
 namespace Soulgram.Interests.Infrastructure.Models;
 
-public class MovieWithPageResponseModel
+public class OttMoviesResponseModel
 {
     [JsonPropertyName("page")]
     public int Page { get; init; }

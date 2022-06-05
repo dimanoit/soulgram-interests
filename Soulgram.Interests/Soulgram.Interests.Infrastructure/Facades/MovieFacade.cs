@@ -8,14 +8,14 @@ public class MovieFacade : IMovieFacade
 {
     private readonly ILogger<MovieFacade> _logger;
     private readonly IMovieDatabaseClient _movieDatabaseClient;
-    private readonly IOttClient _ottClient;
+    private readonly IReserveMovieClient _reserveMovieClient;
 
     public MovieFacade(
-        IOttClient client,
+        IReserveMovieClient client,
         IMovieDatabaseClient movieDatabaseClient,
         ILogger<MovieFacade> logger)
     {
-        _ottClient = client;
+        _reserveMovieClient = client;
         _movieDatabaseClient = movieDatabaseClient;
         _logger = logger;
     }
@@ -24,11 +24,11 @@ public class MovieFacade : IMovieFacade
     {
         try
         {
-            return await _ottClient.GetGenresAsync(cancellationToken);
+            return await _reserveMovieClient.GetGenresAsync(cancellationToken);
         }
         catch (TaskCanceledException taskCanceledException)
         {
-            _logger.LogWarning(taskCanceledException, "{Client} had an exception timeout on", _ottClient);
+            _logger.LogWarning(taskCanceledException, "{Client} had an exception timeout on", _reserveMovieClient);
             return await _movieDatabaseClient.GetGenresAsync(cancellationToken);
         }
     }
@@ -36,6 +36,14 @@ public class MovieFacade : IMovieFacade
     public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(string name,
         CancellationToken cancellationToken)
     {
-        return await _ottClient.GetMoviesByName(name, cancellationToken);
+        try
+        {
+            return await _reserveMovieClient.GetMoviesByName(name, cancellationToken);
+        }
+        catch (TaskCanceledException taskCanceledException)
+        {
+            _logger.LogWarning(taskCanceledException, "{Client} had an exception timeout on", _reserveMovieClient);
+            return await _movieDatabaseClient.GetMoviesByName(name, cancellationToken);
+        }
     }
 }

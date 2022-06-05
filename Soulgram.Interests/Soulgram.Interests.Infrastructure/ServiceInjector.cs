@@ -31,7 +31,7 @@ public static class ServiceInjector
         serviceCollection.Configure<MovieDatabaseClientSettings>(options =>
             configuration.GetSection("MovieDatabaseClientSettings").Bind(options));
 
-        serviceCollection.AddHttpClient<IOttClient, OttClient>();
-        serviceCollection.AddHttpClient<IMovieDatabaseClient, MovieDatabaseClient>();
+        serviceCollection.AddHttpClient<IReserveMovieClient, ReserveMovieClient>();
+        serviceCollection.AddHttpClient<IMovieDatabaseClient, MainMovieClient>();
     }
 }
