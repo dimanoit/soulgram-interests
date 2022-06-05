@@ -37,39 +37,58 @@ internal class GetAllGenresQueryHandler : IRequestHandler<GetGenresQuery, IColle
         GetGenresQuery request,
         CancellationToken cancellationToken)
     {
-        Expression<Func<Genre, bool>> filterExpression;
         var isPassedUserId = !string.IsNullOrEmpty(request.UserId);
-        if (isPassedUserId)
-            filterExpression = g => g.UsersIds.Contains(request.UserId);
-        else
-            filterExpression = g => g.Id != null;
+        var filterExpression = GetFilterExpression(request, isPassedUserId);
 
         var result = await _genreRepository.FilterByAsync(
             filterExpression,
             g => new GenreResponse(g.Name));
 
-        if (result.Count == 0 && !isPassedUserId)
+        if (result.Count != 0 || isPassedUserId)
         {
-            var genres = await _movieService.GetGenresAsync(cancellationToken);
-            if (genres.Count > 0)
-            {
-                var createGenresBulkRequest = new CreateGenresBulkRequest
-                {
-                    GenreName = genres.ToArray()
-                };
-
-                var createGenresCommand = new CreateGenresCommand(createGenresBulkRequest);
-
-                Task.Run(() =>
-                    _mediator.Send(createGenresCommand, cancellationToken)
-                        .GetAwaiter()
-                        .GetResult()
-                );
-            }
-
-            result = genres.Select(n => new GenreResponse(n)).ToArray();
+            return result;
         }
 
-        return result;
+        var genres = await _movieService.GetGenresAsync(cancellationToken);
+        if (genres.Count <= 0)
+        {
+            return result;
+        }
+
+        CreateGenres(genres);
+
+        return genres.Select(n => new GenreResponse(n)).ToArray();
+    }
+
+    private static Expression<Func<Genre, bool>> GetFilterExpression(GetGenresQuery request, bool isPassedUserId)
+    {
+
+        Expression<Func<Genre, bool>> filterExpression;
+        if (isPassedUserId)
+        {
+            filterExpression = g => g.UsersIds.Contains(request.UserId);
+        }
+        else
+        {
+            filterExpression = g => g.Id != null;
+        }
+
+        return filterExpression;
+    }
+
+    private void CreateGenres(ICollection<string> genres)
+    {
+        var createGenresBulkRequest = new CreateGenresBulkRequest
+        {
+            GenreName = genres.ToArray()
+        };
+
+        var createGenresCommand = new CreateGenresCommand(createGenresBulkRequest);
+
+        Task.Run(() =>
+            _mediator.Send(createGenresCommand)
+                .GetAwaiter()
+                .GetResult()
+        );
     }
 }
