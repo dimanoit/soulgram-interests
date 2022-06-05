@@ -10,7 +10,7 @@ public class UserInterestsMapper : IModelMapper
 {
     public void MapFields()
     {
-        BsonClassMap.RegisterClassMap<UserInterests>(cm =>
+        BsonClassMap.RegisterClassMap<Domain.Interest>(cm =>
         {
             cm.AutoMap();
             cm.MapIdMember(ui => ui.Id)

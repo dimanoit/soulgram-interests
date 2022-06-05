@@ -19,7 +19,7 @@ public static class DbMigrator
         var db = mongoClient.GetDatabase(dbSettings.DatabaseName);
 
         CreateUniqueIndex<Genre>(db, nameof(Genre), genre => genre.Name);
-        CreateUniqueIndex<UserInterests>(db, nameof(UserInterests), ui => ui.Interest);
+        CreateUniqueIndex<Domain.Interest>(db, nameof(Domain.Interest), ui => ui.Name);
     }
 
     private static void CreateUniqueIndex<T>(

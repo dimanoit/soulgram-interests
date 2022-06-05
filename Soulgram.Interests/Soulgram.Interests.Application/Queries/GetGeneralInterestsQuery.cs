@@ -19,9 +19,9 @@ public class GetGeneralInterestsQuery : IRequest<IEnumerable<GeneralInterestsRes
 internal class GetAllGeneralInterestsQueryHandler
     : IRequestHandler<GetGeneralInterestsQuery, IEnumerable<GeneralInterestsResponse>>
 {
-    private readonly IRepository<UserInterests> _repository;
+    private readonly IRepository<Domain.Interest> _repository;
 
-    public GetAllGeneralInterestsQueryHandler(IRepository<UserInterests> repository)
+    public GetAllGeneralInterestsQueryHandler(IRepository<Domain.Interest> repository)
     {
         _repository = repository;
     }
@@ -30,7 +30,7 @@ internal class GetAllGeneralInterestsQueryHandler
         GetGeneralInterestsQuery request,
         CancellationToken cancellationToken)
     {
-        Expression<Func<UserInterests, bool>> expression;
+        Expression<Func<Domain.Interest, bool>> expression;
         if (string.IsNullOrEmpty(request.UserId))
             expression = f => f.Id != null;
         else
@@ -40,7 +40,7 @@ internal class GetAllGeneralInterestsQueryHandler
             f => new GeneralInterestsResponse
             {
                 Id = f.Id!,
-                Name = f.Interest
+                Name = f.Name
             });
     }
 }

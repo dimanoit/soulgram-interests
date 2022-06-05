@@ -5,9 +5,9 @@ using Soulgram.Interests.Persistence.Interfaces;
 
 namespace Soulgram.Interests.Persistence.DataAccessors;
 
-public class UserInterestsRepository : MongoRepository<UserInterests>, IUserInterestsRepository
+public class UserInterestsRepository : MongoRepository<Domain.Interest>, IUserInterestsRepository
 {
-    public UserInterestsRepository(IMongoCollectionProvider<UserInterests> collectionProvider)
+    public UserInterestsRepository(IMongoCollectionProvider<Domain.Interest> collectionProvider)
         : base(collectionProvider)
     {
     }
@@ -16,13 +16,13 @@ public class UserInterestsRepository : MongoRepository<UserInterests>, IUserInte
         string userId,
         string interestId)
     {
-        var updateDefinition = Builders<UserInterests>.Update.Push(ui => ui.UsersIds, userId);
+        var updateDefinition = Builders<Domain.Interest>.Update.Push(ui => ui.UsersIds, userId);
         await UpdateDocument(interestId, updateDefinition);
     }
 
     public async Task AddUserToInterestBulk(string[] userId, string interestId)
     {
-        var updateDefinition = Builders<UserInterests>.Update.PushEach(userInterests => userInterests.UsersIds, userId);
+        var updateDefinition = Builders<Domain.Interest>.Update.PushEach(userInterests => userInterests.UsersIds, userId);
         await UpdateDocument(interestId, updateDefinition);
     }
 
@@ -32,7 +32,7 @@ public class UserInterestsRepository : MongoRepository<UserInterests>, IUserInte
         await Task.WhenAll(tasks);
     }
 
-    private async Task UpdateDocument(string interestId, UpdateDefinition<UserInterests> update)
+    private async Task UpdateDocument(string interestId, UpdateDefinition<Domain.Interest> update)
     {
         await Collection
             .FindOneAndUpdateAsync(userInterests => userInterests.Id == interestId,

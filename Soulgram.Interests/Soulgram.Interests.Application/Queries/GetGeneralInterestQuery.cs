@@ -18,9 +18,9 @@ public class GetGeneralInterestQuery : IRequest<GeneralInterestsResponse>
 internal class GetGeneralInterestQueryHandler
     : IRequestHandler<GetGeneralInterestQuery, GeneralInterestsResponse>
 {
-    private readonly IRepository<UserInterests> _repository;
+    private readonly IRepository<Domain.Interest> _repository;
 
-    public GetGeneralInterestQueryHandler(IRepository<UserInterests> repository)
+    public GetGeneralInterestQueryHandler(IRepository<Domain.Interest> repository)
     {
         _repository = repository;
     }
@@ -34,7 +34,7 @@ internal class GetGeneralInterestQueryHandler
             p => new GeneralInterestsResponse
             {
                 Id = p.Id!,
-                Name = p.Interest
+                Name = p.Name
             },
             cancellationToken
         );

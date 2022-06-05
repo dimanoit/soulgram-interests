@@ -17,18 +17,18 @@ public class CreateUserInterestsCommand : IRequest
 
 internal class CreateUserInterestsCommandHandler : IRequestHandler<CreateUserInterestsCommand>
 {
-    private readonly IRepository<UserInterests> _repository;
+    private readonly IRepository<Domain.Interest> _repository;
 
-    public CreateUserInterestsCommandHandler(IRepository<UserInterests> repository)
+    public CreateUserInterestsCommandHandler(IRepository<Domain.Interest> repository)
     {
         _repository = repository;
     }
 
     public async Task<Unit> Handle(CreateUserInterestsCommand command, CancellationToken cancellationToken)
     {
-        var userInterest = new UserInterests
+        var userInterest = new Domain.Interest
         {
-            Interest = command.Interest.InterestName,
+            Name = command.Interest.InterestName,
             UsersIds = Array.Empty<string>()
         };
 
