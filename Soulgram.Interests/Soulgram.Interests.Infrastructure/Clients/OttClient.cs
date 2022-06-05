@@ -18,7 +18,10 @@ public class OttClient : IMovieService
         HttpClient httpClient,
         IMovieResponseFilter movieResponseFilter)
     {
-        if (settings == null) throw new ArgumentNullException(nameof(settings));
+        if (settings == null)
+        {
+            throw new ArgumentNullException(nameof(settings));
+        }
 
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         _movieResponseFilter = movieResponseFilter ?? throw new ArgumentException(nameof(movieResponseFilter));
@@ -30,10 +33,10 @@ public class OttClient : IMovieService
         _httpClient.DefaultRequestHeaders.Add("x-rapidapi-host", settings.Value.Host);
     }
 
-    public async Task<IEnumerable<string>> GetGenresAsync(CancellationToken cancellationToken)
+    public async Task<ICollection<string>> GetGenresAsync(CancellationToken cancellationToken)
     {
         var url = "getParams?param=genre";
-        return await GetHttpResult<IEnumerable<string>>(url, cancellationToken);
+        return await GetHttpResult<ICollection<string>>(url, cancellationToken);
     }
 
     public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(string name,
@@ -42,7 +45,10 @@ public class OttClient : IMovieService
         var url = $"search?title={name}&page=1";
         var response = await GetHttpResult<MovieWithPageResponseModel?>(url, cancellationToken);
 
-        if (response?.Results == null) return Enumerable.Empty<MovieSearchResponse>();
+        if (response?.Results == null)
+        {
+            return Enumerable.Empty<MovieSearchResponse>();
+        }
 
         return _movieResponseFilter
             .Filter(response.Results)

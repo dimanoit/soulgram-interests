@@ -1,7 +1,7 @@
 using MediatR;
 using Soulgram.Interests.Application.Models.Request;
 
-namespace Soulgram.Interests.Application.Commands;
+namespace Soulgram.Interests.Application.Commands.Genres;
 
 public class AddUserToGenresCommand : IRequest
 {
@@ -36,7 +36,7 @@ internal class AddUserToGenresCommandHandler : IRequestHandler<AddUserToGenresCo
 
     private Task<Unit> AddUserToGenreCommandTask(string userId, string genreName)
     {
-        var request = new GenreWithUserRequest
+        var request = new CreateGenreRequest
         {
             GenreName = genreName,
             UserId = userId

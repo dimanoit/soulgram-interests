@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Soulgram.Interests.Application.Interfaces;
 
-namespace Soulgram.Interests.Application.Commands;
+namespace Soulgram.Interests.Application.Commands.Interests;
 
 public class AddInterestsToOneUserCommand : IRequest
 {

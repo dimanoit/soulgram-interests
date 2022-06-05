@@ -2,7 +2,7 @@
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Domain;
 
-namespace Soulgram.Interests.Application.Commands;
+namespace Soulgram.Interests.Application.Commands.Interests;
 
 public class CreateInterestCommand : IRequest
 {

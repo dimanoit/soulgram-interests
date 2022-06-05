@@ -30,9 +30,9 @@ public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument
         Expression<Func<TDocument, TProjected>> projectionExpression)
     {
         return await Collection
-                     .Find(filterExpression)
-                     .Project(projectionExpression)
-                     .ToListAsync();
+            .Find(filterExpression)
+            .Project(projectionExpression)
+            .ToListAsync();
     }
 
     public async Task<TDocument> FindOneAsync(
@@ -40,8 +40,8 @@ public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument
         CancellationToken cancellationToken)
     {
         return await Collection
-                     .Find(filterExpression)
-                     .FirstOrDefaultAsync(cancellationToken);
+            .Find(filterExpression)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<TProjected> FindOneAsync<TProjected>(
@@ -50,9 +50,9 @@ public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument
         CancellationToken cancellationToken)
     {
         return await Collection
-                     .Find(filterExpression)
-                     .Project(projectionExpression)
-                     .FirstOrDefaultAsync(cancellationToken);
+            .Find(filterExpression)
+            .Project(projectionExpression)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task InsertOneAsync(TDocument document, CancellationToken cancellationToken)
@@ -65,9 +65,14 @@ public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument
         await Collection.InsertOneAsync(document, insertOptions, cancellationToken);
     }
 
-    public async Task InsertManyAsync(ICollection<TDocument> documents)
+    public async Task InsertManyAsync(ICollection<TDocument> documents, CancellationToken cancellationToken)
     {
-        await Collection.InsertManyAsync(documents);
+        var insertOptions = new InsertManyOptions
+        {
+            BypassDocumentValidation = false
+        };
+
+        await Collection.InsertManyAsync(documents, insertOptions, cancellationToken);
     }
 
     public async Task DeleteOneAsync(Expression<Func<TDocument, bool>> filterExpression)

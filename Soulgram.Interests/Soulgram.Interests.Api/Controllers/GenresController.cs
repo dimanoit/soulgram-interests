@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Soulgram.Interests.Application;
-using Soulgram.Interests.Application.Commands;
+using Soulgram.Interests.Application.Commands.Genres;
 using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Queries;
 
@@ -19,7 +19,7 @@ public class GenresController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ICollection<GenreResponse>> GetMyGenres(string? userId, CancellationToken cancellationToken)
+    public async Task<ICollection<GenreResponse>> GetGenres(string? userId, CancellationToken cancellationToken)
     {
         var getAllGenresQuery = new GetGenresQuery(userId);
         return await _mediator.Send(getAllGenresQuery, cancellationToken);
@@ -27,7 +27,7 @@ public class GenresController : ControllerBase
 
     [HttpPost]
     public async Task AddGenreWithUser(
-        [FromBody] GenreWithUserRequest request,
+        [FromBody] CreateGenreRequest request,
         CancellationToken cancellationToken)
     {
         var addUserToGenreCommand = new AddUserToGenreCommand(request);

@@ -5,12 +5,12 @@ namespace Soulgram.Interests.Application.Converters;
 
 public static class GenreConverter
 {
-    public static Genre ToGenre(this GenreWithUserRequest genreWithUserRequest)
+    public static Genre ToGenre(this CreateGenreRequest createGenreRequest)
     {
         return new Genre
         {
-            Name = genreWithUserRequest.GenreName,
-            UsersIds = new[] {genreWithUserRequest.UserId}
+            Name = createGenreRequest.GenreName,
+            UsersIds = new[] {createGenreRequest.UserId}
         };
     }
 }
