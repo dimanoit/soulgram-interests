@@ -6,9 +6,9 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries;
 
-public class GetGeneralInterestsQuery : IRequest<IEnumerable<GeneralInterestsResponse>>
+public class GetInterestsQuery : IRequest<IEnumerable<InterestResponse>>
 {
-    public GetGeneralInterestsQuery(string? userId)
+    public GetInterestsQuery(string? userId)
     {
         UserId = userId;
     }
@@ -16,28 +16,31 @@ public class GetGeneralInterestsQuery : IRequest<IEnumerable<GeneralInterestsRes
     public string? UserId { get; }
 }
 
-internal class GetAllGeneralInterestsQueryHandler
-    : IRequestHandler<GetGeneralInterestsQuery, IEnumerable<GeneralInterestsResponse>>
+internal class GetInterestsQueryHandler : IRequestHandler<GetInterestsQuery, IEnumerable<InterestResponse>>
 {
-    private readonly IRepository<Domain.Interest> _repository;
+    private readonly IRepository<Interest> _repository;
 
-    public GetAllGeneralInterestsQueryHandler(IRepository<Domain.Interest> repository)
+    public GetInterestsQueryHandler(IRepository<Interest> repository)
     {
         _repository = repository;
     }
 
-    public async Task<IEnumerable<GeneralInterestsResponse>> Handle(
-        GetGeneralInterestsQuery request,
+    public async Task<IEnumerable<InterestResponse>> Handle(
+        GetInterestsQuery request,
         CancellationToken cancellationToken)
     {
-        Expression<Func<Domain.Interest, bool>> expression;
+        Expression<Func<Interest, bool>> expression;
         if (string.IsNullOrEmpty(request.UserId))
+        {
             expression = f => f.Id != null;
+        }
         else
+        {
             expression = f => f.UsersIds.Contains(request.UserId);
+        }
 
         return await _repository.FilterByAsync(expression,
-            f => new GeneralInterestsResponse
+            f => new InterestResponse
             {
                 Id = f.Id!,
                 Name = f.Name

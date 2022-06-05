@@ -3,9 +3,9 @@ using Soulgram.Interests.Application.Interfaces;
 
 namespace Soulgram.Interests.Application.Commands;
 
-public class AddGeneralInterestsToOneUserCommand : IRequest
+public class AddInterestsToOneUserCommand : IRequest
 {
-    public AddGeneralInterestsToOneUserCommand(string userId, string[] interestsIds)
+    public AddInterestsToOneUserCommand(string userId, string[] interestsIds)
     {
         UserId = userId;
         InterestsIds = interestsIds;
@@ -15,7 +15,7 @@ public class AddGeneralInterestsToOneUserCommand : IRequest
     public string[] InterestsIds { get; }
 }
 
-internal class AddGeneralInterestsToOneUserCommandHandler : IRequestHandler<AddGeneralInterestsToOneUserCommand>
+internal class AddGeneralInterestsToOneUserCommandHandler : IRequestHandler<AddInterestsToOneUserCommand>
 {
     private readonly IUserInterestsRepository _repository;
 
@@ -24,7 +24,7 @@ internal class AddGeneralInterestsToOneUserCommandHandler : IRequestHandler<AddG
         _repository = repository;
     }
 
-    public async Task<Unit> Handle(AddGeneralInterestsToOneUserCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(AddInterestsToOneUserCommand request, CancellationToken cancellationToken)
     {
         await _repository.AddInterestsToOneUser(request.UserId, request.InterestsIds);
 

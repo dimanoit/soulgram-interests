@@ -5,9 +5,9 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries;
 
-public class GetGeneralInterestQuery : IRequest<GeneralInterestsResponse>
+public class GetInterestQuery : IRequest<InterestResponse>
 {
-    public GetGeneralInterestQuery(string interestId)
+    public GetInterestQuery(string interestId)
     {
         InterestId = interestId;
     }
@@ -15,23 +15,22 @@ public class GetGeneralInterestQuery : IRequest<GeneralInterestsResponse>
     public string InterestId { get; }
 }
 
-internal class GetGeneralInterestQueryHandler
-    : IRequestHandler<GetGeneralInterestQuery, GeneralInterestsResponse>
+internal class GetGeneralInterestQueryHandler : IRequestHandler<GetInterestQuery, InterestResponse>
 {
-    private readonly IRepository<Domain.Interest> _repository;
+    private readonly IRepository<Interest> _repository;
 
-    public GetGeneralInterestQueryHandler(IRepository<Domain.Interest> repository)
+    public GetGeneralInterestQueryHandler(IRepository<Interest> repository)
     {
         _repository = repository;
     }
 
-    public async Task<GeneralInterestsResponse> Handle(
-        GetGeneralInterestQuery request,
+    public async Task<InterestResponse> Handle(
+        GetInterestQuery request,
         CancellationToken cancellationToken)
     {
         return await _repository.FindOneAsync(
             f => f.Id == request.InterestId,
-            p => new GeneralInterestsResponse
+            p => new InterestResponse
             {
                 Id = p.Id!,
                 Name = p.Name

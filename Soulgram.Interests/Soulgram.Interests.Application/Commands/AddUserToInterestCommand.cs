@@ -6,12 +6,12 @@ namespace Soulgram.Interests.Application.Commands;
 
 public class AddUserToInterestCommand : IRequest
 {
-    public AddUserToInterestCommand(UserInterestsRequest request)
+    public AddUserToInterestCommand(UserInterestRequest request)
     {
         Request = request;
     }
 
-    public UserInterestsRequest Request { get; }
+    public UserInterestRequest Request { get; }
 }
 
 internal class AddInterestsToUserCommandHandler : IRequestHandler<AddUserToInterestCommand>

@@ -10,15 +10,16 @@ using Soulgram.Interests.Persistence;
 namespace Soulgram.Interests.Api.Benchmark;
 
 [MemoryDiagnoser]
-[SimpleJob(launchCount: 1, targetCount: 50)]
+[SimpleJob(1, targetCount: 50)]
 public class GetGeneralInterestsQueryBenchmark
 {
     private readonly IMediator _mediator;
+
     public GetGeneralInterestsQueryBenchmark()
     {
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", optional: false);
+            .AddJsonFile("appsettings.json", false);
 
         IConfiguration config = builder.Build();
 
@@ -28,19 +29,19 @@ public class GetGeneralInterestsQueryBenchmark
         services.AddPersistence(config);
         _mediator = services.BuildServiceProvider().GetService(typeof(IMediator)) as IMediator;
     }
-    
+
     [Benchmark]
     public void GetInterestWithoutUsers()
     {
-        _mediator.Send(new GetGeneralInterestQuery("629b6ba47040593d4221d1f9"))
+        _mediator.Send(new GetInterestQuery("629b6ba47040593d4221d1f9"))
             .GetAwaiter()
             .GetResult();
     }
-    
+
     [Benchmark]
     public void GetInterestWithUsers()
     {
-        _mediator.Send(new GetGeneralInterestQuery("629b6ba47040593d4221d1f8"))
+        _mediator.Send(new GetInterestQuery("629b6ba47040593d4221d1f8"))
             .GetAwaiter()
             .GetResult();
     }
