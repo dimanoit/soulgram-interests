@@ -18,17 +18,10 @@ public class GenresController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpGet("{userId}")]
-    public async Task<ICollection<GenreResponse>> GetMyGenres(string userId, CancellationToken cancellationToken)
-    {
-        var getAllGenresQuery = new GetMyGenresQuery(userId);
-        return await _mediator.Send(getAllGenresQuery, cancellationToken);
-    }
-
     [HttpGet]
-    public async Task<IEnumerable<string>> GetAllGenres(CancellationToken cancellationToken)
+    public async Task<ICollection<GenreResponse>> GetMyGenres(string? userId, CancellationToken cancellationToken)
     {
-        var getAllGenresQuery = new GetAllGenresQuery();
+        var getAllGenresQuery = new GetGenresQuery(userId);
         return await _mediator.Send(getAllGenresQuery, cancellationToken);
     }
 

@@ -8,7 +8,7 @@ using Soulgram.Interests.Application.Queries;
 namespace Soulgram.Interests.Api.Controllers;
 
 [ApiController]
-[Route("api/general-interests")]
+[Route("api/[controller]")]
 public class InterestsController : ControllerBase
 {
     private readonly IMediator _mediator;
