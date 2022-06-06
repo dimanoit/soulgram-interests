@@ -1,6 +1,6 @@
 namespace Soulgram.Interests.Application.Models.Request;
 
-public class CreateInterestBulkRequest
+public class CreateInterestsRequest
 {
     public string[] Names { get; init; } = null!;
 }

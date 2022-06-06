@@ -25,9 +25,9 @@ public static class ServiceInjector
         services.AddSingleton<IMongoClient, MongoClient>(sp
             => new MongoClient(interestsDbSettings.ConnectionString));
 
-        services.AddScoped(typeof(IMongoCollectionProvider<>), typeof(MongoCollectionProvider<>));
+        services.AddScoped(typeof(IMongoConnection<>), typeof(MongoConnection<>));
         services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
         services.AddScoped<IGenreRepository, GenreRepository>();
-        services.AddScoped<IUserInterestsRepository, UserInterestsRepository>();
+        services.AddScoped<IInterestsRepository, InterestsRepository>();
     }
 }

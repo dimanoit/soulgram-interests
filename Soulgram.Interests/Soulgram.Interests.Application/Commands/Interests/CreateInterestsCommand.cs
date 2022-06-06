@@ -5,32 +5,10 @@ namespace Soulgram.Interests.Application.Commands.Interests;
 
 public class CreateInterestsCommand : IRequest
 {
-    public CreateInterestsCommand(CreateInterestBulkRequest request)
+    public CreateInterestsCommand(CreateInterestsRequest request)
     {
         Request = request;
     }
 
-    public CreateInterestBulkRequest Request { get; }
-}
-
-internal class CreateGeneralInterestsBulkCommandHandler : IRequestHandler<CreateInterestsCommand>
-{
-    private readonly IMediator _mediator;
-
-    public CreateGeneralInterestsBulkCommandHandler(IMediator mediator)
-    {
-        _mediator = mediator;
-    }
-
-    public async Task<Unit> Handle(CreateInterestsCommand command, CancellationToken cancellationToken)
-    {
-        var commands = command.Request
-            .Names
-            .Select(name => new CreateInterestCommand(name))
-            .Select(c => _mediator.Send(c, cancellationToken));
-
-        await Task.WhenAll(commands);
-
-        return Unit.Value;
-    }
+    public CreateInterestsRequest Request { get; }
 }

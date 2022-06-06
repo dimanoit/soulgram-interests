@@ -7,14 +7,14 @@ namespace Soulgram.Interests.Persistence.DataAccessors;
 
 public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument : class
 {
-    public MongoRepository(IMongoCollectionProvider<TDocument> collectionProvider)
+    public MongoRepository(IMongoConnection<TDocument> connection)
     {
-        if (collectionProvider == null)
+        if (connection == null)
         {
-            throw new ArgumentNullException(nameof(collectionProvider));
+            throw new ArgumentNullException(nameof(connection));
         }
 
-        Collection = collectionProvider.MongoCollection;
+        Collection = connection.MongoCollection;
     }
 
     protected IMongoCollection<TDocument> Collection { get; }

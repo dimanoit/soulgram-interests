@@ -18,50 +18,13 @@ public class InterestsController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost]
-    public async Task CreateInterest(
-        [FromBody] CreateInterestRequest request,
+    [HttpGet]
+    public async Task<IEnumerable<InterestResponse>> GetInterests(
+        string? userId,
         CancellationToken cancellationToken)
     {
-        var command = new CreateInterestCommand(request.Name);
-        await _mediator.Send(command, cancellationToken);
-    }
-
-    [HttpPost("bulk")]
-    public async Task CreateInterests(
-        CreateInterestBulkRequest request,
-        CancellationToken cancellationToken)
-    {
-        var command = new CreateInterestsCommand(request);
-        await _mediator.Send(command, cancellationToken);
-    }
-
-    [HttpPatch]
-    public async Task AddUserToInterest(
-        [FromBody] UserInterestRequest request,
-        CancellationToken cancellationToken)
-    {
-        var command = new AddUserToInterestCommand(request);
-        await _mediator.Send(command, cancellationToken);
-    }
-
-    [HttpPatch("bulk")]
-    public async Task AddUserToInterestBulk(
-        [FromBody] UserInterestsRequestBulk request,
-        CancellationToken cancellationToken)
-    {
-        var addUserInterestsCommand = new AddUserToInterestBulkCommand(request);
-        await _mediator.Send(addUserInterestsCommand, cancellationToken);
-    }
-
-    [HttpPatch("users/{userId}")]
-    public async Task AddInterestsToOneUser(
-        string userId,
-        [FromBody] string[] interestsIds,
-        CancellationToken cancellationToken)
-    {
-        var command = new AddInterestsToOneUserCommand(userId, interestsIds);
-        await _mediator.Send(command, cancellationToken);
+        var query = new GetInterestsQuery(userId);
+        return await _mediator.Send(query, cancellationToken);
     }
 
     [HttpGet("{interestId}")]
@@ -73,12 +36,22 @@ public class InterestsController : ControllerBase
         return await _mediator.Send(query, cancellationToken);
     }
 
-    [HttpGet]
-    public async Task<IEnumerable<InterestResponse>> GetInterests(
-        string? userId,
+    [HttpPost]
+    public async Task CreateInterests(
+        CreateInterestsRequest request,
         CancellationToken cancellationToken)
     {
-        var query = new GetInterestsQuery(userId);
-        return await _mediator.Send(query, cancellationToken);
+        var command = new CreateInterestsCommand(request);
+        await _mediator.Send(command, cancellationToken);
+    }
+
+    [HttpPatch("users/{userId}")]
+    public async Task AddInterestsToUser(
+        string userId,
+        [FromBody] string[] interestsIds,
+        CancellationToken cancellationToken)
+    {
+        var command = new AddInterestsToOneUserCommand(userId, interestsIds);
+        await _mediator.Send(command, cancellationToken);
     }
 }
