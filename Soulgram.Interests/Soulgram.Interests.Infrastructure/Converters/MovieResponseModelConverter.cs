@@ -7,8 +7,10 @@ namespace Soulgram.Interests.Infrastructure.Converters;
 
 public static class MovieResponseModelConverter
 {
-    public static MovieSearchResponse ToMovieSearchResponse(this MovieResponseModel response)
+    public static MovieSearchResponse? ToMovieSearchResponse(this MovieResponseModel? response)
     {
+        if (response == null) return null;
+
         var genres = response.Genre
             ?.Where(g => !string.IsNullOrEmpty(g))
             .Select(g => g.ToGenreResponse());
@@ -26,9 +28,24 @@ public static class MovieResponseModelConverter
         return searchResponse;
     }
 
-    public static MovieSearchResponse ToMovieSearchResponse(this SearchMovieResult response)
+    public static MovieSearchResponse? ToMovieSearchResponse(this SearchMovieResult? response)
     {
-        throw new NotImplementedException();
+        if (response == null) return null;
+
+        var genres = response.GenreAggregated?.Genres?.Select(g => new GenreResponse(g.Text));
+        var images = new[] {response.PrimaryImage?.Url};
+
+        var converted = new MovieSearchResponse
+        {
+            ImdbId = response.Id,
+            Title = response.TitleText.Text,
+            ReleasedYear = response?.ReleaseDate?.Year,
+            BriefDescription = response?.Plot?.PlotText?.PlainText,
+            ImgUrls = images!,
+            Genres = genres
+        };
+
+        return converted;
     }
 
     private static GenreResponse ToGenreResponse(this string genreName)

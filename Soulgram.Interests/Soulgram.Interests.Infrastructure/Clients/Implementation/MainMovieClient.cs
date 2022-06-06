@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Text;
+using Microsoft.Extensions.Options;
+using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Infrastructure.Converters;
 using Soulgram.Interests.Infrastructure.Extensions;
@@ -30,13 +32,15 @@ public class MainMovieClient : IMovieDatabaseClient
         return result.Names;
     }
 
-    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(string name, CancellationToken cancellationToken)
+    public async Task<IEnumerable<MovieSearchResponse?>> GetMoviesByName(
+        SearchMovieRequest request,
+        CancellationToken cancellationToken)
     {
-        var url = $"titles/search/title/{name}?info=base_info&limit=1&page=1&titleType=movie";
+        var url = $"titles/search/title/{request.Name}?info=base_info&limit={request.Limit}&page={request.Page}&titleType=movie";
         var result = await _httpClient.GetHttpResult<SearchMovieRoot>(url, cancellationToken);
 
-        if (result.Results.Count == 0) return Enumerable.Empty<MovieSearchResponse>();
-
-        return result.Results.Select(r => r.ToMovieSearchResponse());
+        return result.Results?.Count == 0
+            ? Enumerable.Empty<MovieSearchResponse>()
+            : result.Results!.Select(r => r.ToMovieSearchResponse());
     }
 }

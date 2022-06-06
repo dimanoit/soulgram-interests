@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries;
 
@@ -17,9 +18,11 @@ public class MoviesController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<MovieSearchResponse>> SearchByName(string name)
+    public async Task<IEnumerable<MovieSearchResponse>> SearchByName(
+        [FromQuery] SearchMovieRequest request,
+        CancellationToken cancellationToken)
     {
-        var query = new SearchMoviesByNameQuery(name);
-        return await _mediator.Send(query);
+        var query = new SearchMoviesByNameQuery(request);
+        return await _mediator.Send(query, cancellationToken);
     }
 }

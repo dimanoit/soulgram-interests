@@ -11,10 +11,10 @@ public class TitleType
     public string Id { get; set; }
 
     [JsonPropertyName("isSeries")]
-    public bool IsSeries { get; set; }
+    public bool? IsSeries { get; set; }
 
     [JsonPropertyName("isEpisode")]
-    public bool IsEpisode { get; set; }
+    public bool? IsEpisode { get; set; }
 
     [JsonPropertyName("__typename")]
     public string Typename { get; set; }

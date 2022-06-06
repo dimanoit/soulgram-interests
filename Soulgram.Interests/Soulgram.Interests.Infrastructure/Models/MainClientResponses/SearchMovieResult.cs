@@ -5,41 +5,41 @@ namespace Soulgram.Interests.Infrastructure.Models.MainClientResponses;
 public class SearchMovieResult
 {
     [JsonPropertyName("id")]
-    public string Id { get; set; }
+    public string Id { get; init; } = null!;
 
     [JsonPropertyName("ratingsSummary")]
-    public RatingsSummary RatingsSummary { get; set; }
+    public RatingsSummary? RatingsSummary { get; init; }
 
     [JsonPropertyName("episodes")]
-    public object Episodes { get; set; }
+    public object? Episodes { get; init; }
 
     [JsonPropertyName("primaryImage")]
-    public PrimaryImage PrimaryImage { get; set; }
+    public PrimaryImage? PrimaryImage { get; init; }
 
     [JsonPropertyName("titleType")]
-    public TitleType TitleType { get; set; }
+    public TitleType? TitleType { get; init; }
 
     [JsonPropertyName("genres")]
-    public Genre[] Genres { get; set; }
+    public GenreAggregated? GenreAggregated { get; init; }
 
     [JsonPropertyName("titleText")]
-    public TitleText TitleText { get; set; }
+    public TitleText TitleText { get; init; } = null!;
 
     [JsonPropertyName("releaseYear")]
-    public ReleaseYear ReleaseYear { get; set; }
+    public ReleaseYear? ReleaseYear { get; init; }
 
     [JsonPropertyName("releaseDate")]
-    public ReleaseDate ReleaseDate { get; set; }
+    public ReleaseDate? ReleaseDate { get; init; }
 
     [JsonPropertyName("runtime")]
-    public Runtime Runtime { get; set; }
+    public Runtime? Runtime { get; init; }
 
     [JsonPropertyName("series")]
-    public object Series { get; set; }
+    public object? Series { get; init; }
 
     [JsonPropertyName("meterRanking")]
-    public object MeterRanking { get; set; }
+    public object? MeterRanking { get; init; }
 
     [JsonPropertyName("plot")]
-    public Plot Plot { get; set; }
+    public Plot? Plot { get; init; }
 }

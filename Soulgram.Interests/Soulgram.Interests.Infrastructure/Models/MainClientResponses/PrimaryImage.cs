@@ -8,10 +8,10 @@ public class PrimaryImage
     public string Id { get; set; }
 
     [JsonPropertyName("width")]
-    public int Width { get; set; }
+    public int? Width { get; set; }
 
     [JsonPropertyName("height")]
-    public int Height { get; set; }
+    public int? Height { get; set; }
 
     [JsonPropertyName("url")]
     public string Url { get; set; }

@@ -1,4 +1,5 @@
 ﻿using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Infrastructure.Facades;
 
@@ -21,11 +22,11 @@ public class MovieService : IMovieService
 
         return result.Where(n => !string.IsNullOrEmpty(n)).ToArray();
     }
-
+    
     public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(
-        string name,
+        SearchMovieRequest request,
         CancellationToken cancellationToken)
     {
-        return await _facade.GetMoviesByName(name, cancellationToken);
+        return await _facade.GetMoviesByName(request, cancellationToken);
     }
 }

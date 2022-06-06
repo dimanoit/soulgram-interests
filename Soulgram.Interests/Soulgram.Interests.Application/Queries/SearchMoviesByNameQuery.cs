@@ -1,21 +1,22 @@
 ﻿using MediatR;
 using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
 
 namespace Soulgram.Interests.Application.Queries;
 
 public class SearchMoviesByNameQuery : IRequest<IEnumerable<MovieSearchResponse>>
 {
-    public SearchMoviesByNameQuery(string name)
+    public SearchMoviesByNameQuery(SearchMovieRequest request)
     {
-        Name = name;
+        Request = request;
     }
 
-    public string Name { get; }
+    public SearchMovieRequest Request { get; }
 }
 
-internal class
-    SearchMoviesByNameQueryHandler : IRequestHandler<SearchMoviesByNameQuery, IEnumerable<MovieSearchResponse>>
+internal class SearchMoviesByNameQueryHandler
+    : IRequestHandler<SearchMoviesByNameQuery, IEnumerable<MovieSearchResponse>>
 {
     private readonly IMovieService _movieService;
 
@@ -24,9 +25,10 @@ internal class
         _movieService = movieService;
     }
 
-    public async Task<IEnumerable<MovieSearchResponse>> Handle(SearchMoviesByNameQuery request,
+    public async Task<IEnumerable<MovieSearchResponse>> Handle(
+        SearchMoviesByNameQuery query,
         CancellationToken cancellationToken)
     {
-        return await _movieService.GetMoviesByName(request.Name, cancellationToken);
+        return await _movieService.GetMoviesByName(query.Request, cancellationToken);
     }
 }

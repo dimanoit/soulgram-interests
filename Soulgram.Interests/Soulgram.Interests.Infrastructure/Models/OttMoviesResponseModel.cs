@@ -8,5 +8,5 @@ public class OttMoviesResponseModel
     public int Page { get; init; }
 
     [JsonPropertyName("results")]
-    public IEnumerable<MovieResponseModel>? Results { get; init; }
+    public ICollection<MovieResponseModel>? Results { get; init; }
 }

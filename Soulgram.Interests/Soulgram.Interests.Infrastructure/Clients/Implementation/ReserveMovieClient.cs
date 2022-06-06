@@ -27,15 +27,16 @@ public class ReserveMovieClient : IReserveMovieClient
         return await _httpClient.GetHttpResult<ICollection<string>>(url, cancellationToken);
     }
 
-    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(string name,
+    public async Task<IEnumerable<MovieSearchResponse?>> GetMoviesByName(
+        string name,
+        int page,
         CancellationToken cancellationToken)
     {
-        var url = $"search?title={name}&page=1";
+        var url = $"search?title={name}&page={page}";
         var response = await _httpClient.GetHttpResult<OttMoviesResponseModel?>(url, cancellationToken);
 
-        if (response?.Results == null) return Enumerable.Empty<MovieSearchResponse>();
-
-        return response.Results
-            .Select(r => r.ToMovieSearchResponse());
+        return response?.Results?.Count == 0
+            ? Enumerable.Empty<MovieSearchResponse>()
+            : response!.Results!.Select(r => r.ToMovieSearchResponse());    
     }
 }

@@ -12,7 +12,4 @@ public class Genre
 
     [JsonPropertyName("__typename")]
     public string Typename { get; set; }
-
-    [JsonPropertyName("genres")]
-    public List<Domain.Genre> Genres { get; set; }
 }
