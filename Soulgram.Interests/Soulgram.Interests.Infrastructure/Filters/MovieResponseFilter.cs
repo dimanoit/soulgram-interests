@@ -1,19 +1,14 @@
-﻿using Soulgram.Interests.Infrastructure.Models;
+﻿using Soulgram.Interests.Application.Models.Response;
 
 namespace Soulgram.Interests.Infrastructure.Filters;
 
 public class MovieResponseFilter : IMovieResponseFilter
 {
-    private readonly string[] _movieTypes = { "movie", "tvMovie" };
-    private readonly int _paginator = 5;
-
-    public IEnumerable<MovieResponseModel> Filter(IEnumerable<MovieResponseModel>? models)
+    public IEnumerable<MovieSearchResponse> Filter(int limit, IEnumerable<MovieSearchResponse> models)
     {
-        if (models == null) return Enumerable.Empty<MovieResponseModel>();
-
         return models
-            .Where(mrm => !string.IsNullOrEmpty(mrm.BriefDescription))
-            .Where(mrm => _movieTypes.Contains(mrm.Type))
-            .Take(_paginator);
+            .Where(r => !string.IsNullOrEmpty(r.BriefDescription))
+            .Where(r => r.ImgUrls != null && r.ImgUrls.Any(img => !string.IsNullOrEmpty(img)))
+            .Take(limit);
     }
 }

@@ -10,6 +10,7 @@ namespace Soulgram.Interests.Infrastructure.Clients.Implementation;
 public class ReserveMovieClient : IReserveMovieClient
 {
     private readonly HttpClient _httpClient;
+    private readonly string[] _movieTypes = {"movie", "tvMovie"};
 
     public ReserveMovieClient(
         IOptions<OttClientSettings> settings,
@@ -27,7 +28,7 @@ public class ReserveMovieClient : IReserveMovieClient
         return await _httpClient.GetHttpResult<ICollection<string>>(url, cancellationToken);
     }
 
-    public async Task<IEnumerable<MovieSearchResponse?>> GetMoviesByName(
+    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(
         string name,
         int page,
         CancellationToken cancellationToken)
@@ -37,6 +38,9 @@ public class ReserveMovieClient : IReserveMovieClient
 
         return response?.Results?.Count == 0
             ? Enumerable.Empty<MovieSearchResponse>()
-            : response!.Results!.Select(r => r.ToMovieSearchResponse());    
+            : response!.Results!
+                .Where(m => m != null)
+                .Where(mrm => _movieTypes.Contains(mrm.Type))
+                .Select(r => r.ToMovieSearchResponse());
     }
 }

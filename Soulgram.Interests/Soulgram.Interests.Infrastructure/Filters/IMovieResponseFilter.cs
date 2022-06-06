@@ -1,8 +1,9 @@
-﻿using Soulgram.Interests.Infrastructure.Models;
+﻿using Soulgram.Interests.Application.Models.Response;
+using Soulgram.Interests.Infrastructure.Models;
 
 namespace Soulgram.Interests.Infrastructure.Filters;
 
 public interface IMovieResponseFilter
 {
-    public IEnumerable<MovieResponseModel> Filter(IEnumerable<MovieResponseModel> models);
+    public IEnumerable<MovieSearchResponse> Filter(int limit, IEnumerable<MovieSearchResponse> models);
 }
