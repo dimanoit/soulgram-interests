@@ -36,7 +36,7 @@ public class MainMovieClient : IMovieDatabaseClient
         SearchMovieRequest request,
         CancellationToken cancellationToken)
     {
-        var url = $"titles/search/title/{request.Name}?info=base_info&limit={request.Limit}&page={request.Page}&titleType=movie";
+        var url = BuildSearchMovieUrl(request);
         var result = await _httpClient.GetHttpResult<SearchMovieRoot>(url, cancellationToken);
 
         return result.Results?.Count == 0
@@ -44,5 +44,16 @@ public class MainMovieClient : IMovieDatabaseClient
             : result.Results!
                 .Where(m => m != null)
                 .Select(r => r.ToMovieSearchResponse());
+    }
+
+    // TODO maybe build with StringBuilder or Span
+    private string BuildSearchMovieUrl(SearchMovieRequest request)
+    {
+        var baseUrl = $"titles/search/title/{request.Name}?info=base_info&titleType=movie";
+        var sort = "&sort=year.decr";
+        var limit = $"&limit={request.Limit}";
+        var page = $"&page={request.Page}";
+
+        return baseUrl + sort + limit + page;
     }
 }
