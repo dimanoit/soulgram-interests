@@ -7,17 +7,14 @@ namespace Soulgram.Interests.Persistence.DataAccessors;
 
 public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument : class
 {
+    private readonly IMongoConnection<TDocument> _connection;
     public MongoRepository(IMongoConnection<TDocument> connection)
     {
-        if (connection == null)
-        {
-            throw new ArgumentNullException(nameof(connection));
-        }
-
-        Collection = connection.MongoCollection;
+        _connection = connection ?? throw new ArgumentNullException(nameof(connection));
     }
 
-    protected IMongoCollection<TDocument> Collection { get; }
+    protected IMongoCollection<TDocument> Collection => _connection.MongoCollection;
+    
 
     public async Task<ICollection<TDocument>> FilterByAsync(
         Expression<Func<TDocument, bool>> filterExpression)
