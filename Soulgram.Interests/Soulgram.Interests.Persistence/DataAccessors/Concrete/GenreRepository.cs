@@ -8,9 +8,7 @@ namespace Soulgram.Interests.Persistence.DataAccessors;
 public class GenreRepository : MongoRepository<Genre>, IGenreRepository
 {
     public GenreRepository(IMongoConnection<Genre> connection)
-        : base(connection)
-    {
-    }
+        : base(connection) { }
 
     public async Task AddUserIdToGenre(string genreId, string userId)
     {
