@@ -4,7 +4,7 @@ namespace Soulgram.Interests.Application.Interfaces;
 
 public interface IInterestsRepository : IRepository<Interest>
 {
-    Task AddInterestsToOneUser(
+    Task AddUserToInterests(
         string userId,
         string[] interestsIds,
         CancellationToken cancellationToken);

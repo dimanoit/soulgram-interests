@@ -3,11 +3,11 @@ using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Domain;
 using Soulgram.Interests.Persistence.Interfaces;
 
-namespace Soulgram.Interests.Persistence.DataAccessors;
+namespace Soulgram.Interests.Persistence.DataAccessors.Concrete;
 
 public class GenreRepository : MongoRepository<Genre>, IGenreRepository
 {
-    public GenreRepository(IMongoConnection<Genre> connection)
+    public GenreRepository(IMongoConnection connection)
         : base(connection) { }
 
     public async Task AddUserIdToGenre(string genreId, string userId)

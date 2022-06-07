@@ -7,20 +7,14 @@ namespace Soulgram.Interests.Persistence.DataAccessors;
 
 public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument : class
 {
-    private readonly IMongoConnection<TDocument> _connection;
-    public MongoRepository(IMongoConnection<TDocument> connection)
+    private readonly IMongoConnection _connection;
+
+    public MongoRepository(IMongoConnection connection)
     {
         _connection = connection ?? throw new ArgumentNullException(nameof(connection));
     }
 
-    protected IMongoCollection<TDocument> Collection => _connection.MongoCollection;
-    
-
-    public async Task<ICollection<TDocument>> FilterByAsync(
-        Expression<Func<TDocument, bool>> filterExpression)
-    {
-        return await Collection.Find(filterExpression).ToListAsync();
-    }
+    protected IMongoCollection<TDocument> Collection => _connection.GetMongoCollection<TDocument>();
 
     public async Task<ICollection<TProjected>> FilterByAsync<TProjected>(
         Expression<Func<TDocument, bool>> filterExpression,
@@ -30,15 +24,6 @@ public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument
             .Find(filterExpression)
             .Project(projectionExpression)
             .ToListAsync();
-    }
-
-    public async Task<TDocument> FindOneAsync(
-        Expression<Func<TDocument, bool>> filterExpression,
-        CancellationToken cancellationToken)
-    {
-        return await Collection
-            .Find(filterExpression)
-            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<TProjected> FindOneAsync<TProjected>(
@@ -80,5 +65,12 @@ public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument
     public async Task DeleteManyAsync(Expression<Func<TDocument, bool>> filterExpression)
     {
         await Collection.DeleteManyAsync(filterExpression);
+    }
+
+
+    public async Task<ICollection<TDocument>> FilterByAsync(
+        Expression<Func<TDocument, bool>> filterExpression)
+    {
+        return await Collection.Find(filterExpression).ToListAsync();
     }
 }

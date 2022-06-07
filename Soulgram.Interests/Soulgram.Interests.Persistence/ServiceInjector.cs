@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Persistence.DataAccessors;
+using Soulgram.Interests.Persistence.DataAccessors.Concrete;
 using Soulgram.Interests.Persistence.Interfaces;
 using Soulgram.Interests.Persistence.Migration.ModelMappers;
 using Soulgram.Interests.Persistence.Models;
@@ -25,7 +26,7 @@ public static class ServiceInjector
         services.AddSingleton<IMongoClient, MongoClient>(sp
             => new MongoClient(interestsDbSettings.ConnectionString));
 
-        services.AddScoped(typeof(IMongoConnection<>), typeof(MongoConnection<>));
+        services.AddScoped<IMongoConnection, MongoConnection>();
         services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
         services.AddScoped<IGenreRepository, GenreRepository>();
         services.AddScoped<IInterestsRepository, InterestsRepository>();

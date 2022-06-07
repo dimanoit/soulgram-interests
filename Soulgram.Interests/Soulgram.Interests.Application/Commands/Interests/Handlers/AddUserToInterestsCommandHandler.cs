@@ -4,12 +4,12 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Commands.Interests.Handlers;
 
-internal class AddInterestsToOneUserCommandHandler : IRequestHandler<AddInterestsToOneUserCommand>
+internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInterestsCommand>
 {
     private readonly IInterestsRepository _interestsRepository;
     private readonly IUserFavoritesRepository _userFavoritesRepository;
-    
-    public AddInterestsToOneUserCommandHandler(
+
+    public AddUserToInterestsCommandHandler(
         IInterestsRepository interestsRepository,
         IUserFavoritesRepository userFavoritesRepository)
     {
@@ -17,14 +17,19 @@ internal class AddInterestsToOneUserCommandHandler : IRequestHandler<AddInterest
         _userFavoritesRepository = userFavoritesRepository;
     }
 
-    public async Task<Unit> Handle(AddInterestsToOneUserCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(AddUserToInterestsCommand request, CancellationToken cancellationToken)
     {
-        await _userFavoritesRepository
-            .AddOrCreateFavorites<Interest>(request.UserId, request.InterestsIds,cancellationToken);
-        
+        var userFavorites = new UserFavorites
+        {
+            UserId = request.UserId,
+            InterestsIds = request.InterestsIds
+        };
+
+        await _userFavoritesRepository.InsertOneAsync(userFavorites, cancellationToken);
+
         await _interestsRepository
-            .AddInterestsToOneUser(request.UserId, request.InterestsIds, cancellationToken);
-        
+            .AddUserToInterests(request.UserId, request.InterestsIds, cancellationToken);
+
         return Unit.Value;
     }
 }

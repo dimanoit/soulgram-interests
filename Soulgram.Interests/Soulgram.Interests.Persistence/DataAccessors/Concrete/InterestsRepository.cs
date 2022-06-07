@@ -3,14 +3,14 @@ using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Domain;
 using Soulgram.Interests.Persistence.Interfaces;
 
-namespace Soulgram.Interests.Persistence.DataAccessors;
+namespace Soulgram.Interests.Persistence.DataAccessors.Concrete;
 
 public class InterestsRepository : MongoRepository<Interest>, IInterestsRepository
 {
-    public InterestsRepository(IMongoConnection<Interest> connection)
+    public InterestsRepository(IMongoConnection connection)
         : base(connection) { }
 
-    public async Task AddInterestsToOneUser(
+    public async Task AddUserToInterests(
         string userId,
         string[] interestsIds,
         CancellationToken cancellationToken)

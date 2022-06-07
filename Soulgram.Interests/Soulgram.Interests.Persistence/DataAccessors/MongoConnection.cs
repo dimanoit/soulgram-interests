@@ -5,7 +5,7 @@ using Soulgram.Interests.Persistence.Models;
 
 namespace Soulgram.Interests.Persistence.DataAccessors;
 
-public class MongoConnection<TDocument> : IMongoConnection<TDocument>
+public class MongoConnection : IMongoConnection
 {
     private readonly IMongoClient _mongoClient;
 
@@ -18,12 +18,15 @@ public class MongoConnection<TDocument> : IMongoConnection<TDocument>
 
         Database = _mongoClient.GetDatabase(interestsDbSettings.Value.DatabaseName)
                    ?? throw new ArgumentNullException(nameof(IMongoDatabase));
-
-        var collectionName = typeof(TDocument).Name;
-        MongoCollection = Database.GetCollection<TDocument>(collectionName);
     }
 
-    public IMongoDatabase Database { get; }
-    public IMongoCollection<TDocument> MongoCollection { get; }
+    private IMongoDatabase Database { get; }
+
     public Task<IClientSessionHandle> Session => _mongoClient.StartSessionAsync();
+
+    public IMongoCollection<TDocument> GetMongoCollection<TDocument>()
+    {
+        var collectionName = typeof(TDocument).Name;
+        return Database.GetCollection<TDocument>(collectionName);
+    }
 }

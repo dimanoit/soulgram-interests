@@ -51,7 +51,7 @@ public class InterestsController : ControllerBase
         [FromBody] string[] interestsIds,
         CancellationToken cancellationToken)
     {
-        var command = new AddInterestsToOneUserCommand(userId, interestsIds);
+        var command = new AddUserToInterestsCommand(userId, interestsIds);
         await _mediator.Send(command, cancellationToken);
     }
 }

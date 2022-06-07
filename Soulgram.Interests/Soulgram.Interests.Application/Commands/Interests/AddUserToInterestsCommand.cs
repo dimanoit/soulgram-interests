@@ -2,9 +2,9 @@
 
 namespace Soulgram.Interests.Application.Commands.Interests;
 
-public class AddInterestsToOneUserCommand : IRequest
+public class AddUserToInterestsCommand : IRequest
 {
-    public AddInterestsToOneUserCommand(string userId, string[] interestsIds)
+    public AddUserToInterestsCommand(string userId, string[] interestsIds)
     {
         UserId = userId;
         InterestsIds = interestsIds;
