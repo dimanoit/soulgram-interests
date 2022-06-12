@@ -20,19 +20,10 @@ public class InterestsController : ControllerBase
 
     [HttpGet]
     public async Task<IEnumerable<InterestResponse>> GetInterests(
-        string? userId,
+        [FromQuery] string[] interestsIds,
         CancellationToken cancellationToken)
     {
-        var query = new GetInterestsQuery(userId);
-        return await _mediator.Send(query, cancellationToken);
-    }
-
-    [HttpGet("{interestId}")]
-    public async Task<InterestResponse> GetInterest(
-        string interestId,
-        CancellationToken cancellationToken)
-    {
-        var query = new GetInterestQuery(interestId);
+        var query = new GetInterestsQuery(interestsIds);
         return await _mediator.Send(query, cancellationToken);
     }
 

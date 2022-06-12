@@ -1,5 +1,6 @@
 using System.Linq.Expressions;
 using MediatR;
+using Soulgram.Interests.Application.Converters;
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
@@ -8,12 +9,12 @@ namespace Soulgram.Interests.Application.Queries;
 
 public class GetInterestsQuery : IRequest<IEnumerable<InterestResponse>>
 {
-    public GetInterestsQuery(string? userId)
+    public GetInterestsQuery(string[] interestsIds)
     {
-        UserId = userId;
+        InterestsIds = interestsIds;
     }
 
-    public string? UserId { get; }
+    public string[] InterestsIds { get; }
 }
 
 internal class GetInterestsQueryHandler : IRequestHandler<GetInterestsQuery, IEnumerable<InterestResponse>>
@@ -30,20 +31,15 @@ internal class GetInterestsQueryHandler : IRequestHandler<GetInterestsQuery, IEn
         CancellationToken cancellationToken)
     {
         Expression<Func<Interest, bool>> expression;
-        if (string.IsNullOrEmpty(request.UserId))
+        if (request.InterestsIds.Any())
         {
-            expression = f => f.Id != null;
+            expression = f => request.InterestsIds.Contains(f.Id);
         }
         else
         {
-            expression = f => f.UsersIds.Contains(request.UserId);
+            expression = f => f.Id != null;
         }
 
-        return await _repository.FilterByAsync(expression,
-            f => new InterestResponse
-            {
-                Id = f.Id!,
-                Name = f.Name
-            });
+        return await _repository.FilterByAsync(expression, interest => interest.ToInterestResponse());
     }
 }
