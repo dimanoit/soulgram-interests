@@ -25,7 +25,10 @@ internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInter
             InterestsIds = request.InterestsIds
         };
 
-        await _userFavoritesRepository.InsertOneAsync(userFavorites, cancellationToken);
+        var isExistFavorites = await _userFavoritesRepository.IsExistAsync(request.UserId, cancellationToken);
+
+        if (isExistFavorites) await _userFavoritesRepository.PushAsync(userFavorites, cancellationToken);
+        else await _userFavoritesRepository.InsertOneAsync(userFavorites, cancellationToken);
 
         await _interestsRepository
             .AddUserToInterests(request.UserId, request.InterestsIds, cancellationToken);
