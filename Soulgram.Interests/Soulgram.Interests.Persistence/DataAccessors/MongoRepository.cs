@@ -18,12 +18,13 @@ public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument
 
     public async Task<ICollection<TProjected>> FilterByAsync<TProjected>(
         Expression<Func<TDocument, bool>> filterExpression,
-        Expression<Func<TDocument, TProjected>> projectionExpression)
+        Expression<Func<TDocument, TProjected>> projectionExpression,
+        CancellationToken cancellationToken = default)
     {
         return await Collection
             .Find(filterExpression)
             .Project(projectionExpression)
-            .ToListAsync();
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<TProjected> FindOneAsync<TProjected>(
