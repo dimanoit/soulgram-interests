@@ -27,7 +27,8 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand>
             BriefDescription = command.Request.BriefDescription,
             ReleasedYear = command.Request.ReleasedYear,
             ImgUrls = command.Request.ImgUrls,
-            GenresNames = command.Request.Genres
+            GenresNames = command.Request.Genres,
+            UsersIds = new[] {command.Request.UserId!}
         };
 
         await CreateGenresIfNoExists(movie.GenresNames?.ToArray());
