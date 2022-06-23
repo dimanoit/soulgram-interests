@@ -28,7 +28,7 @@ public class ReserveMovieClient : IReserveMovieClient
         return await _httpClient.GetHttpResult<ICollection<string>>(url, cancellationToken);
     }
 
-    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(
+    public async Task<IEnumerable<MovieSearchResponse>?> GetMoviesByName(
         string name,
         int page,
         CancellationToken cancellationToken)

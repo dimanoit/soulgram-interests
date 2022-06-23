@@ -6,7 +6,7 @@ public interface IReserveMovieClient
 {
     Task<ICollection<string>> GetGenresAsync(CancellationToken cancellationToken);
 
-    Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(
+    Task<IEnumerable<MovieSearchResponse>?> GetMoviesByName(
         string name,
         int page,
         CancellationToken cancellationToken);

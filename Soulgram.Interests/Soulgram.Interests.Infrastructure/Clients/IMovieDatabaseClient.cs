@@ -7,7 +7,7 @@ public interface IMovieDatabaseClient
 {
     Task<ICollection<string>> GetGenresAsync(CancellationToken cancellationToken);
 
-    Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(
+    Task<IEnumerable<MovieSearchResponse>?> GetMoviesByName(
         SearchMovieRequest request,
         CancellationToken cancellationToken);
 }

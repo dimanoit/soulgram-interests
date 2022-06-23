@@ -32,7 +32,7 @@ public class MainMovieClient : IMovieDatabaseClient
         return result.Names;
     }
 
-    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(
+    public async Task<IEnumerable<MovieSearchResponse>?> GetMoviesByName(
         SearchMovieRequest request,
         CancellationToken cancellationToken)
     {

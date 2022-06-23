@@ -5,6 +5,7 @@ using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Request.Movies;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries;
+using Soulgram.Interests.Application.Queries.Movies;
 
 namespace Soulgram.Interests.Api.Controllers;
 

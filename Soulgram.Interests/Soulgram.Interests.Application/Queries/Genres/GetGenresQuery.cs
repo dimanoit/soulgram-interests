@@ -6,7 +6,7 @@ using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
 
-namespace Soulgram.Interests.Application.Queries;
+namespace Soulgram.Interests.Application.Queries.Genres;
 
 public class GetGenresQuery : IRequest<ICollection<GenreResponse>>
 {

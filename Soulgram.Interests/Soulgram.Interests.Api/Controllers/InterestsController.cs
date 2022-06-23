@@ -4,6 +4,7 @@ using Soulgram.Interests.Application.Commands.Interests;
 using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries;
+using Soulgram.Interests.Application.Queries.Interests;
 
 namespace Soulgram.Interests.Api.Controllers;
 

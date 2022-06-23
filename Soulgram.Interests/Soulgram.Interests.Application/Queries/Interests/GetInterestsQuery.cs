@@ -5,7 +5,7 @@ using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
 
-namespace Soulgram.Interests.Application.Queries;
+namespace Soulgram.Interests.Application.Queries.Interests;
 
 public class GetInterestsQuery : IRequest<IEnumerable<InterestResponse>>
 {

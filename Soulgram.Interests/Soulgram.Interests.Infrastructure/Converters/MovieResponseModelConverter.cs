@@ -38,7 +38,7 @@ public static class MovieResponseModelConverter
         var converted = new MovieSearchResponse
         {
             ImdbId = response.Id,
-            Title = response.TitleText.Text,
+            Title = response.TitleText.Text!,
             ReleasedYear = response?.ReleaseDate?.Year,
             BriefDescription = response?.Plot?.PlotText?.PlainText,
             ImgUrls = images!,

@@ -34,7 +34,7 @@ public class MovieFacade : IMovieFacade
         }
     }
 
-    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(
+    public async Task<IEnumerable<MovieSearchResponse>?> GetMoviesByName(
         SearchMovieRequest request,
         CancellationToken cancellationToken)
     {
