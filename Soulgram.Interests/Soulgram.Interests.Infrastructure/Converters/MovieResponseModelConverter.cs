@@ -13,7 +13,7 @@ public static class MovieResponseModelConverter
 
         var genres = response.Genre
             ?.Where(g => !string.IsNullOrEmpty(g))
-            .Select(g => g.ToGenreResponse());
+            .Select(g => g.ToMovieGenreResponse());
 
         var searchResponse = new MovieSearchResponse
         {
@@ -32,7 +32,11 @@ public static class MovieResponseModelConverter
     {
         if (response == null) return null;
 
-        var genres = response.GenreAggregated?.Genres?.Select(g => new GenreResponse(g?.Text));
+        var genres = response
+            .GenreAggregated?
+            .Genres?
+            .Select(g => new MovieGenreResponse(g.Text!));
+        
         var images = new[] {response.PrimaryImage?.Url};
 
         var converted = new MovieSearchResponse
@@ -48,9 +52,9 @@ public static class MovieResponseModelConverter
         return converted;
     }
 
-    private static GenreResponse ToGenreResponse(this string genreName)
+    private static MovieGenreResponse ToMovieGenreResponse(this string genreName)
     {
         // TODO get genre from DB and validate that we have this genre( mb better do it while insert movie to user)
-        return new GenreResponse(genreName);
+        return new MovieGenreResponse(genreName);
     }
 }

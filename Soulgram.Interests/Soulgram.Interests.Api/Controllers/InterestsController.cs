@@ -45,7 +45,7 @@ public class InterestsController : ControllerBase
         var command = new CreateInterestsCommand(request);
         await _mediator.Send(command, cancellationToken);
     }
-
+    
     [HttpPatch("users/{userId}")]
     public async Task AddInterestsToUser(
         [FromRoute] string userId,

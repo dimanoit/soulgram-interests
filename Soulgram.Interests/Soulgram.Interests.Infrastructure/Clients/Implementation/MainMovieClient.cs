@@ -32,8 +32,7 @@ public class MainMovieClient : IMovieDatabaseClient
         return result.Names;
     }
 
-    public async Task<IEnumerable<MovieSearchResponse>?> GetMoviesByName(
-        SearchMovieRequest request,
+    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(SearchMovieRequest request,
         CancellationToken cancellationToken)
     {
         var url = BuildSearchMovieUrl(request);
@@ -41,7 +40,8 @@ public class MainMovieClient : IMovieDatabaseClient
 
         return result.Results?.Count == 0
             ? Enumerable.Empty<MovieSearchResponse>()
-            : result.Results!
+            : result
+                .Results!
                 .Where(m => m != null)
                 .Select(r => r.ToMovieSearchResponse());
     }

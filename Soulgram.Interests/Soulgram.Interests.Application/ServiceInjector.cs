@@ -2,6 +2,8 @@ using System.Reflection;
 using MediatR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Services;
 using Soulgram.Logging;
 using Soulgram.Logging.Models;
 
@@ -15,6 +17,8 @@ public static class ServiceInjector
         services
             .AddMediatR(currentAssembly)
             .AddLogging(configuration);
+
+        services.AddScoped<IUserFavoritesService, UserFavoritesService>();
     }
 
 

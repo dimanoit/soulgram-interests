@@ -1,7 +1,7 @@
-namespace Soulgram.Interests.Application.Models.Request;
+namespace Soulgram.Interests.Application.Models.Request.Genres;
 
 public record CreateGenresBulkRequest
 {
-    public string[] GenreName { get; init; } = null!;
+    public ICollection<string> GenreName { get; init; } = null!;
     public string? UserId { get; init; }
 }

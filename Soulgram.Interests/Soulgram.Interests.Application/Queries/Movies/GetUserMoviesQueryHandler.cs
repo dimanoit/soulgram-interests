@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Soulgram.Interests.Application.Converters;
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
@@ -16,7 +17,9 @@ public class GetUserMoviesQueryHandler : IRequestHandler<GetUserMoviesQuery, ICo
         _favoritesRepository = favoritesRepository;
     }
 
-    public async Task<ICollection<MovieSearchResponse>?> Handle(GetUserMoviesQuery request, CancellationToken cancellationToken)
+    public async Task<ICollection<MovieSearchResponse>?> Handle(
+        GetUserMoviesQuery request,
+        CancellationToken cancellationToken)
     {
         var moviesIds = await _favoritesRepository.FindOneAsync(
             uf => uf.UserId == request.UserId,
@@ -30,17 +33,7 @@ public class GetUserMoviesQueryHandler : IRequestHandler<GetUserMoviesQuery, ICo
         
         var movies = await _repository.FilterByAsync(
             m => moviesIds.Contains(m.Id),
-            movie => new MovieSearchResponse
-            {
-                ImdbId = movie.ImdbId,
-                Title = movie.Title,
-                BriefDescription = movie.BriefDescription,
-                ReleasedYear = movie.ReleasedYear,
-                Genres = movie.GenresNames == null
-                    ? Enumerable.Empty<GenreResponse>()
-                    : movie.GenresNames.Select(m => new GenreResponse(m)),
-                ImgUrls = movie.ImgUrls
-            },
+            movie => movie.ToMovieSearchResponse(),
             cancellationToken);
 
         return movies;
