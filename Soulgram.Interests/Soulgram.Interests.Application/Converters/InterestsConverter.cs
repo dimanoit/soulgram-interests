@@ -7,19 +7,23 @@ public static class InterestsConverter
 {
     public static Interest ToInterest(this string name)
     {
-        return new Interest
+        var interest = new Interest
         {
             Name = name,
             UsersIds = Array.Empty<string>()
         };
+
+        return interest;
     }
 
     public static InterestResponse ToInterestResponse(this Interest interest)
     {
-        return new InterestResponse
+        var response = new InterestResponse
         {
             Id = interest.Id!,
             Name = interest.Name
         };
+
+        return response;
     }
 }
