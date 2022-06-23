@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Soulgram.Interests.Application;
 using Soulgram.Interests.Application.Commands.Genres;
 using Soulgram.Interests.Application.Models.Request;
+using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries;
 
 namespace Soulgram.Interests.Api.Controllers;

@@ -5,11 +5,11 @@ namespace Soulgram.Interests.Infrastructure.Models.MainClientResponses;
 public class Genre
 {
     [JsonPropertyName("text")]
-    public string Text { get; set; }
+    public string? Text { get; set; }
 
     [JsonPropertyName("id")]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     [JsonPropertyName("__typename")]
-    public string Typename { get; set; }
+    public string? Typename { get; set; }
 }

@@ -3,6 +3,7 @@ using MediatR;
 using Soulgram.Interests.Application.Commands.Genres;
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Request;
+using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries;

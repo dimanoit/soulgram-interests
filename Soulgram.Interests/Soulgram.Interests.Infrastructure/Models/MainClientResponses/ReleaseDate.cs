@@ -14,5 +14,5 @@ public class ReleaseDate
     public int? Year { get; set; }
 
     [JsonPropertyName("__typename")]
-    public string Typename { get; set; }
+    public string? Typename { get; set; }
 }

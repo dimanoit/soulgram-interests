@@ -32,7 +32,7 @@ public static class MovieResponseModelConverter
     {
         if (response == null) return null;
 
-        var genres = response.GenreAggregated?.Genres?.Select(g => new GenreResponse(g.Text));
+        var genres = response.GenreAggregated?.Genres?.Select(g => new GenreResponse(g?.Text));
         var images = new[] {response.PrimaryImage?.Url};
 
         var converted = new MovieSearchResponse

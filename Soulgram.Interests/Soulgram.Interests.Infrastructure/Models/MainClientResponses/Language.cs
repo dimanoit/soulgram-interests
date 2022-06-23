@@ -5,8 +5,8 @@ namespace Soulgram.Interests.Infrastructure.Models.MainClientResponses;
 public class Language
 {
     [JsonPropertyName("id")]
-    public string Id { get; set; }
+    public string? Id { get; set; }
 
     [JsonPropertyName("__typename")]
-    public string Typename { get; set; }
+    public string? Typename { get; set; }
 }

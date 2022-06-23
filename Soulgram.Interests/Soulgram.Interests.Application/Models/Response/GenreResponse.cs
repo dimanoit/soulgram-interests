@@ -1,3 +1,3 @@
-namespace Soulgram.Interests.Application;
+namespace Soulgram.Interests.Application.Models.Response;
 
-public record GenreResponse(string Name);
+public record GenreResponse(string? Name);

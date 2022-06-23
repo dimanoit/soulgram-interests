@@ -4,8 +4,8 @@ namespace Soulgram.Interests.Infrastructure.Models.MainClientResponses;
 
 public class PrimaryImage
 {
-    [JsonPropertyName("id")]
-    public string Id { get; set; }
+    [JsonPropertyName("id")] 
+    public string Id { get; set; } = null!;
 
     [JsonPropertyName("width")]
     public int? Width { get; set; }
@@ -14,11 +14,11 @@ public class PrimaryImage
     public int? Height { get; set; }
 
     [JsonPropertyName("url")]
-    public string Url { get; set; }
+    public string? Url { get; set; }
 
     [JsonPropertyName("caption")]
-    public Caption Caption { get; set; }
+    public Caption? Caption { get; set; }
 
     [JsonPropertyName("__typename")]
-    public string Typename { get; set; }
+    public string? Typename { get; set; }
 }

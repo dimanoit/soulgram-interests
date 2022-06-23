@@ -11,5 +11,5 @@ public class RatingsSummary
     public int? VoteCount { get; set; }
 
     [JsonPropertyName("__typename")]
-    public string Typename { get; set; }
+    public string? Typename { get; set; }
 }

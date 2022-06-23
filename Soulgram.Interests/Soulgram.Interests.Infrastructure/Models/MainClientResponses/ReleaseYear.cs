@@ -8,8 +8,8 @@ public class ReleaseYear
     public int? Year { get; set; }
 
     [JsonPropertyName("endYear")]
-    public object EndYear { get; set; }
+    public object? EndYear { get; set; }
 
     [JsonPropertyName("__typename")]
-    public string Typename { get; set; }
+    public string? Typename { get; set; }
 }

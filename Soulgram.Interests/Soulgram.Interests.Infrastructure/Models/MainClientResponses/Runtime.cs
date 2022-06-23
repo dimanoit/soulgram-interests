@@ -8,5 +8,5 @@ public class Runtime
     public int? Seconds { get; set; }
 
     [JsonPropertyName("__typename")]
-    public string Typename { get; set; }
+    public string? Typename { get; set; }
 }
