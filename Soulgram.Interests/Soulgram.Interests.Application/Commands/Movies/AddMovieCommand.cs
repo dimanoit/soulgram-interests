@@ -11,5 +11,4 @@ public class AddMovieCommand : IRequest
     }
 
     public AddMovieRequest Request { get; }
-    public string UserId { get; set; }
 }

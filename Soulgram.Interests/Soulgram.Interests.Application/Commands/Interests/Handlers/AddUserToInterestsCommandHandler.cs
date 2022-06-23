@@ -7,17 +7,27 @@ namespace Soulgram.Interests.Application.Commands.Interests.Handlers;
 internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInterestsCommand>
 {
     private readonly IInterestsRepository _interestsRepository;
-    private readonly IUserFavoritesRepository _userFavoritesRepository;
+    private readonly IUserFavoritesService _userFavoritesService;
 
     public AddUserToInterestsCommandHandler(
         IInterestsRepository interestsRepository,
-        IUserFavoritesRepository userFavoritesRepository)
+        IUserFavoritesService userFavoritesService)
     {
         _interestsRepository = interestsRepository;
-        _userFavoritesRepository = userFavoritesRepository;
+        _userFavoritesService = userFavoritesService;
     }
 
     public async Task<Unit> Handle(AddUserToInterestsCommand request, CancellationToken cancellationToken)
+    {
+        await UpsertUserFavorites(request, cancellationToken);
+
+        await _interestsRepository
+            .AddUserToInterests(request.UserId, request.InterestsIds, cancellationToken);
+
+        return Unit.Value;
+    }
+
+    private async Task UpsertUserFavorites(AddUserToInterestsCommand request, CancellationToken cancellationToken)
     {
         var userFavorites = new UserFavorites
         {
@@ -25,15 +35,6 @@ internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInter
             InterestsIds = request.InterestsIds
         };
 
-        var favoriteId = await _userFavoritesRepository.GetId(request.UserId, cancellationToken);
-
-        if (string.IsNullOrEmpty(favoriteId))
-            await _userFavoritesRepository.InsertOneAsync(userFavorites, cancellationToken);
-        else await _userFavoritesRepository.PushAsync(userFavorites, cancellationToken);
-
-        await _interestsRepository
-            .AddUserToInterests(request.UserId, request.InterestsIds, cancellationToken);
-
-        return Unit.Value;
+        await _userFavoritesService.UpsertFavorites(userFavorites, cancellationToken);
     }
 }

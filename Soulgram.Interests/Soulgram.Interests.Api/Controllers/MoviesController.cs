@@ -37,14 +37,12 @@ public class MoviesController : ControllerBase
         return await _mediator.Send(query, cancellationToken);
     }
 
-    [HttpPost("{userId}")]
+    [HttpPost]
     public async Task AddMovieToUser(
-        [FromRoute] string userId,
         [FromBody] AddMovieRequest movieRequest,
         CancellationToken cancellationToken)
     {
         var command = new AddMovieCommand(movieRequest);
-        command.UserId = userId;
         await _mediator.Send(command, cancellationToken);
     }
 }
