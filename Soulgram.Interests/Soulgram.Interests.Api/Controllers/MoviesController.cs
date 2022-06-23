@@ -30,7 +30,7 @@ public class MoviesController : ControllerBase
 
     [HttpGet("{userId}")]
     public async Task<IEnumerable<MovieSearchResponse>?> GetUserMovies(
-        string userId,
+        [FromRoute] string userId,
         CancellationToken cancellationToken)
     {
         var query = new GetUserMoviesQuery(userId);
@@ -39,7 +39,7 @@ public class MoviesController : ControllerBase
 
     [HttpPost("{userId}")]
     public async Task AddMovieToUser(
-        string userId,
+        [FromRoute] string userId,
         [FromBody] AddMovieRequest movieRequest,
         CancellationToken cancellationToken)
     {
