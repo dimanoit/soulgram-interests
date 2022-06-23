@@ -6,11 +6,11 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Persistence.Migration.ModelMappers;
 
-public class UserInterestsMapper : IModelMapper
+public class InterestsMapper : IModelMapper
 {
     public void MapFields()
     {
-        BsonClassMap.RegisterClassMap<Domain.Interest>(cm =>
+        BsonClassMap.RegisterClassMap<Interest>(cm =>
         {
             cm.AutoMap();
             cm.MapIdMember(ui => ui.Id)
