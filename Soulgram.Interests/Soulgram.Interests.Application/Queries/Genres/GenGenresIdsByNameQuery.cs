@@ -38,6 +38,5 @@ public class GenGenresIdsByNameQueryHandler : IRequestHandler<GenGenresIdsByName
         return command.Names.ToDictionary(
             name => name,
             name => result.FirstOrDefault(genreName => genreName == name));
-
     }
 }
