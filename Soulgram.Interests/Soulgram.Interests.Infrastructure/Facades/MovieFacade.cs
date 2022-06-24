@@ -41,7 +41,6 @@ public class MovieFacade : IMovieFacade
         try
         {
             return await _mainMovieClient.GetMoviesByName(request, cancellationToken);
-
         }
         catch (TaskCanceledException taskCanceledException)
         {

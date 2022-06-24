@@ -30,9 +30,9 @@ internal class GetInterestsQueryHandler : IRequestHandler<GetInterestsQuery, IEn
         GetInterestsQuery request,
         CancellationToken cancellationToken)
     {
-         Expression<Func<Interest, bool>>expression = request.InterestsIds.Any() 
-             ? f => request.InterestsIds.Contains(f.Id) 
-             : f => f.Id != null;
+        Expression<Func<Interest, bool>> expression = request.InterestsIds.Any()
+            ? f => request.InterestsIds.Contains(f.Id)
+            : f => f.Id != null;
 
         return await _repository.FilterByAsync(
             expression,

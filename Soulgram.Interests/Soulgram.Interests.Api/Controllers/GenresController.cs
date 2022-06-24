@@ -1,10 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Soulgram.Interests.Application;
 using Soulgram.Interests.Application.Commands.Genres;
 using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
-using Soulgram.Interests.Application.Queries;
 using Soulgram.Interests.Application.Queries.Genres;
 
 namespace Soulgram.Interests.Api.Controllers;

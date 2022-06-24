@@ -1,5 +1,4 @@
 ﻿using Soulgram.Interests.Application.Models.Response;
-using Soulgram.Interests.Infrastructure.Models;
 
 namespace Soulgram.Interests.Infrastructure.Filters;
 

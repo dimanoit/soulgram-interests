@@ -8,7 +8,10 @@ public static class HttpResponseExtension
         this HttpResponseMessage response,
         CancellationToken cancellationToken)
     {
-        if (!response.IsSuccessStatusCode) throw new HttpRequestException();
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new HttpRequestException();
+        }
 
         var responseJson = await response.Content.ReadAsStringAsync(cancellationToken);
 

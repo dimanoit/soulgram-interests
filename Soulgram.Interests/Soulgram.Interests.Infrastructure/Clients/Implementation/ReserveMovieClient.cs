@@ -16,7 +16,10 @@ public class ReserveMovieClient : IReserveMovieClient
         IOptions<OttClientSettings> settings,
         HttpClient httpClient)
     {
-        if (settings == null) throw new ArgumentNullException(nameof(settings));
+        if (settings == null)
+        {
+            throw new ArgumentNullException(nameof(settings));
+        }
 
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         _httpClient.SetupWithClientSettings(settings.Value);

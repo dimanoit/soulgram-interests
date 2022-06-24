@@ -14,7 +14,7 @@ public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand>
     public AddMovieCommandHandler(
         IRepository<Movie> movieRepository,
         IMediator mediator,
-         IUserFavoritesService userFavoritesService)
+        IUserFavoritesService userFavoritesService)
     {
         _movieRepository = movieRepository;
         _mediator = mediator;
@@ -24,7 +24,7 @@ public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand>
     public async Task<Unit> Handle(AddMovieCommand command, CancellationToken cancellationToken)
     {
         var movieId = await GetMovieId(command.Request.ImdbId, cancellationToken);
-        
+
         if (string.IsNullOrEmpty(movieId))
         {
             var createMovieCommand = new CreateMovieCommand(command.Request);
@@ -38,7 +38,10 @@ public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand>
         return Unit.Value;
     }
 
-    private async Task UpsertUserFavorites(AddMovieCommand command, string? movieId, CancellationToken cancellationToken)
+    private async Task UpsertUserFavorites(
+        AddMovieCommand command,
+         string? movieId,
+        CancellationToken cancellationToken)
     {
         var userFavorites = new UserFavorites
         {

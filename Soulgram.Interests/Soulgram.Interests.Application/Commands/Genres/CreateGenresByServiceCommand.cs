@@ -4,13 +4,13 @@ using Soulgram.Interests.Application.Models.Request.Genres;
 
 namespace Soulgram.Interests.Application.Commands.Genres;
 
-public class CreateGenresByServiceCommand: IRequest { }
+public class CreateGenresByServiceCommand : IRequest { }
 
 public class CreateGenresByServiceCommandHandler : IRequestHandler<CreateGenresByServiceCommand>
 {
-    private readonly IMovieService _movieService;
     private readonly IGenreRepository _genreRepository;
     private readonly IMediator _mediator;
+    private readonly IMovieService _movieService;
 
     public CreateGenresByServiceCommandHandler(
         IMovieService movieService,
@@ -35,22 +35,22 @@ public class CreateGenresByServiceCommandHandler : IRequestHandler<CreateGenresB
         var notExistingGenres = genres
             .Except(dbGenres)
             .ToArray();
-        
+
         if (!notExistingGenres.Any())
         {
             return Unit.Value;
         }
-        
+
         var createGenresBulkRequest = new CreateGenresBulkRequest
         {
             GenreName = notExistingGenres,
             UserId = null
         };
-        
+
         var createGenresCommand = new CreateGenresCommand(createGenresBulkRequest);
 
         await _mediator.Send(createGenresCommand, cancellationToken);
-        
+
         return Unit.Value;
     }
 }

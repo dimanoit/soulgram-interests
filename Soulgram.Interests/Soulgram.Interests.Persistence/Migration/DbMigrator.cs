@@ -32,7 +32,6 @@ public static class DbMigrator
         var uniqueKeyName = Builders<T>.IndexKeys.Ascending(field);
         var indexModel = new CreateIndexModel<T>(uniqueKeyName, new CreateIndexOptions
         {
-
             Unique = true
         });
 

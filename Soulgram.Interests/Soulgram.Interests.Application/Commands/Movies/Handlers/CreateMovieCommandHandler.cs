@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Soulgram.Interests.Application.Commands.Genres;
 using Soulgram.Interests.Application.Interfaces;
-using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Request.Genres;
 using Soulgram.Interests.Application.Queries.Genres;
 using Soulgram.Interests.Domain;
@@ -49,7 +48,10 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand>
             .Select(g => g.Key)
             .ToArray();
 
-        if (notExistingGenres == null || !notExistingGenres.Any()) return;
+        if (notExistingGenres == null || !notExistingGenres.Any())
+        {
+            return;
+        }
 
         var bulkRequest = new CreateGenresBulkRequest
         {

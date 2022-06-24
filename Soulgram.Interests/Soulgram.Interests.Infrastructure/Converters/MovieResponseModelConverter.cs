@@ -1,5 +1,4 @@
-﻿using Soulgram.Interests.Application;
-using Soulgram.Interests.Application.Models.Response;
+﻿using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Infrastructure.Models;
 using Soulgram.Interests.Infrastructure.Models.MainClientResponses;
 
@@ -9,7 +8,10 @@ public static class MovieResponseModelConverter
 {
     public static MovieSearchResponse? ToMovieSearchResponse(this MovieResponseModel? response)
     {
-        if (response == null) return null;
+        if (response == null)
+        {
+            return null;
+        }
 
         var genres = response.Genre
             ?.Where(g => !string.IsNullOrEmpty(g))
@@ -30,13 +32,16 @@ public static class MovieResponseModelConverter
 
     public static MovieSearchResponse? ToMovieSearchResponse(this SearchMovieResult? response)
     {
-        if (response == null) return null;
+        if (response == null)
+        {
+            return null;
+        }
 
         var genres = response
             .GenreAggregated?
             .Genres?
             .Select(g => new MovieGenreResponse(g.Text!));
-        
+
         var images = new[] {response.PrimaryImage?.Url};
 
         var converted = new MovieSearchResponse

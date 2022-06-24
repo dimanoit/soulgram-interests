@@ -1,6 +1,5 @@
 using MediatR;
 using Soulgram.Interests.Application.Interfaces;
-using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Request.Genres;
 using Soulgram.Interests.Domain;
 

@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Soulgram.Interests.Application.Commands.Interests;
 using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
-using Soulgram.Interests.Application.Queries;
 using Soulgram.Interests.Application.Queries.Interests;
 
 namespace Soulgram.Interests.Api.Controllers;
@@ -45,7 +44,7 @@ public class InterestsController : ControllerBase
         var command = new CreateInterestsCommand(request);
         await _mediator.Send(command, cancellationToken);
     }
-    
+
     [HttpPatch("users/{userId}")]
     public async Task AddInterestsToUser(
         [FromRoute] string userId,

@@ -30,7 +30,7 @@ public class GetUserMoviesQueryHandler : IRequestHandler<GetUserMoviesQuery, ICo
         {
             return null;
         }
-        
+
         var movies = await _repository.FilterByAsync(
             m => moviesIds.Contains(m.Id),
             movie => movie.ToMovieSearchResponse(),

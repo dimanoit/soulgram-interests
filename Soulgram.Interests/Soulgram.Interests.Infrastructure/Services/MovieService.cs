@@ -10,6 +10,7 @@ public class MovieService : IMovieService
 {
     private readonly IMovieFacade _facade;
     private readonly IMovieResponseFilter _filter;
+
     public MovieService(IMovieFacade facade, IMovieResponseFilter filter)
     {
         _facade = facade;
@@ -20,7 +21,10 @@ public class MovieService : IMovieService
     {
         var result = await _facade.GetGenresAsync(cancellationToken);
 
-        if (result == null || result.Count == 0) return Array.Empty<string>();
+        if (result == null || result.Count == 0)
+        {
+            return Array.Empty<string>();
+        }
 
         return result.Where(n => !string.IsNullOrEmpty(n)).ToArray();
     }

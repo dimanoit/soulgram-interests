@@ -27,7 +27,10 @@ public class GenGenresIdsByNameQueryHandler : IRequestHandler<GenGenresIdsByName
         GenGenresIdsByNameQuery command,
         CancellationToken cancellationToken)
     {
-        if (command.Names == null) return null;
+        if (command.Names == null)
+        {
+            return null;
+        }
 
         var result = await _genreRepository
             .FilterByAsync(

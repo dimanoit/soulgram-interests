@@ -29,11 +29,11 @@ internal class GetAllGenresQueryHandler : IRequestHandler<GetGenresQuery, IColle
         GetGenresQuery request,
         CancellationToken cancellationToken)
     {
-        Expression<Func<Genre, bool>> filterExpression = !string.IsNullOrEmpty(request.UserId) 
-            ? g => g.UsersIds.Contains(request.UserId) 
+        Expression<Func<Genre, bool>> filterExpression = !string.IsNullOrEmpty(request.UserId)
+            ? g => g.UsersIds.Contains(request.UserId)
             : g => g.Id != null;
 
-       return await _genreRepository.FilterByAsync(
+        return await _genreRepository.FilterByAsync(
             filterExpression,
             g => new GenreResponse(g.Id!, g.Name),
             cancellationToken);

@@ -10,7 +10,7 @@ public class MovieResponseFilter : IMovieResponseFilter
         {
             return Enumerable.Empty<MovieSearchResponse>();
         }
-        
+
         return models
             .Where(r => !string.IsNullOrEmpty(r.BriefDescription))
             .Where(r => r.ImgUrls != null && r.ImgUrls.Any(img => !string.IsNullOrEmpty(img)))

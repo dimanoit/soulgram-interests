@@ -1,5 +1,4 @@
-﻿using System.Text;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Infrastructure.Converters;
@@ -18,7 +17,10 @@ public class MainMovieClient : IMovieDatabaseClient
         IOptions<MovieDatabaseClientSettings> settings,
         HttpClient httpClient)
     {
-        if (settings == null) throw new ArgumentNullException(nameof(settings));
+        if (settings == null)
+        {
+            throw new ArgumentNullException(nameof(settings));
+        }
 
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         _httpClient.SetupWithClientSettings(settings.Value);
