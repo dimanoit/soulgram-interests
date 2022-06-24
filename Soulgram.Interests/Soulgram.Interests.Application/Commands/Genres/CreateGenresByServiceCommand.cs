@@ -9,12 +9,17 @@ public class CreateGenresByServiceCommand: IRequest { }
 public class CreateGenresByServiceCommandHandler : IRequestHandler<CreateGenresByServiceCommand>
 {
     private readonly IMovieService _movieService;
+    private readonly IGenreRepository _genreRepository;
     private readonly IMediator _mediator;
 
-    public CreateGenresByServiceCommandHandler(IMovieService movieService, IMediator mediator)
+    public CreateGenresByServiceCommandHandler(
+        IMovieService movieService,
+        IMediator mediator,
+        IGenreRepository genreRepository)
     {
         _movieService = movieService;
         _mediator = mediator;
+        _genreRepository = genreRepository;
     }
 
     public async Task<Unit> Handle(
@@ -22,10 +27,23 @@ public class CreateGenresByServiceCommandHandler : IRequestHandler<CreateGenresB
         CancellationToken cancellationToken)
     {
         var genres = await _movieService.GetGenresAsync(cancellationToken);
+        var dbGenres = await _genreRepository.FilterByAsync(
+            dbGenres => genres.Contains(dbGenres.Name),
+            dbGenres => dbGenres.Name,
+            cancellationToken);
 
+        var notExistingGenres = genres
+            .Except(dbGenres)
+            .ToArray();
+        
+        if (!notExistingGenres.Any())
+        {
+            return Unit.Value;
+        }
+        
         var createGenresBulkRequest = new CreateGenresBulkRequest
         {
-            GenreName = genres,
+            GenreName = notExistingGenres,
             UserId = null
         };
         

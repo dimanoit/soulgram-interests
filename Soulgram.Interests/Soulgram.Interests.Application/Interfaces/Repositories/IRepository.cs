@@ -9,7 +9,7 @@ public interface IRepository<TEntity> where TEntity : class
         Expression<Func<TEntity, TProjected>> projectionExpression,
         CancellationToken cancellationToken = default);
 
-    Task<TProjected> FindOneAsync<TProjected>(
+    Task<TProjected?> FindOneAsync<TProjected>(
         Expression<Func<TEntity, bool>> filterExpression,
         Expression<Func<TEntity, TProjected>> projectionExpression,
         CancellationToken cancellationToken = default);

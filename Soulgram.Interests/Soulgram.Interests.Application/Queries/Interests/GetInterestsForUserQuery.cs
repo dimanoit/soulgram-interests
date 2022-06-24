@@ -35,7 +35,7 @@ internal class GetInterestsForUserQueryHandler
         var interestsIds = await _userFavoritesRepository.FindOneAsync(
             uf => uf.UserId == request.UserId,
             uf => uf.InterestsIds,
-            cancellationToken);
+            cancellationToken) ?? Array.Empty<string>();
 
         if (!interestsIds.Any())
         {
