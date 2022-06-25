@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Soulgram.Interests.Application.Models.Response;
 
-namespace Soulgram.Interests.Application.Queries;
+namespace Soulgram.Interests.Application.Queries.Movies;
 
 public class GetUserMoviesQuery : IRequest<ICollection<MovieSearchResponse>?>
 {

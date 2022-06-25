@@ -4,6 +4,5 @@ namespace Soulgram.Interests.Infrastructure.Models.MainClientResponses;
 
 public class GenreAggregated
 {
-    [JsonPropertyName("genres")]
-    public Genre[]? Genres { get; init; }
+    [JsonPropertyName("genres")] public Genre[]? Genres { get; init; }
 }

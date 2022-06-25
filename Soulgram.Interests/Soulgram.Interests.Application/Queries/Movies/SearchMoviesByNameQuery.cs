@@ -3,7 +3,7 @@ using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
 
-namespace Soulgram.Interests.Application.Queries;
+namespace Soulgram.Interests.Application.Queries.Movies;
 
 public class SearchMoviesByNameQuery : IRequest<IEnumerable<MovieSearchResponse>>
 {

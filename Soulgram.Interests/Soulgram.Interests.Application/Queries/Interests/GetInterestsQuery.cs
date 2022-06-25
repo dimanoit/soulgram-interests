@@ -5,7 +5,7 @@ using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
 
-namespace Soulgram.Interests.Application.Queries;
+namespace Soulgram.Interests.Application.Queries.Interests;
 
 public class GetInterestsQuery : IRequest<IEnumerable<InterestResponse>>
 {
@@ -30,16 +30,13 @@ internal class GetInterestsQueryHandler : IRequestHandler<GetInterestsQuery, IEn
         GetInterestsQuery request,
         CancellationToken cancellationToken)
     {
-        Expression<Func<Interest, bool>> expression;
-        if (request.InterestsIds.Any())
-        {
-            expression = f => request.InterestsIds.Contains(f.Id);
-        }
-        else
-        {
-            expression = f => f.Id != null;
-        }
+        Expression<Func<Interest, bool>> expression = request.InterestsIds.Any()
+            ? f => request.InterestsIds.Contains(f.Id)
+            : f => f.Id != null;
 
-        return await _repository.FilterByAsync(expression, interest => interest.ToInterestResponse());
+        return await _repository.FilterByAsync(
+            expression,
+            interest => interest.ToInterestResponse(),
+            cancellationToken);
     }
 }

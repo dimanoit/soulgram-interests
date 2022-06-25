@@ -7,10 +7,12 @@ public static class GenreConverter
 {
     public static Genre ToGenre(this CreateGenreRequest createGenreRequest)
     {
-        return new Genre
+        var genre = new Genre
         {
             Name = createGenreRequest.GenreName,
-            UsersIds = new[] {createGenreRequest.UserId}
+            UsersIds = new[] {createGenreRequest.UserId!}
         };
+
+        return genre;
     }
 }

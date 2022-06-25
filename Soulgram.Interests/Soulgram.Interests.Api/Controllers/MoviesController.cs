@@ -4,7 +4,7 @@ using Soulgram.Interests.Application.Commands.Movies;
 using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Request.Movies;
 using Soulgram.Interests.Application.Models.Response;
-using Soulgram.Interests.Application.Queries;
+using Soulgram.Interests.Application.Queries.Movies;
 
 namespace Soulgram.Interests.Api.Controllers;
 
@@ -30,21 +30,19 @@ public class MoviesController : ControllerBase
 
     [HttpGet("{userId}")]
     public async Task<IEnumerable<MovieSearchResponse>?> GetUserMovies(
-        string userId,
+        [FromRoute] string userId,
         CancellationToken cancellationToken)
     {
         var query = new GetUserMoviesQuery(userId);
         return await _mediator.Send(query, cancellationToken);
     }
 
-    [HttpPost("{userId}")]
+    [HttpPost]
     public async Task AddMovieToUser(
-        string userId,
         [FromBody] AddMovieRequest movieRequest,
         CancellationToken cancellationToken)
     {
         var command = new AddMovieCommand(movieRequest);
-        command.UserId = userId;
         await _mediator.Send(command, cancellationToken);
     }
 }

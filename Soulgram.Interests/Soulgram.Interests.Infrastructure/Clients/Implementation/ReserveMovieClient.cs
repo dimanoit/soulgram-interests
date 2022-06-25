@@ -16,7 +16,10 @@ public class ReserveMovieClient : IReserveMovieClient
         IOptions<OttClientSettings> settings,
         HttpClient httpClient)
     {
-        if (settings == null) throw new ArgumentNullException(nameof(settings));
+        if (settings == null)
+        {
+            throw new ArgumentNullException(nameof(settings));
+        }
 
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
         _httpClient.SetupWithClientSettings(settings.Value);
@@ -28,8 +31,7 @@ public class ReserveMovieClient : IReserveMovieClient
         return await _httpClient.GetHttpResult<ICollection<string>>(url, cancellationToken);
     }
 
-    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(
-        string name,
+    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(string name,
         int page,
         CancellationToken cancellationToken)
     {

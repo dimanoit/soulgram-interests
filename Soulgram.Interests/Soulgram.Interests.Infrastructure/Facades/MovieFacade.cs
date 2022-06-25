@@ -34,14 +34,13 @@ public class MovieFacade : IMovieFacade
         }
     }
 
-    public async Task<IEnumerable<MovieSearchResponse>> GetMoviesByName(
+    public async Task<IEnumerable<MovieSearchResponse>?> GetMoviesByName(
         SearchMovieRequest request,
         CancellationToken cancellationToken)
     {
         try
         {
             return await _mainMovieClient.GetMoviesByName(request, cancellationToken);
-
         }
         catch (TaskCanceledException taskCanceledException)
         {

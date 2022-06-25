@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Soulgram.Interests.Application.Commands.Genres;
 using Soulgram.Interests.Application.Interfaces;
-using Soulgram.Interests.Application.Models.Request;
-using Soulgram.Interests.Application.Queries;
+using Soulgram.Interests.Application.Models.Request.Genres;
+using Soulgram.Interests.Application.Queries.Genres;
 using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Commands.Movies.Handlers;
@@ -27,13 +27,14 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand>
             BriefDescription = command.Request.BriefDescription,
             ReleasedYear = command.Request.ReleasedYear,
             ImgUrls = command.Request.ImgUrls,
-            GenresNames = command.Request.Genres
+            GenresNames = command.Request.Genres,
+            UsersIds = new[] {command.Request.UserId!}
         };
 
         await CreateGenresIfNoExists(movie.GenresNames?.ToArray());
 
         await _repository.InsertOneAsync(movie, cancellationToken);
-        
+
         return Unit.Value;
     }
 
@@ -51,8 +52,8 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand>
         {
             return;
         }
-        
-        var bulkRequest = new CreateGenresBulkRequest()
+
+        var bulkRequest = new CreateGenresBulkRequest
         {
             GenreName = notExistingGenres
         };

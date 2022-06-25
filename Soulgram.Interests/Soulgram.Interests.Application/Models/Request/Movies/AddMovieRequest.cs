@@ -2,6 +2,8 @@
 
 public record AddMovieRequest
 {
+    public string? UserId { get; init; }
+
     public string ImdbId { get; init; } = null!;
     public string Title { get; init; } = null!;
     public string? BriefDescription { get; init; }

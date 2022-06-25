@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Soulgram.Interests.Application.Commands.Interests;
 using Soulgram.Interests.Application.Models.Request;
 using Soulgram.Interests.Application.Models.Response;
-using Soulgram.Interests.Application.Queries;
+using Soulgram.Interests.Application.Queries.Interests;
 
 namespace Soulgram.Interests.Api.Controllers;
 
@@ -20,7 +20,7 @@ public class InterestsController : ControllerBase
 
     [HttpGet("{userId}")]
     public async Task<IEnumerable<InterestResponse>> GetInterestsForUser(
-        string userId,
+        [FromRoute] string userId,
         CancellationToken cancellationToken)
     {
         var query = new GetInterestsForUserQuery(userId);
@@ -38,7 +38,7 @@ public class InterestsController : ControllerBase
 
     [HttpPost]
     public async Task CreateInterests(
-        CreateInterestsRequest request,
+        [FromBody] CreateInterestsRequest request,
         CancellationToken cancellationToken)
     {
         var command = new CreateInterestsCommand(request);
@@ -47,7 +47,7 @@ public class InterestsController : ControllerBase
 
     [HttpPatch("users/{userId}")]
     public async Task AddInterestsToUser(
-        string userId,
+        [FromRoute] string userId,
         [FromBody] string[] interestsIds,
         CancellationToken cancellationToken)
     {

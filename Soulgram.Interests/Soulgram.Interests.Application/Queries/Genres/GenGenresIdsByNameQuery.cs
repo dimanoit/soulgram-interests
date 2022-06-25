@@ -2,7 +2,7 @@
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Domain;
 
-namespace Soulgram.Interests.Application.Queries;
+namespace Soulgram.Interests.Application.Queries.Genres;
 
 public class GenGenresIdsByNameQuery : IRequest<Dictionary<string, string?>?>
 {
@@ -31,17 +31,15 @@ public class GenGenresIdsByNameQueryHandler : IRequestHandler<GenGenresIdsByName
         {
             return null;
         }
-        // TODO map only name or id, don't fetch all user data
+
         var result = await _genreRepository
             .FilterByAsync(
                 genre => command.Names.Contains(genre.Name),
-                genre => genre,
+                genre => genre.Name,
                 cancellationToken);
 
-        return command.Names
-            .ToDictionary(
-                name => name,
-                name => result.FirstOrDefault(genre => genre.Name == name)?.Name);
-
+        return command.Names.ToDictionary(
+            name => name,
+            name => result.FirstOrDefault(genreName => genreName == name));
     }
 }
