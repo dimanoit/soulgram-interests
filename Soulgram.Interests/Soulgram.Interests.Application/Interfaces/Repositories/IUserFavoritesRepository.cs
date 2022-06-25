@@ -1,10 +1,14 @@
+using System.Linq.Expressions;
 using Soulgram.Interests.Domain;
 
-namespace Soulgram.Interests.Application.Interfaces;
+namespace Soulgram.Interests.Application.Interfaces.Repositories;
 
 public interface IUserFavoritesRepository : IRepository<UserFavorites>
 {
-    Task<string> GetId(string userId, CancellationToken cancellationToken);
-
+    public Task<T> Get<T>(
+        string userId,
+        Expression<Func<UserFavorites, T>> projection,
+        CancellationToken cancellationToken);
+    
     Task PushAsync(UserFavorites userFavorites, CancellationToken cancellationToken);
 }

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Soulgram.Interests.Application.Converters;
 using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
 
@@ -11,7 +12,9 @@ public class GetUserMoviesQueryHandler : IRequestHandler<GetUserMoviesQuery, ICo
     private readonly IUserFavoritesRepository _favoritesRepository;
     private readonly IRepository<Movie> _repository;
 
-    public GetUserMoviesQueryHandler(IRepository<Movie> repository, IUserFavoritesRepository favoritesRepository)
+    public GetUserMoviesQueryHandler(
+        IRepository<Movie> repository, 
+        IUserFavoritesRepository favoritesRepository)
     {
         _repository = repository;
         _favoritesRepository = favoritesRepository;

@@ -1,4 +1,5 @@
 ﻿using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Services;
@@ -14,7 +15,10 @@ public class UserFavoritesService : IUserFavoritesService
 
     public async Task UpsertFavorites(UserFavorites favorites, CancellationToken cancellationToken)
     {
-        var favoriteId = await _userFavoritesRepository.GetId(favorites.UserId, cancellationToken);
+        var favoriteId = await _userFavoritesRepository.Get(
+            favorites.UserId,
+            projection => projection.Id,
+            cancellationToken);
 
         if (string.IsNullOrEmpty(favoriteId))
         {

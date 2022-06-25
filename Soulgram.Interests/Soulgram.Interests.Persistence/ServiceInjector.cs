@@ -2,6 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MongoDB.Driver;
 using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Persistence.DataAccessors;
 using Soulgram.Interests.Persistence.DataAccessors.Concrete;
 using Soulgram.Interests.Persistence.Interfaces;

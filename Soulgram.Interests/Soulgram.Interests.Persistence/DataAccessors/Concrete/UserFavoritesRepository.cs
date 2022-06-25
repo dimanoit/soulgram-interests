@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using MongoDB.Driver;
 using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Domain;
 using Soulgram.Interests.Persistence.Interfaces;
 
@@ -11,11 +12,14 @@ public class UserFavoritesRepository : MongoRepository<UserFavorites>, IUserFavo
     public UserFavoritesRepository(IMongoConnection connection)
         : base(connection) { }
 
-    public async Task<string> GetId(string userId, CancellationToken cancellationToken)
+    public async Task<T> Get<T>(
+        string userId,
+        Expression<Func<UserFavorites, T>> projection,
+        CancellationToken cancellationToken)
     {
         return await FindOneAsync(
             userFavorites => userFavorites.UserId == userId,
-            projection => projection.UserId,
+            projection,
             cancellationToken);
     }
 
