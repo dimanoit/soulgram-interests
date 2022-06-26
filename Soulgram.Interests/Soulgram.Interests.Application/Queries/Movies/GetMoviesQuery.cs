@@ -6,10 +6,10 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries.Movies;
 
-public record GetMoviesQuery(string[] moviesIds) 
+public record GetMoviesQuery(string[] moviesIds)
     : IRequest<ICollection<MovieSearchResponse>?>;
 
-public class GetMoviesQueryHandler 
+public class GetMoviesQueryHandler
     : IRequestHandler<GetMoviesQuery, ICollection<MovieSearchResponse>?>
 {
     private readonly IRepository<Movie> _repository;
@@ -27,7 +27,7 @@ public class GetMoviesQueryHandler
         {
             return null;
         }
-        
+
         var movies = await _repository.FilterByAsync(
             m => request.moviesIds.Contains(m.Id),
             movie => movie.ToMovieSearchResponse(),

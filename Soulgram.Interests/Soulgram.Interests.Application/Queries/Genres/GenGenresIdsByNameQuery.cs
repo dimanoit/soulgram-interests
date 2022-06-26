@@ -4,10 +4,10 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries.Genres;
 
-public record GenGenresIdsByNameQuery(ICollection<string>? Names) 
+public record GenGenresIdsByNameQuery(ICollection<string>? Names)
     : IRequest<Dictionary<string, string?>?>;
 
-public class GenGenresIdsByNameQueryHandler 
+public class GenGenresIdsByNameQueryHandler
     : IRequestHandler<GenGenresIdsByNameQuery, Dictionary<string, string?>?>
 {
     private readonly IRepository<Genre> _genreRepository;

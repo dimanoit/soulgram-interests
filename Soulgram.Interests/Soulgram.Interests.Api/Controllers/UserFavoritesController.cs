@@ -10,6 +10,7 @@ namespace Soulgram.Interests.Api.Controllers;
 public class UserFavoritesController : ControllerBase
 {
     private readonly IMediator _mediator;
+
     public UserFavoritesController(IMediator mediator)
     {
         _mediator = mediator;
@@ -20,7 +21,7 @@ public class UserFavoritesController : ControllerBase
         [FromRoute] string userId,
         CancellationToken cancellationToken)
     {
-        var query = new GetAggregatedInterestsQuery(userId);  
+        var query = new GetAggregatedInterestsQuery(userId);
         return await _mediator.Send(query, cancellationToken);
     }
 }

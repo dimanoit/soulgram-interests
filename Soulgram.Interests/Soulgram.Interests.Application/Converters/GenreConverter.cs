@@ -20,11 +20,11 @@ public static class GenreConverter
     public static AggregatedInterestItemValue ToAggregatedInterestItemValue(
         this GenreResponse response)
     {
-        var aggregatedInterestItemValue 
+        var aggregatedInterestItemValue
             = new AggregatedInterestItemValue
-        {
-            Name = response.Name!,
-        };
+            {
+                Name = response.Name!
+            };
 
         return aggregatedInterestItemValue;
     }

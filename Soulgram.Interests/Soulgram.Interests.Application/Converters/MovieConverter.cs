@@ -23,11 +23,11 @@ public static class MovieConverter
 
         return converted;
     }
-    
+
     public static AggregatedInterestItemValue ToAggregatedInterestItemValue(
         this MovieSearchResponse movie)
     {
-        var itemValue = new AggregatedInterestItemValue()
+        var itemValue = new AggregatedInterestItemValue
         {
             Name = movie.Title,
             ImgUrl = movie.ImgUrls?.FirstOrDefault()

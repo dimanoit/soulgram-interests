@@ -1,5 +1,4 @@
 using MongoDB.Driver;
-using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Domain;
 using Soulgram.Interests.Persistence.Interfaces;

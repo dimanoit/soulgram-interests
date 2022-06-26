@@ -1,11 +1,9 @@
 using MediatR;
 using Soulgram.Interests.Application.Converters;
 using Soulgram.Interests.Application.Interfaces;
-using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries.Genres;
 using Soulgram.Interests.Application.Queries.Movies;
-using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries.Interests;
 
@@ -16,7 +14,8 @@ public class GetAggregatedInterestsQuery : IRequest<ICollection<AggregatedIntere
     {
         UserId = userId;
     }
-    public string UserId { get;  }
+
+    public string UserId { get; }
 }
 
 public class GetAggregatedInterestsQueryHandler :
@@ -26,8 +25,8 @@ public class GetAggregatedInterestsQueryHandler :
     private readonly IMediator _mediator;
 
     public GetAggregatedInterestsQueryHandler(
-         IUserFavoritesService favoritesService,
-         IMediator mediator)
+        IUserFavoritesService favoritesService,
+        IMediator mediator)
     {
         _favoritesService = favoritesService;
         _mediator = mediator;
@@ -37,16 +36,16 @@ public class GetAggregatedInterestsQueryHandler :
         GetAggregatedInterestsQuery request,
         CancellationToken cancellationToken)
     {
-        var favorites =  await _favoritesService.GetUserFavorites(request.UserId,cancellationToken);
-        
+        var favorites = await _favoritesService.GetUserFavorites(request.UserId, cancellationToken);
+
         var movies = await GetMoviesAggregatedSection(
             favorites.MoviesIds,
             favorites.GenresIds,
             cancellationToken);
-        
+
         return new[] {movies};
     }
-    
+
     private async Task<AggregatedInterests> GetMoviesAggregatedSection(
         string[] moviesIds,
         string[] genresIds,
@@ -57,40 +56,39 @@ public class GetAggregatedInterestsQueryHandler :
             Name = "Movies",
             Items = new List<AggregatedInterestItem>()
         };
-        
+
         var getMoviesQuery = new GetMoviesQuery(moviesIds);
-       
-       var movies = await _mediator.Send(getMoviesQuery, cancellationToken);
-       var convertedMovies = movies
-           ?.Where(m => m != null)
-           .Select(m => m.ToAggregatedInterestItemValue())
-           .ToArray() ?? Array.Empty<AggregatedInterestItemValue>();
 
-       var movieNameItem = new AggregatedInterestItem()
-       {
-           Name = "Names",
-           Values = convertedMovies
-       };
-       
-       aggregatedInterest.Items.Add(movieNameItem);
+        var movies = await _mediator.Send(getMoviesQuery, cancellationToken);
+        var convertedMovies = movies
+            ?.Where(m => m != null)
+            .Select(m => m.ToAggregatedInterestItemValue())
+            .ToArray() ?? Array.Empty<AggregatedInterestItemValue>();
+
+        var movieNameItem = new AggregatedInterestItem
+        {
+            Name = "Names",
+            Values = convertedMovies
+        };
+
+        aggregatedInterest.Items.Add(movieNameItem);
 
 
-       var genresQuery = new GetGenresQuery(genresIds);
-       var genresResult = await _mediator.Send(genresQuery, cancellationToken);
-       var convertedGenres = genresResult
-           ?.Where(g => g != null)
-           .Select(g => g.ToAggregatedInterestItemValue())
-           .ToArray() ?? Array.Empty<AggregatedInterestItemValue>();
+        var genresQuery = new GetGenresQuery(genresIds);
+        var genresResult = await _mediator.Send(genresQuery, cancellationToken);
+        var convertedGenres = genresResult
+            ?.Where(g => g != null)
+            .Select(g => g.ToAggregatedInterestItemValue())
+            .ToArray() ?? Array.Empty<AggregatedInterestItemValue>();
 
-       var genreItem = new AggregatedInterestItem
-       {
-           Name = "Genres",
-           Values = convertedGenres
-       };
-       
-       aggregatedInterest.Items.Add(genreItem);
+        var genreItem = new AggregatedInterestItem
+        {
+            Name = "Genres",
+            Values = convertedGenres
+        };
 
-       return aggregatedInterest;
+        aggregatedInterest.Items.Add(genreItem);
+
+        return aggregatedInterest;
     }
-
 }

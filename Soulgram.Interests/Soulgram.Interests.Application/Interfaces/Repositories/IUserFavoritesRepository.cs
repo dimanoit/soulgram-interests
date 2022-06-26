@@ -9,6 +9,6 @@ public interface IUserFavoritesRepository : IRepository<UserFavorites>
         string userId,
         Expression<Func<UserFavorites, T>> projection,
         CancellationToken cancellationToken);
-    
+
     Task PushAsync(UserFavorites userFavorites, CancellationToken cancellationToken);
 }

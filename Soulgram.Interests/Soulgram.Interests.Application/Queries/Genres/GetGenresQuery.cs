@@ -1,16 +1,15 @@
 using System.Linq.Expressions;
 using MediatR;
-using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries.Genres;
 
-public record GetGenresQuery(string[]? GenresIds) 
+public record GetGenresQuery(string[]? GenresIds)
     : IRequest<ICollection<GenreResponse>>;
 
-internal class GetAllGenresQueryHandler 
+internal class GetAllGenresQueryHandler
     : IRequestHandler<GetGenresQuery, ICollection<GenreResponse>>
 {
     private readonly IGenreRepository _genreRepository;
@@ -24,7 +23,7 @@ internal class GetAllGenresQueryHandler
         GetGenresQuery request,
         CancellationToken cancellationToken)
     {
-        Expression<Func<Genre, bool>> filterExpression = request.GenresIds != null 
+        Expression<Func<Genre, bool>> filterExpression = request.GenresIds != null
             ? g => request.GenresIds.Contains(g.Id)
             : g => g.Id != null;
 
