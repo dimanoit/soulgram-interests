@@ -1,4 +1,5 @@
 using Soulgram.Interests.Application.Models.Request;
+using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Converters;
@@ -14,5 +15,17 @@ public static class GenreConverter
         };
 
         return genre;
+    }
+
+    public static AggregatedInterestItemValue ToAggregatedInterestItemValue(
+        this GenreResponse response)
+    {
+        var aggregatedInterestItemValue 
+            = new AggregatedInterestItemValue
+        {
+            Name = response.Name!,
+        };
+
+        return aggregatedInterestItemValue;
     }
 }

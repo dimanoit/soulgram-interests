@@ -12,7 +12,18 @@ public class UserFavoritesService : IUserFavoritesService
     {
         _userFavoritesRepository = userFavoritesRepository;
     }
-
+    
+    public async Task<UserFavorites> GetUserFavorites(
+        string userId,
+        CancellationToken cancellationToken)
+    {
+        return await _userFavoritesRepository
+            .Get(userId,
+                userFavorites => userFavorites,
+                cancellationToken
+                );
+    }
+    
     public async Task UpsertFavorites(UserFavorites favorites, CancellationToken cancellationToken)
     {
         var favoriteId = await _userFavoritesRepository.Get(
