@@ -4,17 +4,11 @@ using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries.Genres;
 
-public class GenGenresIdsByNameQuery : IRequest<Dictionary<string, string?>?>
-{
-    public GenGenresIdsByNameQuery(ICollection<string>? names)
-    {
-        Names = names;
-    }
+public record GenGenresIdsByNameQuery(ICollection<string>? Names)
+    : IRequest<Dictionary<string, string?>?>;
 
-    public ICollection<string>? Names { get; }
-}
-
-public class GenGenresIdsByNameQueryHandler : IRequestHandler<GenGenresIdsByNameQuery, Dictionary<string, string?>?>
+public class GenGenresIdsByNameQueryHandler
+    : IRequestHandler<GenGenresIdsByNameQuery, Dictionary<string, string?>?>
 {
     private readonly IRepository<Genre> _genreRepository;
 

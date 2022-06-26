@@ -40,13 +40,13 @@ public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand>
 
     private async Task UpsertUserFavorites(
         AddMovieCommand command,
-         string? movieId,
+        string? movieId,
         CancellationToken cancellationToken)
     {
         var userFavorites = new UserFavorites
         {
             UserId = command.Request.UserId!,
-            MoviesIds = new[] { movieId! }
+            MoviesIds = new[] {movieId!}
         };
 
         await _userFavoritesService.UpsertFavorites(userFavorites, cancellationToken);

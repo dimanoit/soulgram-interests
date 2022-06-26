@@ -1,20 +1,20 @@
 ﻿using MediatR;
-using Soulgram.Interests.Application.Converters;
-using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Application.Models.Response;
-using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries.Movies;
 
 public class GetUserMoviesQueryHandler : IRequestHandler<GetUserMoviesQuery, ICollection<MovieSearchResponse>?>
 {
     private readonly IUserFavoritesRepository _favoritesRepository;
-    private readonly IRepository<Movie> _repository;
+    private readonly IMediator _mediator;
 
-    public GetUserMoviesQueryHandler(IRepository<Movie> repository, IUserFavoritesRepository favoritesRepository)
+    public GetUserMoviesQueryHandler(
+        IMediator mediator,
+        IUserFavoritesRepository favoritesRepository)
     {
-        _repository = repository;
         _favoritesRepository = favoritesRepository;
+        _mediator = mediator;
     }
 
     public async Task<ICollection<MovieSearchResponse>?> Handle(
@@ -26,16 +26,7 @@ public class GetUserMoviesQueryHandler : IRequestHandler<GetUserMoviesQuery, ICo
             favorites => favorites.MoviesIds,
             cancellationToken);
 
-        if (!moviesIds.Any())
-        {
-            return null;
-        }
-
-        var movies = await _repository.FilterByAsync(
-            m => moviesIds.Contains(m.Id),
-            movie => movie.ToMovieSearchResponse(),
-            cancellationToken);
-
-        return movies;
+        var getMoviesQuery = new GetMoviesQuery(moviesIds!);
+        return await _mediator.Send(getMoviesQuery, cancellationToken);
     }
 }
