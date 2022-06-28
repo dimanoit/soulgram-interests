@@ -3,6 +3,6 @@
 public record Interest
 {
     public string? Id { get; set; }
-    public string Name { get; init; } = null!;
+    public InterestGroupType Type { get; init; }
     public string[] UsersIds { get; init; } = Array.Empty<string>();
 }

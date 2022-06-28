@@ -1,15 +1,41 @@
 ﻿using MediatR;
+using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Commands.Interests;
 
-public class AddUserToInterestsCommand : IRequest
+public record AddUserToInterestsCommand(string UserId, string[] InterestsIds) : IRequest;
+internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInterestsCommand>
 {
-    public AddUserToInterestsCommand(string userId, string[] interestsIds)
+    private readonly IInterestsRepository _interestsRepository;
+    private readonly IUserFavoritesService _userFavoritesService;
+
+    public AddUserToInterestsCommandHandler(
+        IInterestsRepository interestsRepository,
+        IUserFavoritesService userFavoritesService)
     {
-        UserId = userId;
-        InterestsIds = interestsIds;
+        _interestsRepository = interestsRepository;
+        _userFavoritesService = userFavoritesService;
     }
 
-    public string UserId { get; }
-    public string[] InterestsIds { get; }
+    public async Task<Unit> Handle(AddUserToInterestsCommand request, CancellationToken cancellationToken)
+    {
+        await UpsertUserFavorites(request, cancellationToken);
+
+        await _interestsRepository
+            .AddUserToInterests(request.UserId, request.InterestsIds, cancellationToken);
+
+        return Unit.Value;
+    }
+
+    private async Task UpsertUserFavorites(AddUserToInterestsCommand request, CancellationToken cancellationToken)
+    {
+        var userFavorites = new UserFavorites
+        {
+            UserId = request.UserId,
+            InterestsIds = request.InterestsIds
+        };
+
+        await _userFavoritesService.UpsertFavorites(userFavorites, cancellationToken);
+    }
 }

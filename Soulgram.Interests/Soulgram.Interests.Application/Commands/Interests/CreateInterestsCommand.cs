@@ -1,14 +1,28 @@
 ﻿using MediatR;
+using Soulgram.Interests.Application.Converters;
+using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Request;
+using Soulgram.Interests.Application.Models.Request.Interests;
 
 namespace Soulgram.Interests.Application.Commands.Interests;
 
-public class CreateInterestsCommand : IRequest
+public record CreateInterestsCommand(CreateInterestsRequest Request) : IRequest;
+internal class CreateInterestsCommandHandler : IRequestHandler<CreateInterestsCommand>
 {
-    public CreateInterestsCommand(CreateInterestsRequest request)
+    private readonly IInterestsRepository _repository;
+
+    public CreateInterestsCommandHandler(IInterestsRepository repository)
     {
-        Request = request;
+        _repository = repository;
     }
 
-    public CreateInterestsRequest Request { get; }
+    public async Task<Unit> Handle(CreateInterestsCommand command, CancellationToken cancellationToken)
+    {
+        var interests = command.Request.Types
+            .Select(n => n.ToInterest())
+            .ToArray();
+
+        await _repository.InsertManyAsync(interests, cancellationToken);
+        return Unit.Value;
+    }
 }

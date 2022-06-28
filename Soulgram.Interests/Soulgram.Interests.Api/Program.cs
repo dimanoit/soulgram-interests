@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using MongoDB.Driver;
 using Serilog;
 using Soulgram.Interests.Application;
@@ -16,7 +17,9 @@ var configuration = builder.Configuration;
 builder.Services.AddApplication(configuration);
 builder.Services.AddPersistence(configuration);
 builder.Services.AddInfrastructure(configuration);
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options => 
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

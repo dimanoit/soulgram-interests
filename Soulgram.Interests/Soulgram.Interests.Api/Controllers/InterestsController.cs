@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Soulgram.Interests.Application.Commands.Interests;
 using Soulgram.Interests.Application.Models.Request;
+using Soulgram.Interests.Application.Models.Request.Interests;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries.Interests;
 
