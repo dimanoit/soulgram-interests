@@ -28,8 +28,9 @@ internal class AddUserToGenreCommandHandler
         var userFavorites = new UserFavorites
         {
             UserId = command.UserId,
-            GenresIds = new[] {command.GenreId}
         };
+
+        throw new NotImplementedException();
 
         await _favoritesService.UpsertFavorites(userFavorites, cancellationToken);
 

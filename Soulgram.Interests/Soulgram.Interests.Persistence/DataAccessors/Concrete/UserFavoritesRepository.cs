@@ -25,20 +25,21 @@ public class UserFavoritesRepository : MongoRepository<UserFavorites>, IUserFavo
     //TODO refactor this
     public async Task PushAsync(UserFavorites userFavorites, CancellationToken cancellationToken)
     {
-        if (userFavorites.GenresIds.Any())
-        {
-            await PushAsync(userFavorites.UserId, u => u.GenresIds, userFavorites.GenresIds, cancellationToken);
-        }
-
-        if (userFavorites.InterestsIds.Any())
-        {
-            await PushAsync(userFavorites.UserId, u => u.InterestsIds, userFavorites.InterestsIds, cancellationToken);
-        }
-
-        if (userFavorites.MoviesIds.Any())
-        {
-            await PushAsync(userFavorites.UserId, u => u.MoviesIds, userFavorites.MoviesIds, cancellationToken);
-        }
+        throw new NotImplementedException();
+        // if (userFavorites.GenresIds.Any())
+        // {
+        //     await PushAsync(userFavorites.UserId, u => u.GenresIds, userFavorites.GenresIds, cancellationToken);
+        // }
+        //
+        // if (userFavorites.InterestsIds.Any())
+        // {
+        //     await PushAsync(userFavorites.UserId, u => u.InterestsIds, userFavorites.InterestsIds, cancellationToken);
+        // }
+        //
+        // if (userFavorites.MoviesIds.Any())
+        // {
+        //     await PushAsync(userFavorites.UserId, u => u.MoviesIds, userFavorites.MoviesIds, cancellationToken);
+        // }
     }
 
     private async Task PushAsync(
