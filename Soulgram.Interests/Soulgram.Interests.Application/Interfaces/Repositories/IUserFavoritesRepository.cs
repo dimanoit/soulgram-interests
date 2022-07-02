@@ -9,6 +9,10 @@ public interface IUserFavoritesRepository : IRepository<UserFavorites>
         string userId,
         Expression<Func<UserFavorites, T>> projection,
         CancellationToken cancellationToken);
-
-    Task PushAsync(UserFavorites userFavorites, CancellationToken cancellationToken);
+    
+    public Task AddToInterestsIds(
+        string favoriteId,
+        InterestGroupType interestType,
+        string interestId, 
+        CancellationToken cancellationToken);
 }

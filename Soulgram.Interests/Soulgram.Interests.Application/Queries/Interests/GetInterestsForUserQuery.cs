@@ -34,7 +34,7 @@ internal class GetInterestsForUserQueryHandler
     {
         var interestsIds = await _userFavoritesRepository.FindOneAsync(
             uf => uf.UserId == request.UserId,
-            uf => uf.InterestsIds,
+            uf => uf.Interests.Select(i => i.Type.ToString()),
             cancellationToken) ?? Array.Empty<string>();
 
         if (!interestsIds.Any())
@@ -42,8 +42,8 @@ internal class GetInterestsForUserQueryHandler
             return Enumerable.Empty<InterestResponse>();
         }
 
-        var getInterestsQuery = new GetInterestsQuery(interestsIds);
-
-        return await _mediator.Send(getInterestsQuery, cancellationToken);
+        //var getInterestsQuery = new GetInterestsQuery(interestsIds);
+        throw new NotImplementedException();
+        //return await _mediator.Send(getInterestsQuery, cancellationToken);
     }
 }

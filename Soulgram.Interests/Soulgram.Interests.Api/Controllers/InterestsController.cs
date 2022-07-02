@@ -46,13 +46,13 @@ public class InterestsController : ControllerBase
         await _mediator.Send(command, cancellationToken);
     }
 
-    [HttpPatch("users/{userId}")]
-    public async Task AddInterestsToUser(
-        [FromRoute] string userId,
-        [FromBody] string[] interestsIds,
+    [HttpPatch]
+    public async Task AddInterestToUser(
+        [FromBody] AddInterestToUserRequest request,
         CancellationToken cancellationToken)
     {
-        var command = new AddUserToInterestsCommand(userId, interestsIds);
+        var command = new AddUserToInterestsCommand(request);
         await _mediator.Send(command, cancellationToken);
+        throw new NotImplementedException();
     }
 }

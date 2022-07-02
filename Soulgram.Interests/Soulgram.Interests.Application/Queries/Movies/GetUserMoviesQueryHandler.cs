@@ -21,12 +21,13 @@ public class GetUserMoviesQueryHandler : IRequestHandler<GetUserMoviesQuery, ICo
         GetUserMoviesQuery request,
         CancellationToken cancellationToken)
     {
-        var moviesIds = await _favoritesRepository.FindOneAsync(
-            uf => uf.UserId == request.UserId,
-            favorites => favorites.MoviesIds,
-            cancellationToken);
-
-        var getMoviesQuery = new GetMoviesQuery(moviesIds!);
-        return await _mediator.Send(getMoviesQuery, cancellationToken);
+        // var moviesIds = await _favoritesRepository.FindOneAsync(
+        //     uf => uf.UserId == request.UserId,
+        //     favorites => favorites.MoviesIds,
+        //     cancellationToken);
+        //
+        // var getMoviesQuery = new GetMoviesQuery(moviesIds!);
+        // return await _mediator.Send(getMoviesQuery, cancellationToken);
+        throw new NotImplementedException();
     }
 }

@@ -13,7 +13,9 @@ internal class AddUserToGenreCommandHandler
     private readonly IUserFavoritesService _favoritesService;
     private readonly IGenreRepository _genreRepository;
 
-    public AddUserToGenreCommandHandler(IGenreRepository genreRepository, IUserFavoritesService favoritesService)
+    public AddUserToGenreCommandHandler(
+        IGenreRepository genreRepository,
+        IUserFavoritesService favoritesService)
     {
         _genreRepository = genreRepository;
         _favoritesService = favoritesService;
@@ -28,12 +30,18 @@ internal class AddUserToGenreCommandHandler
         var userFavorites = new UserFavorites
         {
             UserId = command.UserId,
+            Interests = new[]
+            {
+                new InterestsIds()
+                {
+                    Type = InterestGroupType.MovieGenre,
+                    Ids = new[] { command.GenreId } 
+                }
+            }
         };
 
-        throw new NotImplementedException();
-
         await _favoritesService.UpsertFavorites(userFavorites, cancellationToken);
-
+        
         return Unit.Value;
     }
 }

@@ -1,10 +1,13 @@
 ﻿using MediatR;
 using Soulgram.Interests.Application.Interfaces;
+using Soulgram.Interests.Application.Interfaces.Repositories;
+using Soulgram.Interests.Application.Models.Request.Interests;
 using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Commands.Interests;
 
-public record AddUserToInterestsCommand(string UserId, string[] InterestsIds) : IRequest;
+public record AddUserToInterestsCommand(
+    AddInterestToUserRequest Request) : IRequest;
 internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInterestsCommand>
 {
     private readonly IInterestsRepository _interestsRepository;
@@ -18,24 +21,31 @@ internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInter
         _userFavoritesService = userFavoritesService;
     }
 
-    public async Task<Unit> Handle(AddUserToInterestsCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(
+        AddUserToInterestsCommand command,
+        CancellationToken cancellationToken)
     {
-        await UpsertUserFavorites(request, cancellationToken);
+        // TODO create model instead of passing 3 params
+        await _interestsRepository.AddUserToInterests(
+            command.Request.InterestId,
+            command.Request.UserId,
+            cancellationToken);
 
-        await _interestsRepository
-            .AddUserToInterests(request.UserId, request.InterestsIds, cancellationToken);
-
-        return Unit.Value;
-    }
-
-    private async Task UpsertUserFavorites(AddUserToInterestsCommand request, CancellationToken cancellationToken)
-    {
         var userFavorites = new UserFavorites
         {
-            UserId = request.UserId,
-            InterestsIds = request.InterestsIds
+            UserId = command.Request.UserId,
+            Interests = new InterestsIds[]
+            {
+                new InterestsIds()
+                {
+                    Type = command.Request.InterestType,
+                }
+            }
         };
-
+        
+        // TODO test implementation
         await _userFavoritesService.UpsertFavorites(userFavorites, cancellationToken);
+        
+        return Unit.Value;
     }
 }

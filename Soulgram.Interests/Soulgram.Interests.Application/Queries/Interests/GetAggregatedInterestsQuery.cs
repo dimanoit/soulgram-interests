@@ -38,12 +38,13 @@ public class GetAggregatedInterestsQueryHandler :
     {
         var favorites = await _favoritesService.GetUserFavorites(request.UserId, cancellationToken);
 
-        var movies = await GetMoviesAggregatedSection(
-            favorites.MoviesIds,
-            favorites.GenresIds,
-            cancellationToken);
+        // var movies = await GetMoviesAggregatedSection(
+        //     "favorites.MoviesIds",
+        //     "favorites.GenresIds",
+        //     cancellationToken);
 
-        return new[] {movies};
+        //return new[] {movies};
+        throw new NotImplementedException();
     }
 
     private async Task<AggregatedInterests> GetMoviesAggregatedSection(

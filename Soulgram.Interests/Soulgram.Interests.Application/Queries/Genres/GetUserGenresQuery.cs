@@ -25,13 +25,14 @@ internal class GetUserGenresQueryHandler
         GetUserGenresQuery request,
         CancellationToken cancellationToken)
     {
-        var genres = await _favoritesRepository.Get(
-            request.UserId ?? string.Empty,
-            projection => projection.GenresIds,
-            cancellationToken);
-
-        var genresQuery = new GetGenresQuery(genres);
-
-        return await _mediator.Send(genresQuery, cancellationToken);
+        // var genres = await _favoritesRepository.Get(
+        //     request.UserId ?? string.Empty,
+        //     projection => projection.GenresIds,
+        //     cancellationToken);
+        //
+        // var genresQuery = new GetGenresQuery(genres);
+        //
+        // return await _mediator.Send(genresQuery, cancellationToken);
+        throw new NotImplementedException();
     }
 }

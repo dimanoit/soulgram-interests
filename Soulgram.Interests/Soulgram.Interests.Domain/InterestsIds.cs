@@ -1,7 +1,7 @@
 ﻿namespace Soulgram.Interests.Domain;
 
-public record InterestWithUserIds
+public record InterestsIds
 {
     public InterestGroupType Type { get; init; } = InterestGroupType.Others;
-    public string[] UsersIds { get; set; } = Array.Empty<string>();
+    public string[] Ids { get; set; } = Array.Empty<string>();
 }
