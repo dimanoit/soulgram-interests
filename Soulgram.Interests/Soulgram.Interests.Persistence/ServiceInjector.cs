@@ -31,7 +31,6 @@ public static class ServiceInjector
         services.AddScoped(typeof(IRepository<>), typeof(MongoRepository<>));
         services.AddScoped<IGenreRepository, GenreRepository>();
         services.AddScoped<IInterestsRepository, InterestsRepository>();
-        services.AddScoped<IInterestsIdsRepository, InterestsIdsRepository>();
         services.AddScoped<IUserFavoritesRepository, UserFavoritesRepository>();
     }
 }

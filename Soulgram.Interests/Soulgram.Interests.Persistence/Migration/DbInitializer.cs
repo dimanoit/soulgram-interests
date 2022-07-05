@@ -22,7 +22,7 @@ public static class DbInitializer
 
         CreateUniqueIndex<Genre>(db, nameof(Genre), genre => genre.Name);
         CreateUniqueIndex<Interest>(db, nameof(Interest), ui => ui.Type);
-        CreateUniqueIndex<UserFavorites>(db, nameof(UserFavorites), ui => ui.UserId);
+        //CreateUniqueIndex<UserFavorites>(db, nameof(UserFavorites), ui => ui.UserId);
     }
 
     private static void CreateUniqueIndex<T>(

@@ -8,6 +8,7 @@ namespace Soulgram.Interests.Application.Commands.Interests;
 
 public record AddUserToInterestsCommand(
     AddInterestToUserRequest Request) : IRequest;
+
 internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInterestsCommand>
 {
     private readonly IInterestsRepository _interestsRepository;
@@ -27,25 +28,24 @@ internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInter
     {
         // TODO create model instead of passing 3 params
         await _interestsRepository.AddUserToInterests(
-            command.Request.InterestId,
             command.Request.UserId,
+            command.Request.InterestId,
             cancellationToken);
 
         var userFavorites = new UserFavorites
         {
             UserId = command.Request.UserId,
-            Interests = new InterestsIds[]
+            Interests = new[]
             {
-                new InterestsIds()
+                new InterestsIds
                 {
-                    Type = command.Request.InterestType,
+                    Type = command.Request.InterestType
                 }
             }
         };
-        
-        // TODO test implementation
+
         await _userFavoritesService.UpsertFavorites(userFavorites, cancellationToken);
-        
+
         return Unit.Value;
     }
 }

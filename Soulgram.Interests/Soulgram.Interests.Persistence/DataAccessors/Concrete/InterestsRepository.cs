@@ -17,7 +17,7 @@ public class InterestsRepository : MongoRepository<Interest>, IInterestsReposito
         CancellationToken cancellationToken)
     {
         var updateDefinition = Builders<Interest>.Update.Push(ui => ui.UsersIds, userId);
-        await Collection.UpdateManyAsync(
+        await Collection.UpdateOneAsync(
             i => i.Id == interestId,
             updateDefinition,
             cancellationToken: cancellationToken);

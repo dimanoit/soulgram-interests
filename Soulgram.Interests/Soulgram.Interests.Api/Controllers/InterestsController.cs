@@ -53,6 +53,5 @@ public class InterestsController : ControllerBase
     {
         var command = new AddUserToInterestsCommand(request);
         await _mediator.Send(command, cancellationToken);
-        throw new NotImplementedException();
     }
 }

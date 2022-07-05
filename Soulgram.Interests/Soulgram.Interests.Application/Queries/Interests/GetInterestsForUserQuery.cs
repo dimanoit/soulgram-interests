@@ -32,18 +32,12 @@ internal class GetInterestsForUserQueryHandler
         GetInterestsForUserQuery request,
         CancellationToken cancellationToken)
     {
-        var interestsIds = await _userFavoritesRepository.FindOneAsync(
-            uf => uf.UserId == request.UserId,
-            uf => uf.Interests.Select(i => i.Type.ToString()),
-            cancellationToken) ?? Array.Empty<string>();
+        var response = await _userFavoritesRepository.Get(
+            request.UserId, 
+            uf => uf.Interests.Select(i => new InterestResponse {Name = i.Type.ToString()})
+            , cancellationToken);
 
-        if (!interestsIds.Any())
-        {
-            return Enumerable.Empty<InterestResponse>();
-        }
 
-        //var getInterestsQuery = new GetInterestsQuery(interestsIds);
-        throw new NotImplementedException();
-        //return await _mediator.Send(getInterestsQuery, cancellationToken);
+        return response ?? Enumerable.Empty<InterestResponse>();
     }
 }
