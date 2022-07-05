@@ -23,10 +23,6 @@ internal class AddUserToGenreCommandHandler
 
     public async Task<Unit> Handle(AddGenreToUserCommand command, CancellationToken cancellationToken)
     {
-        await _genreRepository.AddUserIdToGenre(
-            command.GenreId,
-            command.UserId);
-
         var userFavorites = new UserFavorites
         {
             UserId = command.UserId,
@@ -41,6 +37,10 @@ internal class AddUserToGenreCommandHandler
         };
 
         await _favoritesService.UpsertFavorites(userFavorites, cancellationToken);
+        
+        await _genreRepository.AddUserIdToGenre(
+            command.GenreId,
+            command.UserId);
         
         return Unit.Value;
     }

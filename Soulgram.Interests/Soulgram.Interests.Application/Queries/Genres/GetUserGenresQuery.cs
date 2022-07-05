@@ -1,6 +1,7 @@
 using MediatR;
 using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Application.Models.Response;
+using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries.Genres;
 
@@ -20,19 +21,27 @@ internal class GetUserGenresQueryHandler
         _favoritesRepository = favoritesRepository;
         _mediator = mediator;
     }
-
+    
+    // TODO refactor this
     public async Task<ICollection<GenreResponse>> Handle(
         GetUserGenresQuery request,
         CancellationToken cancellationToken)
     {
-        // var genres = await _favoritesRepository.Get(
-        //     request.UserId ?? string.Empty,
-        //     projection => projection.GenresIds,
-        //     cancellationToken);
-        //
-        // var genresQuery = new GetGenresQuery(genres);
-        //
-        // return await _mediator.Send(genresQuery, cancellationToken);
-        throw new NotImplementedException();
+        if(request.UserId is null)
+        {
+            return await _mediator.Send(new GetGenresQuery(null), cancellationToken);
+        }
+        var genresIds = await _favoritesRepository.Get(
+            request.UserId,
+            projection => projection
+                .Interests
+                .Where(i => i.Type == InterestGroupType.MovieGenre)
+                .Select(i => i.Ids),
+            cancellationToken);
+
+        var genresIdsArray = genresIds?.SelectMany(i => i) ?? Array.Empty<string>();
+        var genresQuery = new GetGenresQuery(genresIdsArray.ToArray());
+        
+        return await _mediator.Send(genresQuery, cancellationToken);
     }
 }

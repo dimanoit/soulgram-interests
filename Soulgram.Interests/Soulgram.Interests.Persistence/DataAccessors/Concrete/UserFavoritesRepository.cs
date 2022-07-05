@@ -32,7 +32,7 @@ public class UserFavoritesRepository : MongoRepository<UserFavorites>, IUserFavo
         var interest = await FindOneAsync(
             uf => uf.Id == favoriteId && uf.Interests.Any(i => i.Type == interestType),
             uf => uf.Interests.Select(i => i.Type),
-            cancellationToken);
+            cancellationToken) ?? Enumerable.Empty<InterestGroupType>();
         
         if (!interest.Any())
         {
