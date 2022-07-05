@@ -46,7 +46,14 @@ public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand>
         var userFavorites = new UserFavorites
         {
             UserId = command.Request.UserId!,
-            //MoviesIds = new[] {movieId!}
+            Interests = new[]
+            {
+                new InterestsIds
+                {
+                    Type = InterestGroupType.MovieName,
+                    Ids = new[] {movieId!}
+                }
+            }
         };
 
         await _userFavoritesService.UpsertFavorites(userFavorites, cancellationToken);
