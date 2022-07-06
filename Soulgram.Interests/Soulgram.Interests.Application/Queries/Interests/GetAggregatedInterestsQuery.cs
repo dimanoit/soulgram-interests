@@ -99,7 +99,7 @@ public class GetAggregatedInterestsQueryHandler :
 
         var result = new AggregatedInterestItem
         {
-            Name = "Names",
+            Name = "Genres",
             Values = genres
                 .Select(x => new AggregatedInterestItemValue {Name = x.Name!,})
                 .ToList()
