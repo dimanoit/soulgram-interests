@@ -45,26 +45,51 @@ public class GetAggregatedInterestsQueryHandler :
             return result;
         }
 
+        var moviesAggregated = new AggregatedInterests()
+        {
+            Name = "Movies",
+            Items = new List<AggregatedInterestItem>()
+        };
+        
         foreach (var interests in favorites.Interests)
         {
             switch (interests.Type)
             {
                 case InterestGroupType.MovieGenre:
-                    result.AddRange(await GetMovieGenres(interests.Ids, cancellationToken)); 
+                    moviesAggregated.Items.Add(await GetMovieGenres(interests.Ids, cancellationToken));
                     break;
                     
                 case InterestGroupType.MovieName:
-                    throw new NotImplementedException();
-
-                default:
-                    continue;
+                    moviesAggregated.Items.Add(await GetMoviesNames(interests.Ids, cancellationToken));
+                    break;
             }
         }
+        
+        result.Add(moviesAggregated);
+        return result;
+    }
+
+    private async Task<AggregatedInterestItem> GetMoviesNames(
+        string[] moviesIds,
+        CancellationToken cancellationToken)
+    {
+        var movies = await _mediator.Send(
+            new GetMoviesQuery(moviesIds), cancellationToken);
+
+        var result = new AggregatedInterestItem
+        {
+            Name = "Names",
+            Values = movies?.Select(x => new AggregatedInterestItemValue
+            {
+                Name = x.Title,
+                ImgUrl = x.ImgUrls?.FirstOrDefault()
+            }).ToList()
+        };
 
         return result;
     }
-    
-    private async Task<ICollection<AggregatedInterests>> GetMovieGenres(
+
+    private async Task<AggregatedInterestItem> GetMovieGenres(
         string[] genresIds,
         CancellationToken cancellationToken)
     {
@@ -72,6 +97,14 @@ public class GetAggregatedInterestsQueryHandler :
             new GetGenresQuery(genresIds),
             cancellationToken);
 
-        throw new NotImplementedException();
+        var result = new AggregatedInterestItem
+        {
+            Name = "Names",
+            Values = genres
+                .Select(x => new AggregatedInterestItemValue {Name = x.Name!,})
+                .ToList()
+        };
+
+        return result;
     }
 }
