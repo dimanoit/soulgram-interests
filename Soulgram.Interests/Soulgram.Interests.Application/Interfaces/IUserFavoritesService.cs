@@ -4,7 +4,7 @@ namespace Soulgram.Interests.Application.Interfaces;
 
 public interface IUserFavoritesService
 {
-    Task<UserFavorites> GetUserFavorites(
+    Task<UserFavorites?> GetUserFavorites(
         string userId,
         CancellationToken cancellationToken);
 

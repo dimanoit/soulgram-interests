@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System.Security.Cryptography;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
@@ -20,6 +21,14 @@ public class UserFavoritesMapper : IModelMapper
             cm.MapMember(movie => movie.UserId).SetIsRequired(true);
 
             cm.SetIgnoreExtraElements(true);
+        });
+
+        BsonClassMap.RegisterClassMap<InterestsIds>(cm =>
+        {
+            cm.AutoMap();
+
+            cm.MapMember(iid => iid.Type)
+                .SetSerializer(new EnumSerializer<InterestGroupType>(BsonType.String));
         });
     }
 }

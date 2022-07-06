@@ -37,6 +37,16 @@ public class UserFavoritesService : IUserFavoritesService
             return;
         }
 
-        await _userFavoritesRepository.PushAsync(favorites, cancellationToken);
+        foreach (var interest in favorites.Interests)
+        {
+            foreach (var id in interest.Ids)
+            {
+                await _userFavoritesRepository.AddToInterestsIds(
+                    favoriteId,
+                    interest.Type,
+                    id,
+                    cancellationToken);
+            }
+        }
     }
 }

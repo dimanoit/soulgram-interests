@@ -1,6 +1,8 @@
-namespace Soulgram.Interests.Application.Models.Request;
+using Soulgram.Interests.Domain;
+
+namespace Soulgram.Interests.Application.Models.Request.Interests;
 
 public class CreateInterestsRequest
 {
-    public string[] Names { get; init; } = null!;
+    public InterestGroupType[] Types { get; init; }
 }

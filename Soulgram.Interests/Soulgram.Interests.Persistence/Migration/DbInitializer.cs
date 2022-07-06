@@ -1,5 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.Extensions.Configuration;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Conventions;
 using MongoDB.Driver;
 using Soulgram.Interests.Domain;
 using Soulgram.Interests.Persistence.Models;
@@ -7,7 +9,7 @@ using Soulgram.Interests.Persistence.Models;
 namespace Soulgram.Interests.Persistence.Migration;
 
 // TODO make it not static
-public static class DbMigrator
+public static class DbInitializer
 {
     // TODO refactor method
     public static void SetUpDb(this IMongoClient mongoClient, IConfiguration configuration)
@@ -19,8 +21,8 @@ public static class DbMigrator
         var db = mongoClient.GetDatabase(dbSettings.DatabaseName);
 
         CreateUniqueIndex<Genre>(db, nameof(Genre), genre => genre.Name);
-        CreateUniqueIndex<Interest>(db, nameof(Interest), ui => ui.Name);
-        CreateUniqueIndex<UserFavorites>(db, nameof(UserFavorites), ui => ui.UserId);
+        CreateUniqueIndex<Interest>(db, nameof(Interest), ui => ui.Type);
+        //CreateUniqueIndex<UserFavorites>(db, nameof(UserFavorites), ui => ui.UserId);
     }
 
     private static void CreateUniqueIndex<T>(

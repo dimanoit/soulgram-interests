@@ -4,6 +4,7 @@ using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries.Genres;
 using Soulgram.Interests.Application.Queries.Movies;
+using Soulgram.Interests.Domain;
 
 namespace Soulgram.Interests.Application.Queries.Interests;
 
@@ -37,58 +38,73 @@ public class GetAggregatedInterestsQueryHandler :
         CancellationToken cancellationToken)
     {
         var favorites = await _favoritesService.GetUserFavorites(request.UserId, cancellationToken);
+        var result = new List<AggregatedInterests>();
 
-        var movies = await GetMoviesAggregatedSection(
-            favorites.MoviesIds,
-            favorites.GenresIds,
-            cancellationToken);
+        if (favorites == null)
+        {
+            return result;
+        }
 
-        return new[] {movies};
-    }
-
-    private async Task<AggregatedInterests> GetMoviesAggregatedSection(
-        string[] moviesIds,
-        string[] genresIds,
-        CancellationToken cancellationToken)
-    {
-        var aggregatedInterest = new AggregatedInterests
+        var moviesAggregated = new AggregatedInterests()
         {
             Name = "Movies",
             Items = new List<AggregatedInterestItem>()
         };
+        
+        foreach (var interests in favorites.Interests)
+        {
+            switch (interests.Type)
+            {
+                case InterestGroupType.MovieGenre:
+                    moviesAggregated.Items.Add(await GetMovieGenres(interests.Ids, cancellationToken));
+                    break;
+                    
+                case InterestGroupType.MovieName:
+                    moviesAggregated.Items.Add(await GetMoviesNames(interests.Ids, cancellationToken));
+                    break;
+            }
+        }
+        
+        result.Add(moviesAggregated);
+        return result;
+    }
 
-        var getMoviesQuery = new GetMoviesQuery(moviesIds);
+    private async Task<AggregatedInterestItem> GetMoviesNames(
+        string[] moviesIds,
+        CancellationToken cancellationToken)
+    {
+        var movies = await _mediator.Send(
+            new GetMoviesQuery(moviesIds), cancellationToken);
 
-        var movies = await _mediator.Send(getMoviesQuery, cancellationToken);
-        var convertedMovies = movies
-            ?.Where(m => m != null)
-            .Select(m => m.ToAggregatedInterestItemValue())
-            .ToArray() ?? Array.Empty<AggregatedInterestItemValue>();
-
-        var movieNameItem = new AggregatedInterestItem
+        var result = new AggregatedInterestItem
         {
             Name = "Names",
-            Values = convertedMovies
+            Values = movies?.Select(x => new AggregatedInterestItemValue
+            {
+                Name = x.Title,
+                ImgUrl = x.ImgUrls?.FirstOrDefault()
+            }).ToList()
         };
 
-        aggregatedInterest.Items.Add(movieNameItem);
+        return result;
+    }
 
+    private async Task<AggregatedInterestItem> GetMovieGenres(
+        string[] genresIds,
+        CancellationToken cancellationToken)
+    {
+        var genres = await _mediator.Send(
+            new GetGenresQuery(genresIds),
+            cancellationToken);
 
-        var genresQuery = new GetGenresQuery(genresIds);
-        var genresResult = await _mediator.Send(genresQuery, cancellationToken);
-        var convertedGenres = genresResult
-            ?.Where(g => g != null)
-            .Select(g => g.ToAggregatedInterestItemValue())
-            .ToArray() ?? Array.Empty<AggregatedInterestItemValue>();
-
-        var genreItem = new AggregatedInterestItem
+        var result = new AggregatedInterestItem
         {
             Name = "Genres",
-            Values = convertedGenres
+            Values = genres
+                .Select(x => new AggregatedInterestItemValue {Name = x.Name!,})
+                .ToList()
         };
 
-        aggregatedInterest.Items.Add(genreItem);
-
-        return aggregatedInterest;
+        return result;
     }
 }

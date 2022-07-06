@@ -13,11 +13,14 @@ public class InterestsMapper : IModelMapper
         BsonClassMap.RegisterClassMap<Interest>(cm =>
         {
             cm.AutoMap();
+            
             cm.MapIdMember(ui => ui.Id)
+                .SetIsRequired(true)
                 .SetIdGenerator(new StringObjectIdGenerator())
                 .SetSerializer(new StringSerializer(BsonType.ObjectId));
-
-            cm.MapMember(ui => ui.Id).SetIsRequired(true);
+            
+            cm.MapMember(i => i.Type)
+                .SetSerializer(new EnumSerializer<InterestGroupType>(BsonType.String));
 
             cm.SetIgnoreExtraElements(true);
         });

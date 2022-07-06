@@ -5,11 +5,11 @@ namespace Soulgram.Interests.Application.Converters;
 
 public static class InterestsConverter
 {
-    public static Interest ToInterest(this string name)
+    public static Interest ToInterest(this InterestGroupType type)
     {
         var interest = new Interest
         {
-            Name = name,
+            Type = type,
             UsersIds = Array.Empty<string>()
         };
 
@@ -21,7 +21,7 @@ public static class InterestsConverter
         var response = new InterestResponse
         {
             Id = interest.Id!,
-            Name = interest.Name
+            Name = interest.Type.ToString()
         };
 
         return response;

@@ -27,7 +27,7 @@ public class MongoRepository<TDocument> : IRepository<TDocument> where TDocument
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<TProjected> FindOneAsync<TProjected>(
+    public async Task<TProjected?> FindOneAsync<TProjected>(
         Expression<Func<TDocument, bool>> filterExpression,
         Expression<Func<TDocument, TProjected>> projectionExpression,
         CancellationToken cancellationToken)

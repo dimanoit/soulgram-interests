@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Soulgram.Interests.Application.Commands.Interests;
 using Soulgram.Interests.Application.Models.Request;
+using Soulgram.Interests.Application.Models.Request.Interests;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries.Interests;
 
@@ -45,13 +46,12 @@ public class InterestsController : ControllerBase
         await _mediator.Send(command, cancellationToken);
     }
 
-    [HttpPatch("users/{userId}")]
-    public async Task AddInterestsToUser(
-        [FromRoute] string userId,
-        [FromBody] string[] interestsIds,
+    [HttpPatch]
+    public async Task AddInterestToUser(
+        [FromBody] AddInterestToUserRequest request,
         CancellationToken cancellationToken)
     {
-        var command = new AddUserToInterestsCommand(userId, interestsIds);
+        var command = new AddUserToInterestsCommand(request);
         await _mediator.Send(command, cancellationToken);
     }
 }

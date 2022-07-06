@@ -1,11 +1,11 @@
 using Soulgram.Interests.Domain;
 
-namespace Soulgram.Interests.Application.Interfaces;
+namespace Soulgram.Interests.Application.Interfaces.Repositories;
 
 public interface IInterestsRepository : IRepository<Interest>
 {
     Task AddUserToInterests(
         string userId,
-        string[] interestsIds,
+        string interestId,
         CancellationToken cancellationToken);
 }
