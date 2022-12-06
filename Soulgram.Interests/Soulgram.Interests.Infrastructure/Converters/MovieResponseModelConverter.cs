@@ -42,7 +42,7 @@ public static class MovieResponseModelConverter
             .Genres?
             .Select(g => new MovieGenreResponse(g.Text!));
 
-        var images = new[] {response.PrimaryImage?.Url};
+        var images = new[] { response.PrimaryImage?.Url };
 
         var converted = new MovieSearchResponse
         {

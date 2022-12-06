@@ -3,24 +3,23 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 using Soulgram.Interests.Domain;
+using Soulgram.Mongo.Repository.Interfaces;
 
 namespace Soulgram.Interests.Persistence.Migration.ModelMappers;
 
-public class InterestsMapper : IModelMapper
+public class GenreMapper : IModelMapper
 {
     public void MapFields()
     {
-        BsonClassMap.RegisterClassMap<Interest>(cm =>
+        BsonClassMap.RegisterClassMap<Genre>(cm =>
         {
             cm.AutoMap();
-            
-            cm.MapIdMember(ui => ui.Id)
-                .SetIsRequired(true)
+            cm.MapIdMember(genre => genre.Id)
                 .SetIdGenerator(new StringObjectIdGenerator())
                 .SetSerializer(new StringSerializer(BsonType.ObjectId));
-            
-            cm.MapMember(i => i.Type)
-                .SetSerializer(new EnumSerializer<InterestGroupType>(BsonType.String));
+
+            cm.MapMember(genre => genre.Name).SetIsRequired(true);
+            cm.MapMember(genre => genre.UsersIds).SetIsRequired(true);
 
             cm.SetIgnoreExtraElements(true);
         });

@@ -10,7 +10,7 @@ namespace Soulgram.Interests.Infrastructure.Clients.Implementation;
 public class ReserveMovieClient : IReserveMovieClient
 {
     private readonly HttpClient _httpClient;
-    private readonly string[] _movieTypes = {"movie", "tvMovie"};
+    private readonly string[] _movieTypes = { "movie", "tvMovie" };
 
     public ReserveMovieClient(
         IOptions<OttClientSettings> settings,

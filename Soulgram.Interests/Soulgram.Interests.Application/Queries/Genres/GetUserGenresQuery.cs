@@ -21,13 +21,13 @@ internal class GetUserGenresQueryHandler
         _favoritesRepository = favoritesRepository;
         _mediator = mediator;
     }
-    
+
     // TODO refactor this
     public async Task<ICollection<GenreResponse>> Handle(
         GetUserGenresQuery request,
         CancellationToken cancellationToken)
     {
-        if(request.UserId is null)
+        if (request.UserId is null)
         {
             return await _mediator.Send(new GetGenresQuery(null), cancellationToken);
         }
@@ -41,7 +41,7 @@ internal class GetUserGenresQueryHandler
 
         var genresIdsArray = genresIds?.SelectMany(i => i) ?? Array.Empty<string>();
         var genresQuery = new GetGenresQuery(genresIdsArray.ToArray());
-        
+
         return await _mediator.Send(genresQuery, cancellationToken);
     }
 }

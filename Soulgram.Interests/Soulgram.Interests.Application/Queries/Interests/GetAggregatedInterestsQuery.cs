@@ -1,5 +1,4 @@
 using MediatR;
-using Soulgram.Interests.Application.Converters;
 using Soulgram.Interests.Application.Interfaces;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Application.Queries.Genres;
@@ -50,7 +49,7 @@ public class GetAggregatedInterestsQueryHandler :
             Name = "Movies",
             Items = new List<AggregatedInterestItem>()
         };
-        
+
         foreach (var interests in favorites.Interests)
         {
             switch (interests.Type)
@@ -58,13 +57,13 @@ public class GetAggregatedInterestsQueryHandler :
                 case InterestGroupType.MovieGenre:
                     moviesAggregated.Items.Add(await GetMovieGenres(interests.Ids, cancellationToken));
                     break;
-                    
+
                 case InterestGroupType.MovieName:
                     moviesAggregated.Items.Add(await GetMoviesNames(interests.Ids, cancellationToken));
                     break;
             }
         }
-        
+
         result.Add(moviesAggregated);
         return result;
     }
@@ -101,7 +100,7 @@ public class GetAggregatedInterestsQueryHandler :
         {
             Name = "Genres",
             Values = genres
-                .Select(x => new AggregatedInterestItemValue {Name = x.Name!,})
+                .Select(x => new AggregatedInterestItemValue { Name = x.Name!, })
                 .ToList()
         };
 

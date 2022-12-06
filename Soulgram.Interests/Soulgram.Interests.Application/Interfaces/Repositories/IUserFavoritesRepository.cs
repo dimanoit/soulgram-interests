@@ -1,5 +1,5 @@
-using System.Linq.Expressions;
 using Soulgram.Interests.Domain;
+using System.Linq.Expressions;
 
 namespace Soulgram.Interests.Application.Interfaces.Repositories;
 
@@ -9,10 +9,9 @@ public interface IUserFavoritesRepository : IRepository<UserFavorites>
         string userId,
         Expression<Func<UserFavorites, T?>> projection,
         CancellationToken cancellationToken);
-    
+
     public Task AddToInterestsIds(
         string favoriteId,
-        InterestGroupType interestType,
-        string interestId, 
+        InterestsIds interestsIds,
         CancellationToken cancellationToken);
 }

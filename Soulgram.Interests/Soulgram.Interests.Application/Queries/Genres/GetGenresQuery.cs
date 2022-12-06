@@ -1,8 +1,8 @@
-using System.Linq.Expressions;
 using MediatR;
 using Soulgram.Interests.Application.Interfaces.Repositories;
 using Soulgram.Interests.Application.Models.Response;
 using Soulgram.Interests.Domain;
+using System.Linq.Expressions;
 
 namespace Soulgram.Interests.Application.Queries.Genres;
 

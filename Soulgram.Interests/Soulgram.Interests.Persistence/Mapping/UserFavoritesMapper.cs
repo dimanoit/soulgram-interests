@@ -1,9 +1,9 @@
-﻿using System.Security.Cryptography;
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 using MongoDB.Bson.Serialization.Serializers;
 using Soulgram.Interests.Domain;
+using Soulgram.Mongo.Repository.Interfaces;
 
 namespace Soulgram.Interests.Persistence.Migration.ModelMappers;
 

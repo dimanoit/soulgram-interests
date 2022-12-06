@@ -35,7 +35,7 @@ internal class CreateGenresCommandHandler : IRequestHandler<CreateGenresCommand>
 
             if (!string.IsNullOrEmpty(command.BulkRequest.UserId))
             {
-                projected.UsersIds = new[] {command.BulkRequest.UserId};
+                projected.UsersIds = new[] { command.BulkRequest.UserId };
             }
 
             return projected;

@@ -33,8 +33,8 @@ internal class GetInterestsForUserQueryHandler
         CancellationToken cancellationToken)
     {
         var response = await _userFavoritesRepository.Get(
-            request.UserId, 
-            uf => uf.Interests.Select(i => new InterestResponse {Name = i.Type.ToString()})
+            request.UserId,
+            uf => uf.Interests.Select(i => new InterestResponse { Name = i.Type.ToString() })
             , cancellationToken);
 
 

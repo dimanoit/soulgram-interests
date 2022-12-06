@@ -31,17 +31,17 @@ internal class AddUserToGenreCommandHandler
                 new InterestsIds()
                 {
                     Type = InterestGroupType.MovieGenre,
-                    Ids = new[] { command.GenreId } 
+                    Ids = new[] { command.GenreId }
                 }
             }
         };
 
         await _favoritesService.UpsertFavorites(userFavorites, cancellationToken);
-        
+
         await _genreRepository.AddUserIdToGenre(
             command.GenreId,
             command.UserId);
-        
+
         return Unit.Value;
     }
 }

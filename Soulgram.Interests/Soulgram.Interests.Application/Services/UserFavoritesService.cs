@@ -39,14 +39,13 @@ public class UserFavoritesService : IUserFavoritesService
 
         foreach (var interest in favorites.Interests)
         {
-            foreach (var id in interest.Ids)
+            var interestsIds = new InterestsIds
             {
-                await _userFavoritesRepository.AddToInterestsIds(
-                    favoriteId,
-                    interest.Type,
-                    id,
-                    cancellationToken);
-            }
+                Type = interest.Type,
+                Ids = interest.Ids
+            };
+
+            await _userFavoritesRepository.AddToInterestsIds(favoriteId, interestsIds, cancellationToken);
         }
     }
 }

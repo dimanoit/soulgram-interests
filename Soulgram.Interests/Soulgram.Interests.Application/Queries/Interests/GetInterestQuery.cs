@@ -22,7 +22,7 @@ internal class GetGeneralInterestQueryHandler : IRequestHandler<GetInterestQuery
     {
         return await _repository.FindOneAsync(
             f => f.Id == request.InterestId,
-            p => p.ToInterestResponse(), 
+            p => p.ToInterestResponse(),
             cancellationToken
         );
     }
