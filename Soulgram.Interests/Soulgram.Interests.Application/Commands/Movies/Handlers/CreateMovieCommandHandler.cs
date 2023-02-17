@@ -18,7 +18,7 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand>
         _repository = repository;
     }
 
-    public async Task<Unit> Handle(CreateMovieCommand command, CancellationToken cancellationToken)
+    public async Task Handle(CreateMovieCommand command, CancellationToken cancellationToken)
     {
         var movie = new Movie
         {
@@ -34,8 +34,6 @@ public class CreateMovieCommandHandler : IRequestHandler<CreateMovieCommand>
         await CreateGenresIfNoExists(movie.GenresNames?.ToArray());
 
         await _repository.InsertOneAsync(movie, cancellationToken);
-
-        return Unit.Value;
     }
 
     private async Task CreateGenresIfNoExists(ICollection<string>? genresNames)

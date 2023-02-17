@@ -23,7 +23,7 @@ public class CreateGenresByServiceCommandHandler : IRequestHandler<CreateGenresB
         _genreRepository = genreRepository;
     }
 
-    public async Task<Unit> Handle(
+    public async Task Handle(
         CreateGenresByServiceCommand request,
         CancellationToken cancellationToken)
     {
@@ -39,7 +39,7 @@ public class CreateGenresByServiceCommandHandler : IRequestHandler<CreateGenresB
 
         if (!notExistingGenres.Any())
         {
-            return Unit.Value;
+            return;
         }
 
         var createGenresBulkRequest = new CreateGenresBulkRequest
@@ -51,7 +51,5 @@ public class CreateGenresByServiceCommandHandler : IRequestHandler<CreateGenresB
         var createGenresCommand = new CreateGenresCommand(createGenresBulkRequest);
 
         await _mediator.Send(createGenresCommand, cancellationToken);
-
-        return Unit.Value;
     }
 }

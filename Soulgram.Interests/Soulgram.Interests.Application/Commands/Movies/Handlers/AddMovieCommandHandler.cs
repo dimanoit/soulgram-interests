@@ -21,7 +21,7 @@ public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand>
         _userFavoritesService = userFavoritesService;
     }
 
-    public async Task<Unit> Handle(AddMovieCommand command, CancellationToken cancellationToken)
+    public async Task Handle(AddMovieCommand command, CancellationToken cancellationToken)
     {
         var movieId = await GetMovieId(command.Request.ImdbId, cancellationToken);
 
@@ -34,8 +34,6 @@ public class AddMovieCommandHandler : IRequestHandler<AddMovieCommand>
         }
 
         await UpsertUserFavorites(command, movieId, cancellationToken);
-
-        return Unit.Value;
     }
 
     private async Task UpsertUserFavorites(

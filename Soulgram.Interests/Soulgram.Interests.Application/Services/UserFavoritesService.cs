@@ -13,7 +13,7 @@ public class UserFavoritesService : IUserFavoritesService
         _userFavoritesRepository = userFavoritesRepository;
     }
 
-    public async Task<UserFavorites> GetUserFavorites(
+    public async Task<UserFavorites?> GetUserFavorites(
         string userId,
         CancellationToken cancellationToken)
     {

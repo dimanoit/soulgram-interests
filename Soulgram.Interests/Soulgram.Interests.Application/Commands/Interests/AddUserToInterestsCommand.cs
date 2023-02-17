@@ -22,7 +22,7 @@ internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInter
         _userFavoritesService = userFavoritesService;
     }
 
-    public async Task<Unit> Handle(
+    public async Task Handle(
         AddUserToInterestsCommand command,
         CancellationToken cancellationToken)
     {
@@ -45,7 +45,5 @@ internal class AddUserToInterestsCommandHandler : IRequestHandler<AddUserToInter
         };
 
         await _userFavoritesService.UpsertFavorites(userFavorites, cancellationToken);
-
-        return Unit.Value;
     }
 }

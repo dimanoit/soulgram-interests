@@ -30,6 +30,8 @@ public static class ServiceInjector
             .GetSection("LoggingSettings")
             .Get<LoggingSettings>();
 
+        ArgumentNullException.ThrowIfNull(loggingSettings);
+
         return services.AddLogging(loggingSettings);
     }
 }

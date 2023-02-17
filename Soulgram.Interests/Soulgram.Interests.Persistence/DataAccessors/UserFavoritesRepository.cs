@@ -58,8 +58,11 @@ public class UserFavoritesRepository : GenericRepository<UserFavorites>, IUserFa
             Builders<UserFavorites>.Filter.Eq(uf => uf.Id, favoritesIds) &
             Builders<UserFavorites>.Filter.ElemMatch(e => e.Interests,
                 Builders<InterestsIds>.Filter.Eq(i => i.Type, interestsIds.Type));
-
-        var update = Builders<UserFavorites>.Update.PushEach(e => e.Interests[-1].Ids, interestsIds.Ids);
+        
+        const int beforeFirstItemIndex = -1;
+        var update = Builders<UserFavorites>.Update
+            .PushEach(e => e.Interests[beforeFirstItemIndex].Ids, interestsIds.Ids);
+        
         await Collection.FindOneAndUpdateAsync(filter, update, cancellationToken: cancellationToken);
     }
 }

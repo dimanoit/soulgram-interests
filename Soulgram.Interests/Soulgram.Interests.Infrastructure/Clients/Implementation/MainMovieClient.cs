@@ -40,12 +40,11 @@ public class MainMovieClient : IMovieDatabaseClient
         var url = BuildSearchMovieUrl(request);
         var result = await _httpClient.GetHttpResult<SearchMovieRoot>(url, cancellationToken);
 
-        return result.Results?.Count == 0
+        return (result.Results?.Count == 0
             ? Enumerable.Empty<MovieSearchResponse>()
             : result
                 .Results!
-                .Where(m => m != null)
-                .Select(r => r.ToMovieSearchResponse());
+                .Select(r => r.ToMovieSearchResponse()))!;
     }
 
     // TODO maybe build with StringBuilder or Span
