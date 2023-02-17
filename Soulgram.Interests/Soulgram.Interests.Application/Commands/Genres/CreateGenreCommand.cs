@@ -24,10 +24,9 @@ internal class CreateGenreCommandHandler : IRequestHandler<CreateGenreCommand>
         _genreRepository = genreRepository;
     }
 
-    public async Task<Unit> Handle(CreateGenreCommand command, CancellationToken cancellationToken)
+    public async Task Handle(CreateGenreCommand command, CancellationToken cancellationToken)
     {
         var genre = command.Request.ToGenre();
         await _genreRepository.InsertOneAsync(genre, cancellationToken);
-        return Unit.Value;
     }
 }
