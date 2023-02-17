@@ -15,12 +15,14 @@ internal class CreateInterestsCommandHandler : IRequestHandler<CreateInterestsCo
         _repository = repository;
     }
 
-    public async Task Handle(CreateInterestsCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateInterestsCommand command, CancellationToken cancellationToken)
     {
         var interests = command.Request.Types
             .Select(n => n.ToInterest())
             .ToArray();
 
         await _repository.InsertManyAsync(interests, cancellationToken);
+        
+        return Unit.Value;
     }
 }

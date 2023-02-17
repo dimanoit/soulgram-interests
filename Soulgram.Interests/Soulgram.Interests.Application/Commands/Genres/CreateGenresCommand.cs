@@ -24,7 +24,7 @@ internal class CreateGenresCommandHandler : IRequestHandler<CreateGenresCommand>
         _genreRepository = genreRepository;
     }
 
-    public async Task Handle(CreateGenresCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CreateGenresCommand command, CancellationToken cancellationToken)
     {
         var genres = command.BulkRequest.GenreName.Select(name =>
         {
@@ -42,5 +42,7 @@ internal class CreateGenresCommandHandler : IRequestHandler<CreateGenresCommand>
         }).ToArray();
 
         await _genreRepository.InsertManyAsync(genres, cancellationToken);
+
+        return Unit.Value;
     }
 }

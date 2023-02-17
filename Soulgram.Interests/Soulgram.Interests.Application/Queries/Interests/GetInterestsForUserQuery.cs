@@ -4,7 +4,7 @@ using Soulgram.Interests.Application.Models.Response;
 
 namespace Soulgram.Interests.Application.Queries.Interests;
 
-public class GetInterestsForUserQuery : IRequest<IEnumerable<InterestResponse>>
+public class GetInterestsForUserQuery : IRequest<IEnumerable<InterestNameResponse>>
 {
     public GetInterestsForUserQuery(string userId)
     {
@@ -15,7 +15,7 @@ public class GetInterestsForUserQuery : IRequest<IEnumerable<InterestResponse>>
 }
 
 internal class GetInterestsForUserQueryHandler
-    : IRequestHandler<GetInterestsForUserQuery, IEnumerable<InterestResponse>>
+    : IRequestHandler<GetInterestsForUserQuery, IEnumerable<InterestNameResponse>>
 {
     private readonly IMediator _mediator;
     private readonly IUserFavoritesRepository _userFavoritesRepository;
@@ -28,16 +28,19 @@ internal class GetInterestsForUserQueryHandler
         _userFavoritesRepository = userFavoritesRepository;
     }
 
-    public async Task<IEnumerable<InterestResponse>> Handle(
+    public async Task<IEnumerable<InterestNameResponse>> Handle(
         GetInterestsForUserQuery request,
         CancellationToken cancellationToken)
     {
         var response = await _userFavoritesRepository.Get(
             request.UserId,
-            uf => uf.Interests.Select(i => new InterestResponse { Name = i.Type.ToString() })
+            uf => uf.Interests.Select(i => new InterestNameResponse
+            {
+                Name = i.Type.ToString()
+            })
             , cancellationToken);
 
 
-        return response ?? Enumerable.Empty<InterestResponse>();
+        return response ?? Enumerable.Empty<InterestNameResponse>();
     }
 }

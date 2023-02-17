@@ -21,7 +21,7 @@ internal class AddUserToGenreCommandHandler
         _favoritesService = favoritesService;
     }
 
-    public async Task Handle(AddGenreToUserCommand command, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(AddGenreToUserCommand command, CancellationToken cancellationToken)
     {
         var userFavorites = new UserFavorites
         {
@@ -41,5 +41,7 @@ internal class AddUserToGenreCommandHandler
         await _genreRepository.AddUserIdToGenre(
             command.GenreId,
             command.UserId);
+
+        return Unit.Value;
     }
 }

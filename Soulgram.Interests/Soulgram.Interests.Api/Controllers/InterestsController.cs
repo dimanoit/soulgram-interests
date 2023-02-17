@@ -19,7 +19,7 @@ public class InterestsController : ControllerBase
     }
 
     [HttpGet("{userId}")]
-    public async Task<IEnumerable<InterestResponse>> GetInterestsForUser(
+    public async Task<IEnumerable<InterestNameResponse>> GetInterestsForUser(
         [FromRoute] string userId,
         CancellationToken cancellationToken)
     {
